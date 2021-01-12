@@ -78,11 +78,15 @@ echo "#" >> ${DockerfilePath}
 
 # add install python
 
-echo "RUN apt-get update; apt-get install -y python" >> $DockerfilePath
+echo "RUN apt-get update; apt-get install -y python git" >> $DockerfilePath
+
+# get lrose-docker
+
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-docker" >> $DockerfilePath
 
 # add install packages by calling python script
 
-echo "RUN /scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-docker/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # append the body of the Dockerfile
 # cat Dockerfile.debian.custom >> ${DockerfilePath}
@@ -92,6 +96,5 @@ echo "RUN /scripts/install_linux_packages.py" >> $DockerfilePath
 cd /tmp/docker
 
 docker build \
-    -v ${HOME}/git/lrose-core/build:/scripts \
     --tag custom/${os_type}:${os_version} \
     --file ${DockerfilePath} .
