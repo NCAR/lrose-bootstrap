@@ -76,13 +76,17 @@ echo "####################################################" > ${DockerfilePath}
 echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
 echo "#" >> ${DockerfilePath}
 
-# add install python
+# add install python and git
 
-echo "RUN zypper install -y python" >> $DockerfilePath
+echo "RUN zypper -y update; zypper install -y python git" >> $DockerfilePath
+
+# get lrose-docker
+
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-docker" >> $DockerfilePath
 
 # add install packages by calling python script
 
-echo "RUN /scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-docker/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # append the body of the Dockerfile
 # cat Dockerfile.suse.custom >> ${DockerfilePath}
@@ -92,7 +96,6 @@ echo "RUN /scripts/install_linux_packages.py" >> $DockerfilePath
 cd /tmp/docker
 
 docker build \
-    -v ${HOME}/git/lrose-core/build:/scripts \
     --tag custom/${os_type}:${os_version} \
     --file ${DockerfilePath} .
 

@@ -81,31 +81,34 @@ echo "####################################################" > $DockerfilePath
 echo "FROM ${os_type}:${os_version}" >> $DockerfilePath
 echo "#" >> $DockerfilePath
 
-# add install python
+# update and add install python and git
 
 if [ "$os_type" = fedora ]
 then
-    echo "RUN yum install -y python" >> $DockerfilePath
+    echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
 else
     # various version of centos
     if [ "$os_version" = 6 ] ; then
-        echo "RUN yum install -y python" >> $DockerfilePath
+        echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     elif [ "$os_version" = 7 ] ; then
-        echo "RUN yum install -y python" >> $DockerfilePath
+        echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     else
-        echo "RUN dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled PowerTools; dnf install -y python2 python3; alternatives --set python /usr/bin/python3" >> $DockerfilePath
+        echo "RUN dny -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled PowerTools; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
     fi
 fi
 
+# get lrose-docker
+
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-docker" >> $DockerfilePath
+
 # add install packages by calling python script
 
-echo "RUN /scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-docker/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # using the Dockerfile, create the custom image
 
 cd /tmp/docker
 
 docker build \
-    -v ${HOME}/git/lrose-core/build:/scripts \
     --tag custom/${os_type}:${os_version} \
     --file ${DockerfilePath} .
