@@ -97,13 +97,13 @@ else
     fi
 fi
 
-# get lrose-docker
+# get lrose-containers
 
-echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-docker" >> $DockerfilePath
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-containers" >> $DockerfilePath
 
 # add install packages by calling python script
 
-echo "RUN ~/git/lrose-docker/scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-containers/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # using the Dockerfile, create the custom image
 
