@@ -320,8 +320,7 @@ def installPackagesDebian():
     # install main packages
     
     shellCmd("apt-get -y update")
-    shellCmd("export DEBIAN_FRONTEND=noninteractive; " +
-             "apt-get install -y " +
+    shellCmd("apt-get install -y " +
              "tcsh git gcc g++ gfortran rsync chrpath " +
              "automake make cmake mlocate libtool pkg-config python " +
              "libcurl3-dev curl " +
