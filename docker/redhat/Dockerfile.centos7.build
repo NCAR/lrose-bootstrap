@@ -1,7 +1,7 @@
 #===================================================
 # build lrose in redhat container
 
-ARG LROSE_PKG=core
+ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
@@ -13,7 +13,7 @@ RUN \
 RUN \
     cd git/lrose-containers; git pull; \
     ./checkout_and_build_cmake.py \
-    --package lrose-${LROSE_PKG} \
+    --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose_build \

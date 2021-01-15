@@ -1,7 +1,7 @@
 #===================================================
 # build lrose in redhat fedora container
 
-ARG LROSE_PKG=core
+ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
@@ -12,7 +12,7 @@ RUN \
 
 RUN \
     /scripts/checkout_and_build_auto.py \
-    --package lrose-${LROSE_PKG} \
+    --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose_build \

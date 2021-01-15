@@ -13,15 +13,15 @@ function usage() {
     echo "  $scriptName [options below]"
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
-    echo "  -p ? :  set lrose_pkg"
-    echo "          e.g. core, blaze, cyclone, radx"
+    echo "  -p ? :  set lrose-pkg"
+    echo "          e.g. lrose-core, radx"
     echo "  -r ? :  set release_date"
     echo "          e.g. latest, 20190105"
     echo
 }
 
 scriptName=$(basename $0)
-lrose_pkg=core
+lrose_pkg=lrose-core
 release_date=latest
 
 # Parse command line options.
