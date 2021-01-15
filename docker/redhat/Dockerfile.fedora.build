@@ -11,7 +11,7 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    /scripts/checkout_and_build_auto.py \
+    ./scripts/checkout_and_build_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \

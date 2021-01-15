@@ -12,7 +12,7 @@ RUN \
 
 RUN \
     cd git/lrose-containers; git pull; \
-    ./checkout_and_build_cmake.py \
+    ./scripts/checkout_and_build_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
