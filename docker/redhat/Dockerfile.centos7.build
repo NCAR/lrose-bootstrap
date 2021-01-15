@@ -11,7 +11,8 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    /scripts/checkout_and_build_auto.py \
+    cd git/lrose-containers; git pull; \
+    ./checkout_and_build_cmake.py \
     --package lrose-${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
@@ -21,7 +22,7 @@ RUN \
 
 # clean up
 
-RUN \
-    /bin/rm -rf /tmp/lrose_build
+#RUN \
+#    /bin/rm -rf /tmp/lrose_build
 
  
