@@ -825,7 +825,7 @@ def buildGeolib():
     print("==>> buildGeolib", file=sys.stderr)
     print("====>> prefix: ", prefix, file=sys.stderr)
 
-    # check out fractl
+    # check out geolib
 
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf geographiclib")
