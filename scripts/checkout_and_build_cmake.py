@@ -884,15 +884,14 @@ def buildFractl():
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf fractl")
     shellCmd("git clone https://github.com/mmbell/fractl")
-    os.chdir("./fractl")
+    fractlDir = os.path.join(options.buildDir, "fractl");
+    os.chdir(fractlDir)
 
-    # run cmake to create makefiles
+    # run cmake to create makefiles - in-souce build
 
-    cmd = "mkdir build; cd build"
+    cmd = "cmake ."
     shellCmd(cmd)
-    cmd = "cmake .."
-    shellCmd(cmd)
-
+    
     # do the build and install
 
     cmd = "make -k -j 4 install/strip"
@@ -921,25 +920,23 @@ def buildVortrac():
     shellCmd("git clone https://github.com/mmbell/vortrac")
     os.chdir("./vortrac")
 
-    # run cmake to create makefiles
+    # run cmake to create makefiles - in-source build
     
-    cmd = "mkdir build; cd build"
-    shellCmd(cmd)
-    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
+    cmd = "cmake ."
     shellCmd(cmd)
 
     # do the build and install
     
     cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
-
+    
     # install resources
     
     if (sys.platform == "darwin"):
-        cmd = "rsync ../Resources/*.xml vortrac.app/Contents/Resources"
+        cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
         shellCmd(cmd)
 
-    cmd = "rsync ../Resources " + prefix
+    cmd = "rsync -av Resources " + prefix
     shellCmd(cmd)
     
     return
@@ -965,14 +962,12 @@ def buildSamurai():
     shellCmd("git clone https://github.com/mmbell/samurai")
     os.chdir("./samurai")
 
-    # run cmake to create makefiles
+    # run cmake to create makefiles - in-source build
     
-    cmd = "mkdir build; cd build"
-    shellCmd(cmd)
     if (options.use_cmake3):
-        cmd = "cmake3 -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
+        cmd = "cmake3 ."
     else:
-        cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
+        cmd = "cmake ."
     shellCmd(cmd)
 
     # do the build and install
