@@ -880,21 +880,18 @@ def buildFractl():
 
     # set the environment
 
-    os.environ["LROSE_PREFIX"] = prefix
-    os.environ["LROSE_ROOT_DIR"] = prefix
-    os.environ["LROSE_INCLUDE_DIRS"] = prefixIncludeDir
-    os.environ["LROSE_LIB_DIR"] = prefixLibDir
-    os.environ["LROSE_BIN_DIR"] = prefixBinDir
-    os.environ["CMAKE_INSTALL_PREFIX"] = prefix
+    os.environ["LROSE_INSTALL_DIR"] = prefix
     
-    # create makefiles
+    # run cmake to create makefiles
 
-    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
+    cmd = "mkdir build; cd build"
+    shellCmd(cmd)
+    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
     shellCmd(cmd)
 
     # do the build
 
-    cmd = "make -j 4"
+    cmd = "make -j 8"
     shellCmd(cmd)
 
     # do the install
@@ -919,27 +916,25 @@ def buildVortrac():
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf vortrac")
     shellCmd("git clone https://github.com/mmbell/vortrac")
-    os.chdir("./vortrac/src")
+    os.chdir("./vortrac")
 
     # set the environment
 
     os.environ["LROSE_INSTALL_DIR"] = prefix
 
-    osType = getOSType()
-    if (osType == 'Debian GNU/Linux 10 (buster)' or
-        osType == 'Ubuntu 19.10'):
-        # cmake does not work in latest Debian versions
-        # so copy in Makefile instead of using qmake
-        shellCmd("/bin/cp -f _makefiles/Makefile.debian10 Makefile")
-    else:
-        # create Makefile using cmake
-        cmd = "qmake ."
-        shellCmd(cmd)
-
-    # do the build
-
-    cmd = "make -j 4"
+    # run cmake to create makefiles
+    
+    cmd = "mkdir build; cd build"
     shellCmd(cmd)
+    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
+    shellCmd(cmd)
+
+    # do the build and install
+    
+    cmd = "make -j 8 install"
+    shellCmd(cmd)
+
+    # install resources
     
     if (sys.platform == "darwin"):
         cmd = "rsync ../Resources/*.xml vortrac.app/Contents/Resources"
@@ -948,11 +943,6 @@ def buildVortrac():
     cmd = "rsync ../Resources " + prefix
     shellCmd(cmd)
     
-    # do the install
-
-    cmd = "rsync ./vortrac " + prefixBinDir
-    shellCmd(cmd)
-
     return
 
 ########################################################################
@@ -977,29 +967,21 @@ def buildSamurai():
 
     # set the environment
 
-    os.environ["LROSE_PREFIX"] = prefix
-    os.environ["LROSE_ROOT_DIR"] = prefix
-    os.environ["LROSE_INCLUDE_DIRS"] = prefixIncludeDir
-    os.environ["LROSE_LIB_DIR"] = prefixLibDir
-    os.environ["LROSE_BIN_DIR"] = prefixBinDir
-    os.environ["CMAKE_INSTALL_PREFIX"] = prefix
+    os.environ["LROSE_INSTALL_DIR"] = prefix
     
-    # create makefiles
-
+    # run cmake to create makefiles
+    
+    cmd = "mkdir build; cd build"
+    shellCmd(cmd)
     if (options.use_cmake3):
-        cmd = "cmake3 -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
+        cmd = "cmake3 -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
     else:
-        cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
+        cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
     shellCmd(cmd)
 
-    # do the build
+    # do the build and install
 
-    cmd = "make -j 4"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
+    cmd = "make -j 8 install"
     shellCmd(cmd)
 
     return
