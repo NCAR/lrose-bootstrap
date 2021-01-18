@@ -657,17 +657,19 @@ def buildPackage():
     cmd = "env"
     shellCmd(cmd)
 
-    # run cmake
-
+    # run cmake in build dir, as a subdir of codebase
+    
     logPath = prepareLogFile("run-cmake");
-    os.chdir(codebaseDir)
-    cmd = "cmake ."
+    cmakeBuildDir = os.path.join(codebaseDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
+    cmd = "cmake .."
     shellCmd(cmd)
-
+    
     # build the libraries
 
     logPath = prepareLogFile("build-libs");
-    os.chdir(os.path.join(codebaseDir, "libs"))
+    os.chdir(os.path.join(cmakeBuildDir, "libs"))
     cmd = "make -k -j 8"
     shellCmd(cmd)
 
@@ -675,7 +677,7 @@ def buildPackage():
 
     logPath = prepareLogFile("install-libs-to-tmp");
 
-    cmd = "make -k install/strip"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     if (options.no_core_apps == False):
@@ -683,14 +685,14 @@ def buildPackage():
         # build the apps
 
         logPath = prepareLogFile("build-apps");
-        os.chdir(os.path.join(codebaseDir, "apps"))
+        os.chdir(os.path.join(cmakeBuildDir, "apps"))
         cmd = "make -k -j 8"
         shellCmd(cmd)
         
         # install the apps
         
         logPath = prepareLogFile("install-apps-to-tmp");
-        cmd = "make -k install/strip"
+        cmd = "make -k -j 8 install/strip"
         shellCmd(cmd)
 
     # optionally install the scripts
@@ -892,17 +894,20 @@ def buildFractl():
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf fractl")
     shellCmd("git clone https://github.com/mmbell/fractl")
+
+    # run cmake to create makefiles
+
     fractlDir = os.path.join(options.buildDir, "fractl");
-    os.chdir(fractlDir)
-
-    # run cmake to create makefiles - in-souce build
-
-    cmd = "cmake ."
+    cmakeBuildDir = os.path.join(fractlDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
+    
+    cmd = "cmake .."
     shellCmd(cmd)
     
     # do the build and install
 
-    cmd = "make -k -j 4 install/strip"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     return
@@ -926,13 +931,19 @@ def buildVortrac():
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf vortrac")
     shellCmd("git clone https://github.com/mmbell/vortrac")
-    os.chdir("./vortrac")
 
+    # run cmake to create makefiles
+
+    vortracDir = os.path.join(options.buildDir, "vortrac");
+    cmakeBuildDir = os.path.join(vortracDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
+    
     # run cmake to create makefiles - in-source build
     
-    cmd = "cmake ."
+    cmd = "cmake .."
     shellCmd(cmd)
-
+    
     # do the build and install
     
     cmd = "make -k -j 8 install/strip"
@@ -941,7 +952,8 @@ def buildVortrac():
     # install resources
     
     if (sys.platform == "darwin"):
-        cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
+        os.makedirs("vortrac.app/Contents/Resources")
+        cmd = "rsync -av ../Resources/*.xml vortrac.app/Contents/Resources"
         shellCmd(cmd)
 
     cmd = "rsync -av Resources " + prefix
@@ -968,14 +980,18 @@ def buildSamurai():
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf samurai")
     shellCmd("git clone https://github.com/mmbell/samurai")
-    os.chdir("./samurai")
-
+    
     # run cmake to create makefiles - in-source build
     
+    samuraiDir = os.path.join(options.buildDir, "samurai");
+    cmakeBuildDir = os.path.join(samuraiDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
+
     if (options.use_cmake3):
-        cmd = "cmake3 ."
+        cmd = "cmake3 .."
     else:
-        cmd = "cmake ."
+        cmd = "cmake .."
     shellCmd(cmd)
 
     # do the build and install
