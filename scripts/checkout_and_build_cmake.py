@@ -890,12 +890,12 @@ def buildFractl():
 
     cmd = "mkdir build; cd build"
     shellCmd(cmd)
-    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
+    cmd = "cmake .."
     shellCmd(cmd)
 
     # do the build and install
 
-    cmd = "make -j 4 install"
+    cmd = "make -k -j 4 install/strip"
     shellCmd(cmd)
 
     return
@@ -930,7 +930,7 @@ def buildVortrac():
 
     # do the build and install
     
-    cmd = "make -j 8 install"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     # install resources
@@ -977,7 +977,7 @@ def buildSamurai():
 
     # do the build and install
 
-    cmd = "make -j 8 install"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     return
