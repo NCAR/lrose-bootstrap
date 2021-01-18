@@ -157,7 +157,10 @@ def main():
                       dest='withJasper', default=False,
                       action="store_true",
                       help='Set if jasper library is installed. This provides support for jpeg compression in grib files.')
-
+    parser.add_option('--verboseMake',
+                      dest='verboseMake', default=False,
+                      action="store_true",
+                      help='Verbose output for make, default is summary')
 
     (options, args) = parser.parse_args()
     
@@ -460,7 +463,11 @@ def createCMakeLists():
     
     withJasperStr = " "
     if (options.withJasper):
-        staticStr = " --withJasper "
+        withJasperStr = " --withJasper "
+    
+    verboseMakeStr = " "
+    if (options.verboseMake):
+        verboseMakeStr = " --verboseMake "
     
     debugStr = " "
     if (options.verbose):
@@ -473,7 +480,8 @@ def createCMakeLists():
         dependDirsStr = " --dependDirs " + scratchBuildDir + " "
 
     shellCmd("../build/cmake/createCMakeLists.py " +
-             debugStr + staticStr + withJasperStr + dependDirsStr +
+             debugStr + staticStr +
+             withJasperStr + dependDirsStr + verboseMakeStr +
              " --pkg " + package + " --installDir /usr/local/lrose")
 
 ########################################################################
