@@ -867,10 +867,11 @@ def buildFractl():
 
     print("==>> buildFractl", file=sys.stderr)
     print("====>> prefix: ", prefix, file=sys.stderr)
-    print("====>> includeDir: ", prefixIncludeDir, file=sys.stderr)
-    print("====>> libDir: ", prefixLibDir, file=sys.stderr)
-    print("====>> binDir: ", prefixBinDir, file=sys.stderr)
+    
+    # set the environment
 
+    os.environ["LROSE_INSTALL_DIR"] = prefix
+    
     # check out fractl
 
     os.chdir(options.buildDir)
@@ -878,10 +879,6 @@ def buildFractl():
     shellCmd("git clone https://github.com/mmbell/fractl")
     os.chdir("./fractl")
 
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefix
-    
     # run cmake to create makefiles
 
     cmd = "mkdir build; cd build"
@@ -889,14 +886,9 @@ def buildFractl():
     cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " .."
     shellCmd(cmd)
 
-    # do the build
+    # do the build and install
 
-    cmd = "make -j 8"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
+    cmd = "make -j 4 install"
     shellCmd(cmd)
 
     return
@@ -911,16 +903,16 @@ def buildVortrac():
     print("====>> buildVortrac", file=sys.stderr)
     print("====>> prefix: ", prefix, file=sys.stderr)
 
+    # set the environment
+
+    os.environ["LROSE_INSTALL_DIR"] = prefix
+
     # check out vortrac
 
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf vortrac")
     shellCmd("git clone https://github.com/mmbell/vortrac")
     os.chdir("./vortrac")
-
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefix
 
     # run cmake to create makefiles
     
@@ -954,10 +946,11 @@ def buildSamurai():
 
     print("==>> buildSamurai", file=sys.stderr)
     print("====>> prefix: ", prefix, file=sys.stderr)
-    print("====>> includeDir: ", prefixIncludeDir, file=sys.stderr)
-    print("====>> libDir: ", prefixLibDir, file=sys.stderr)
-    print("====>> binDir: ", prefixBinDir, file=sys.stderr)
 
+    # set the environment
+
+    os.environ["LROSE_INSTALL_DIR"] = prefix
+    
     # check out samurai
 
     os.chdir(options.buildDir)
@@ -965,10 +958,6 @@ def buildSamurai():
     shellCmd("git clone https://github.com/mmbell/samurai")
     os.chdir("./samurai")
 
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefix
-    
     # run cmake to create makefiles
     
     cmd = "mkdir build; cd build"
