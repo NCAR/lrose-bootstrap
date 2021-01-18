@@ -128,7 +128,7 @@ if [ "$os_type" = centos -a "$os_version" = 6 ] ; then
         custom/${os_type}:${os_version} \
         /scripts/checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
-        --buildDir /tmp/lrose_build \
+        --buildDir /tmp/lrose-build \
         --logDir /logs \
 elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
     docker run \
@@ -137,7 +137,7 @@ elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
         custom/${os_type}:${os_version} \
         /scripts/checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
-        --buildDir /tmp/lrose_build \
+        --buildDir /tmp/lrose-build \
         --logDir /logs \
         --cmake3 --fractl --vortrac --samurai
 elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
@@ -147,7 +147,7 @@ elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
         custom/${os_type}:${os_version} \
         /scripts/checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
-        --buildDir /tmp/lrose_build \
+        --buildDir /tmp/lrose-build \
         --logDir /logs \
         --geolib --fractl --vortrac --samurai
 else
@@ -157,7 +157,7 @@ else
         custom/${os_type}:${os_version} \
         /scripts/checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
-        --buildDir /tmp/lrose_build \
+        --buildDir /tmp/lrose-build \
         --logDir /logs \
         --fractl --vortrac --samurai
 fi

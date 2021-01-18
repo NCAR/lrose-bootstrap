@@ -15,13 +15,13 @@ RUN \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
-    --buildDir /tmp/lrose_build \
-    --logDir /tmp/lrose_build/logs \
+    --buildDir /tmp/lrose-build \
+    --logDir /tmp/lrose-build/logs \
     --buildNetcdf \
     --fractl --samurai --vortrac
 
 # clean up
 
 RUN \
-    /bin/rm -rf /tmp/lrose_build
+    /bin/rm -rf /tmp/lrose-build
 
