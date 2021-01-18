@@ -16,7 +16,7 @@ function usage() {
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
     echo "  -p ? :  set lrose_pkg"
-    echo "          e.g. core, blaze, cyclone, radx"
+    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
     echo "  -t ? :  set os_type"
     echo "          e.g. centos, fedora"
     echo "  -v ? :  set os_version"
@@ -28,7 +28,7 @@ scriptName=$(basename $0)
 
 os_type=centos
 os_version=7
-lrose_pkg=core
+lrose_pkg=lrose-core
 debug=true
 
 # Parse command line options.
