@@ -13,7 +13,7 @@ ARG OS_VERSION=8
 RUN \
     dnf install -y epel-release; \
     dnf install -y 'dnf-command(config-manager)'; \
-    dnf config-manager --set-enabled PowerTools; \
+    dnf config-manager --set-enabled powertools; \
     dnf install -y --allowerasing \
       tcsh wget git \
       emacs rsync python2 python3 mlocate \

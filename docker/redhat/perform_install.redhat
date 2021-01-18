@@ -66,7 +66,7 @@ is_centos_8=`grep VERSION_ID /etc/os-release | grep 8`
 if [ -n "$is_centos_8" ]; then
   dnf install -y epel-release
   dnf install -y 'dnf-command(config-manager)'
-  dnf config-manager --set-enabled PowerTools
+  dnf config-manager --set-enabled powertools
   dnf install -y python2 python3
   alternatives --set python /usr/bin/python3
 fi
