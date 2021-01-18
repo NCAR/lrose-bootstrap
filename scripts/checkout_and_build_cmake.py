@@ -51,8 +51,9 @@ def main():
     global coreDir
     global codebaseDir
     global scratchBuildDir
-    global tmpBinDir
-    global tmpLibDir
+    global scratchBinDir
+    global scratchLibDir
+    global scratchIncludeDir
     global prefixBinDir
     global scriptsDir
     global prefixLibDir
@@ -217,8 +218,9 @@ def main():
     netcdfDir = os.path.join(options.buildDir, "lrose-netcdf")
     codebaseDir = os.path.join(coreDir, "codebase")
 
-    tmpBinDir = os.path.join(scratchBuildDir, 'bin')
-    tmpLibDir = os.path.join(scratchBuildDir, 'lib')
+    scratchBinDir = os.path.join(scratchBuildDir, 'bin')
+    scratchLibDir = os.path.join(scratchBuildDir, 'lib')
+    scratchIncludeDir = os.path.join(scratchBuildDir, 'include')
     prefixBinDir = os.path.join(prefix, 'bin')
     scriptsDir = os.path.join(prefix, 'scripts')
     prefixLibDir = os.path.join(prefix, 'lib')
@@ -268,8 +270,9 @@ def main():
 
     try:
         os.makedirs(scratchBuildDir)
-        os.makedirs(tmpBinDir)
-        os.makedirs(tmpLibDir)
+        os.makedirs(scratchBinDir)
+        os.makedirs(scratchLibDir)
+        os.makedirs(scratchIncludeDir)
         os.makedirs(options.logDir)
     except:
         print("  note - dirs already exist", file=sys.stderr)
@@ -323,7 +326,7 @@ def main():
     if (options.installAllRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLibFiles.py"
         cmd = scriptPath + \
-              " --binDir " + tmpBinDir + \
+              " --binDir " + scratchBinDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -333,8 +336,8 @@ def main():
     elif (options.installLroseRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLroseLibs.py"
         cmd = scriptPath + \
-              " --binDir " + tmpBinDir + \
-              " --libDir " + tmpLibDir + \
+              " --binDir " + scratchBinDir + \
+              " --libDir " + scratchLibDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -635,7 +638,7 @@ def buildPackage():
                             "'$$ORIGIN/" + runtimeLibRelDir + \
                             ":$$ORIGIN/../lib" + \
                             ":" + prefixLibDir + \
-                            ":" + tmpLibDir + "'"
+                            ":" + scratchLibDir + "'"
 
     if (sys.platform == "darwin"):
         os.environ["PKG_CONFIG_PATH"] = "/usr/local/opt/qt/lib/pkgconfig"
@@ -756,9 +759,12 @@ def doFinalInstall():
 
     os.chdir(scratchBuildDir)
 
-    shellCmd("rsync -av bin " + prefix)
-    shellCmd("rsync -av lib " + prefix)
-    shellCmd("rsync -av include " + prefix)
+    if (os.path.isdir("bin")):
+        shellCmd("rsync -av bin " + prefix)
+    if (os.path.isdir("lib")):
+        shellCmd("rsync -av lib " + prefix)
+    if (os.path.isdir("include")):
+        shellCmd("rsync -av include " + prefix)
 
 ########################################################################
 # check the install
