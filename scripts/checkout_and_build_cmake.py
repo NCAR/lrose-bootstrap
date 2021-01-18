@@ -269,6 +269,7 @@ def main():
     try:
         os.makedirs(scratchBuildDir)
         os.makedirs(tmpBinDir)
+        os.makedirs(tmpLibDir)
         os.makedirs(options.logDir)
     except:
         print("  note - dirs already exist", file=sys.stderr)
@@ -1019,12 +1020,12 @@ def shellCmd(cmd):
 
     print("Running cmd:", cmd, file=sys.stderr)
     
-    #if (logPath.find('no-logging') >= 0):
-    cmdToRun = cmd
-    #else:
-    #    print("Log file is:", logPath, file=sys.stderr)
-    #    print("    ....", file=sys.stderr)
-    #    cmdToRun = cmd + " 1>> " + logPath + " 2>&1"
+    if (logPath.find('no-logging') >= 0):
+        cmdToRun = cmd
+    else:
+        print("Log file is:", logPath, file=sys.stderr)
+        print("    ....", file=sys.stderr)
+        cmdToRun = cmd + " 1>> " + logPath + " 2>&1"
 
     try:
         retcode = subprocess.check_call(cmdToRun, shell=True)
