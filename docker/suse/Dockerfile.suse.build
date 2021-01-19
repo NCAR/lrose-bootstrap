@@ -11,13 +11,17 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    /scripts/checkout_and_build_auto.py \
+    cd; cd git/lrose-containers; git pull; \
+    ./scripts/checkout_and_build_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
-    --logDir /tmp/build_logs \
-    --geolib --fractl --samurai --vortrac
+    --logDir /tmp/build-logs \
+    --geolib \
+    --fractl --vortrac --samurai
+
+# clean up
 
 RUN \
     /bin/rm -rf /tmp/lrose-build
