@@ -1,11 +1,11 @@
 #===================================================
-# build lrose in redhat container
+# build lrose in centos8 container
 
 ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
-    echo "Building lrose in redhat container"; \
+    echo "Building lrose in centos8 container"; \
     echo "  package is: ${LROSE_PKG}" 
 
 # run the checkout and build script
@@ -17,10 +17,10 @@ RUN \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
-    --logDir /tmp/build_logs \
-    --fractl --samurai --vortrac
+    --logDir /tmp/build-logs \
+    --fractl --vortrac --samurai
 
 # clean up
 
-#RUN \
-#    /bin/rm -rf /tmp/lrose-build
+RUN \
+    /bin/rm -rf /tmp/lrose-build

@@ -17,8 +17,8 @@ RUN \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
-    --logDir /tmp/lrose-build.logs \
-    --fractl --samurai --vortrac
+    --logDir /tmp/build-logs \
+    --fractl --vortrac --samurai
 
 # clean up
 
