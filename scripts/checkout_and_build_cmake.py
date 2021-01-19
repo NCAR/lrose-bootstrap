@@ -958,9 +958,11 @@ def buildVortrac():
     
     # install resources
     
+    os.chdir(vortracDir)
+
     if (sys.platform == "darwin"):
         os.makedirs("vortrac.app/Contents/Resources")
-        cmd = "rsync -av ../Resources/*.xml vortrac.app/Contents/Resources"
+        cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
         shellCmd(cmd)
 
     cmd = "rsync -av Resources " + prefix
