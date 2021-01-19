@@ -229,6 +229,13 @@ def main():
     prefixLibDir = os.path.join(prefix, 'lib')
     prefixIncludeDir = os.path.join(prefix, 'include')
     prefixShareDir = os.path.join(prefix, 'share')
+
+    # cmake version
+
+    global cmakeExec
+    cmakeExec = 'cmake'
+    if (options.use_cmake3):
+        cmakeExec = 'cmake3'
     
     # debug print
 
@@ -252,6 +259,7 @@ def main():
         print("  prefixShareDir: ", prefixShareDir, file=sys.stderr)
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
+        print("  cmakeExec: ", options.cmakeExec, file=sys.stderr)
         print("  build_geolib: ", options.build_geolib, file=sys.stderr)
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
@@ -663,7 +671,7 @@ def buildPackage():
     cmakeBuildDir = os.path.join(codebaseDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
-    cmd = "cmake .."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
     
     # build the libraries
@@ -864,10 +872,7 @@ def buildGeolib():
     
     # create makefiles
 
-    if (options.use_cmake3):
-        cmd = "cmake3 -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
-    else:
-        cmd = "cmake -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
+    cmd = cmakeExec + " -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
     shellCmd(cmd)
 
     # do the build
@@ -909,7 +914,7 @@ def buildFractl():
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
     
-    cmd = "cmake .."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
     
     # do the build and install
@@ -948,7 +953,7 @@ def buildVortrac():
     
     # run cmake to create makefiles - in-source build
     
-    cmd = "cmake .."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
     
     # do the build and install
@@ -997,10 +1002,7 @@ def buildSamurai():
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
 
-    if (options.use_cmake3):
-        cmd = "cmake3 .."
-    else:
-        cmd = "cmake .."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
 
     # do the build and install
