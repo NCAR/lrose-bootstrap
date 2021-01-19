@@ -682,6 +682,13 @@ def buildPackage():
 
     if (options.no_core_apps == False):
 
+        # build and install tdrp_gen
+
+        logPath = prepareLogFile("build-tdrp-gen");
+        os.chdir(os.path.join(cmakeBuildDir, "apps/tdrp/src/tdrp_gen"))
+        cmd = "make install/strip"
+        shellCmd(cmd)
+        
         # build the apps
 
         logPath = prepareLogFile("build-apps");
