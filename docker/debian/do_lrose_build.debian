@@ -76,7 +76,7 @@ fi
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/debian
+cd ~/git/lrose-containers/docker/debian
 
 # compute Dockerfile path
 
@@ -102,22 +102,16 @@ else
     cat Dockerfile.debian.build >> ${DockerfilePath}
 fi
 
-
 # remove any old image
 
 tag=build.${lrose_pkg}/${os_type}:${os_version}
 docker image rm -f ${tag}
-
-# make build scripts available to container
-
-scriptsDir=~/git/lrose-core/build
 
 # run the build, creating a new image for it
 
 cd /tmp/docker
 
 docker build \
-    -v ${scriptsDir}:/scripts \
     --tag ${tag} \
     --build-arg LROSE_PKG=${lrose_pkg} \
     --build-arg RELEASE_DATE=${release_date} \

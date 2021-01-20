@@ -76,7 +76,7 @@ fi
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/suse
+cd ~/git/lrose-containers/docker/suse
 
 # compute Dockerfile path
 
@@ -92,7 +92,7 @@ echo "#" >> ${DockerfilePath}
 
 # append the body of the Dockerfile
 
-if [ "$lrose_pkg" == "cidd" ]
+if [ "$lrose_pkg" = "cidd" ]
 then
   cat Dockerfile.suse.build.cidd >> ${DockerfilePath}
 else
