@@ -149,7 +149,7 @@ elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
         --prefix /usr/local/lrose \
         --buildDir /tmp/lrose-build \
         --logDir /logs \
-        --geolib --fractl --vortrac --samurai
+        --fractl --vortrac --samurai
 else
     docker run \
         -v ${scriptsDir}:/scripts \

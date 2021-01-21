@@ -18,7 +18,6 @@ RUN \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --geolib \
     --fractl --vortrac --samurai
 
 # clean up
