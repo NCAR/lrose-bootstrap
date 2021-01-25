@@ -473,7 +473,7 @@ def createCMakeLists():
 
     dependDirsStr = ""
     if (options.buildNetcdf):
-        dependDirsStr = " --dependDirs " + prefixDir + " "
+        dependDirsStr = " --dependDirs " + prefixLibDir + " "
 
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr +
@@ -636,7 +636,7 @@ def buildPackage():
 
     # set the environment
 
-    os.environ["LDFLAGS"] = "-L" + prefixDir + "/lib " + \
+    os.environ["LDFLAGS"] = "-L" + prefixLibDir + \
                             "-Wl,--enable-new-dtags," + \
                             "-rpath," + \
                             "'$$ORIGIN/" + runtimeLibRelDir + \
