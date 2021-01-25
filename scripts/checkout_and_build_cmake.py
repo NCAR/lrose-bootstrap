@@ -478,7 +478,7 @@ def createCMakeLists():
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr +
              withJasperStr + dependDirsStr + verboseMakeStr +
-             " --pkg " + package + " --installDir /usr/local/lrose")
+             " --pkg " + package + " --installDir " + prefixDir)
 
 ########################################################################
 # write release information file
