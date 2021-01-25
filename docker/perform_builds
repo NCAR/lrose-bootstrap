@@ -52,6 +52,7 @@ done
 #./redhat/do_lrose_build.redhat -t centos -v 6  -p ${lrose_pkg} -r ${release_date}
 ./redhat/do_lrose_build.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
 ./redhat/do_lrose_build.redhat -t centos -v 8  -p ${lrose_pkg} -r ${release_date}
+./redhat/do_lrose_build.redhat -t centos -v latest  -p ${lrose_pkg} -r ${release_date}
 
 #./redhat/do_lrose_build.redhat -t fedora -v 29 -p ${lrose_pkg} -r ${release_date}
 #./redhat/do_lrose_build.redhat -t fedora -v 30 -p ${lrose_pkg} -r ${release_date}
@@ -61,7 +62,6 @@ done
 
 ./debian/do_lrose_build.debian -t debian -v 9 -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t debian -v 10 -p ${lrose_pkg} -r ${release_date}
-./debian/do_lrose_build.debian -t debian -v latest -p ${lrose_pkg} -r ${release_date}
 
 #./debian/do_lrose_build.debian -t ubuntu -v 16.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t ubuntu -v 18.04  -p ${lrose_pkg} -r ${release_date}

@@ -19,7 +19,7 @@ function usage() {
 }
 
 scriptName=$(basename $0)
-lrose_pkg=core
+lrose_pkg=lrose-core
 
 # Parse command line options.
 while getopts hdp: OPT; do
@@ -45,12 +45,13 @@ done
 
 # delete build images
 
-docker image rm -f build.${lrose_pkg}/centos:6
+#docker image rm -f build.${lrose_pkg}/centos:6
 docker image rm -f build.${lrose_pkg}/centos:7
 docker image rm -f build.${lrose_pkg}/centos:8
+docker image rm -f build.${lrose_pkg}/centos:latest
 
-docker image rm -f build.${lrose_pkg}/fedora:29
-docker image rm -f build.${lrose_pkg}/fedora:30
+#docker image rm -f build.${lrose_pkg}/fedora:29
+#docker image rm -f build.${lrose_pkg}/fedora:30
 docker image rm -f build.${lrose_pkg}/fedora:31
 docker image rm -f build.${lrose_pkg}/fedora:32
 docker image rm -f build.${lrose_pkg}/fedora:33

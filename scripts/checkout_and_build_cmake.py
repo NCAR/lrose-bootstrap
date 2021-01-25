@@ -42,24 +42,25 @@ def main():
 
     global options
     global package
-    global prefix
+
     global releaseName
     global releaseTag
     global releaseDate
+
     global netcdfDir
     global displaysDir
+
     global coreDir
     global codebaseDir
-    global scratchBuildDir
-    global scratchBinDir
-    global scratchLibDir
-    global scratchIncludeDir
-    global prefixBinDir
-    global scriptsDir
-    global prefixLibDir
     global runtimeLibRelDir
+
+    global prefixDir
+    global prefixBinDir
+    global prefixLibDir
     global prefixIncludeDir
     global prefixShareDir
+    global prefixScriptsDir
+
     global dateStr
     global logPath
     global logFp
@@ -145,10 +146,6 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake for samurai')
-    parser.add_option('--geolib',
-                      dest='build_geolib', default=False,
-                      action="store_true",
-                      help='Build and install geolib - for fractl, samurai')
     parser.add_option('--no_core_apps',
                       dest='no_core_apps', default=False,
                       action="store_true",
@@ -183,7 +180,6 @@ def main():
         options.static = True
         
     package = options.package
-    prefix = options.prefix
     runtimeLibRelDir = package + "_runtime_libs"
 
     # runtime
@@ -215,20 +211,17 @@ def main():
 
     # set directories
     
-    scratchBuildDir = os.path.join(options.buildDir, 'scratch')
     coreDir = os.path.join(options.buildDir, "lrose-core")
     displaysDir = os.path.join(options.buildDir, "lrose-displays")
     netcdfDir = os.path.join(options.buildDir, "lrose-netcdf")
     codebaseDir = os.path.join(coreDir, "codebase")
 
-    scratchBinDir = os.path.join(scratchBuildDir, 'bin')
-    scratchLibDir = os.path.join(scratchBuildDir, 'lib')
-    scratchIncludeDir = os.path.join(scratchBuildDir, 'include')
-    prefixBinDir = os.path.join(prefix, 'bin')
-    scriptsDir = os.path.join(prefix, 'scripts')
-    prefixLibDir = os.path.join(prefix, 'lib')
-    prefixIncludeDir = os.path.join(prefix, 'include')
-    prefixShareDir = os.path.join(prefix, 'share')
+    prefixDir = options.prefix
+    prefixBinDir = os.path.join(prefixDir, 'bin')
+    prefixLibDir = os.path.join(prefixDir, 'lib')
+    prefixIncludeDir = os.path.join(prefixDir, 'include')
+    prefixShareDir = os.path.join(prefixDir, 'share')
+    prefixScriptsDir = os.path.join(prefixDir, 'scripts')
 
     # cmake version
 
@@ -252,7 +245,7 @@ def main():
         print("  codebaseDir: ", codebaseDir, file=sys.stderr)
         print("  displaysDir: ", displaysDir, file=sys.stderr)
         print("  netcdfDir: ", netcdfDir, file=sys.stderr)
-        print("  prefixDir: ", prefix, file=sys.stderr)
+        print("  prefixDir: ", prefixDir, file=sys.stderr)
         print("  prefixBinDir: ", prefixBinDir, file=sys.stderr)
         print("  prefixLibDir: ", prefixLibDir, file=sys.stderr)
         print("  prefixIncludeDir: ", prefixIncludeDir, file=sys.stderr)
@@ -260,7 +253,6 @@ def main():
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
         print("  cmakeExec: ", cmakeExec, file=sys.stderr)
-        print("  build_geolib: ", options.build_geolib, file=sys.stderr)
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
@@ -277,13 +269,13 @@ def main():
     logPath = os.path.join(options.logDir, "initialize");
     logFp = open(logPath, "w+")
     
-    # make tmp dirs
+    # make dirs
 
     try:
-        os.makedirs(scratchBuildDir)
-        os.makedirs(scratchBinDir)
-        os.makedirs(scratchLibDir)
-        os.makedirs(scratchIncludeDir)
+        os.makedirs(prefixDir)
+        os.makedirs(prefixBinDir)
+        os.makedirs(prefixLibDir)
+        os.makedirs(prefixIncludeDir)
         os.makedirs(options.logDir)
     except:
         print("  note - dirs already exist", file=sys.stderr)
@@ -337,7 +329,7 @@ def main():
     if (options.installAllRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLibFiles.py"
         cmd = scriptPath + \
-              " --binDir " + scratchBinDir + \
+              " --binDir " + prefixBinDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -347,8 +339,8 @@ def main():
     elif (options.installLroseRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLroseLibs.py"
         cmd = scriptPath + \
-              " --binDir " + scratchBinDir + \
-              " --libDir " + scratchLibDir + \
+              " --binDir " + prefixBinDir + \
+              " --libDir " + prefixLibDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -367,10 +359,6 @@ def main():
     checkInstall()
 
     # build CSU packages
-
-    if (options.build_geolib):
-        logPath = prepareLogFile("geolib");
-        buildGeolib()
 
     if (options.build_fractl):
         logPath = prepareLogFile("fractl");
@@ -485,7 +473,7 @@ def createCMakeLists():
 
     dependDirsStr = ""
     if (options.buildNetcdf):
-        dependDirsStr = " --dependDirs " + scratchBuildDir + " "
+        dependDirsStr = " --dependDirs " + prefixDir + " "
 
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr +
@@ -499,7 +487,7 @@ def createReleaseInfoFile():
 
     # go to core dir
 
-    os.chdir(scratchBuildDir)
+    os.chdir(prefixDir)
 
     # open info file
 
@@ -632,12 +620,12 @@ def buildNetcdf():
 
     os.chdir(netcdfDir)
     if (package == "lrose-cidd"):
-        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + scratchBuildDir)
+        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + prefixDir)
     else:
         if sys.platform == "darwin":
-            shellCmd("./build_and_install_netcdf.osx -x " + scratchBuildDir)
+            shellCmd("./build_and_install_netcdf.osx -x " + prefixDir)
         else:
-            shellCmd("./build_and_install_netcdf -x " + scratchBuildDir)
+            shellCmd("./build_and_install_netcdf -x " + prefixDir)
 
 ########################################################################
 # build package
@@ -648,13 +636,13 @@ def buildPackage():
 
     # set the environment
 
-    os.environ["LDFLAGS"] = "-L" + scratchBuildDir + "/lib " + \
+    os.environ["LDFLAGS"] = "-L" + prefixDir + "/lib " + \
                             "-Wl,--enable-new-dtags," + \
                             "-rpath," + \
                             "'$$ORIGIN/" + runtimeLibRelDir + \
                             ":$$ORIGIN/../lib" + \
                             ":" + prefixLibDir + \
-                            ":" + scratchLibDir + "'"
+                            ":" + prefixLibDir + "'"
 
     if (sys.platform == "darwin"):
         os.environ["PKG_CONFIG_PATH"] = "/usr/local/opt/qt/lib/pkgconfig"
@@ -718,7 +706,7 @@ def buildPackage():
 
         # install perl5
         
-        perl5InstallDir = os.path.join(prefix, "lib/perl5")
+        perl5InstallDir = os.path.join(prefixLibDir, "perl5")
         try:
             os.makedirs(perl5InstallDir)
         except:
@@ -738,58 +726,37 @@ def buildPackage():
         procmapScriptsDir = os.path.join(codebaseDir, "apps/procmap/src/scripts")
         if (os.path.isdir(procmapScriptsDir)):
             os.chdir(procmapScriptsDir)
-            shellCmd("./install_scripts.lrose " + scriptsDir)
+            shellCmd("./install_scripts.lrose " + prefixScriptsDir)
 
         # general
 
         generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
         if (os.path.isdir(generalScriptsDir)):
             os.chdir(generalScriptsDir)
-            shellCmd("./install_scripts.lrose " + scriptsDir)
+            shellCmd("./install_scripts.lrose " + prefixScriptsDir)
 
 ########################################################################
 # perform final install
 
 def doFinalInstall():
 
-    # make target dirs
-
-    try:
-        os.makedirs(prefixBinDir)
-        os.makedirs(prefixLibDir)
-        os.makedirs(prefixIncludeDir)
-        os.makedirs(prefixShareDir)
-    except:
-        print("  note - dirs already exist", file=logFp)
-    
     # install docs etc
     
     os.chdir(coreDir)
 
-    shellCmd("rsync -av LICENSE.txt " + prefix)
-    shellCmd("rsync -av release_notes " + prefix)
-    shellCmd("rsync -av docs " + prefix)
+    shellCmd("rsync -av LICENSE.txt " + prefixDir)
+    shellCmd("rsync -av release_notes " + prefixDir)
+    shellCmd("rsync -av docs " + prefixDir)
 
     if (package == "lrose-cidd"):
         shellCmd("rsync -av ./codebase/apps/cidd/src/CIDD/scripts " +
-                 options.prefix)
+                 prefixDir)
 
     # install color scales
 
     if (os.path.isdir(displaysDir)):
         os.chdir(displaysDir)
         shellCmd("rsync -av color_scales " + prefixShareDir)
-
-    # install binaries and libs
-
-    os.chdir(scratchBuildDir)
-
-    if (os.path.isdir("bin")):
-        shellCmd("rsync -av bin " + prefix)
-    if (os.path.isdir("lib")):
-        shellCmd("rsync -av lib " + prefix)
-    if (os.path.isdir("include")):
-        shellCmd("rsync -av include " + prefix)
 
 ########################################################################
 # check the install
@@ -799,20 +766,20 @@ def checkInstall():
     os.chdir(coreDir)
     print(("============= Checking libs for " + package + " ============="))
     shellCmd("./build/scripts/checkLibs.py" + \
-             " --prefix " + prefix + \
+             " --prefix " + prefixDir + \
              " --package " + package)
     print("====================================================")
 
     if (options.no_core_apps == False):
         print(("============= Checking apps for " + package + " ============="))
         shellCmd("./build/scripts/checkApps.py" + \
-                 " --prefix " + prefix + \
+                 " --prefix " + prefixDir + \
                  " --package " + package)
         print("====================================================")
     
     print("**************************************************")
     print("*** Done building auto release *******************")
-    print(("*** Installed in dir: " + prefix + " ***"))
+    print(("*** Installed in dir: " + prefixDir + " ***"))
     print("**************************************************")
 
 ########################################################################
@@ -848,46 +815,6 @@ def prune(tree):
                 shutil.rmtree(tree)
 
 ########################################################################
-# build geographiclib
-
-def buildGeolib():
-
-    global logPath
-
-    print("==>> buildGeolib", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
-
-    # check out geolib
-
-    os.chdir(options.buildDir)
-    shellCmd("/bin/rm -rf geographiclib")
-    shellCmd("git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib")
-    os.chdir("./geographiclib")
-    shellCmd("mkdir BUILD");
-    os.chdir("./BUILD")
-
-    # set the install environment
-
-    os.environ["LROSE_PREFIX"] = prefix
-    
-    # create makefiles
-
-    cmd = cmakeExec + " -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
-    shellCmd(cmd)
-
-    # do the build
-
-    cmd = "make -j 4"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
-    shellCmd(cmd)
-
-    return
-
-########################################################################
 # build fractl package
 
 def buildFractl():
@@ -895,11 +822,11 @@ def buildFractl():
     global logPath
 
     print("==>> buildFractl", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
     
     # set the environment
 
-    os.environ["LROSE_INSTALL_DIR"] = prefix
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
     
     # check out fractl
 
@@ -932,11 +859,11 @@ def buildVortrac():
     global logPath
 
     print("====>> buildVortrac", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
 
     # set the environment
 
-    os.environ["LROSE_INSTALL_DIR"] = prefix
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
 
     # check out vortrac
 
@@ -970,7 +897,7 @@ def buildVortrac():
         cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
         shellCmd(cmd)
 
-    cmd = "rsync -av Resources " + prefix
+    cmd = "rsync -av Resources " + prefixDir
     shellCmd(cmd)
     
     return
@@ -983,11 +910,11 @@ def buildSamurai():
     global logPath
 
     print("==>> buildSamurai", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
 
     # set the environment
 
-    os.environ["LROSE_INSTALL_DIR"] = prefix
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
     
     # check out samurai
 
