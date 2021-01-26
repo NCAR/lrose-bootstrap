@@ -16,7 +16,6 @@ Group:          Scientific Tools
 AutoReqProv:    no
 License:        BSD
  
-Requires: GeographicLib
 Requires: armadillo 
 Requires: bzip2
 Requires: eigen3

@@ -81,18 +81,20 @@ cd ~/git/lrose-containers/docker/redhat
 
 # create directory that will hold the .rpm file
 
-#pkgDir=/tmp/${os_type}-${os_version}-${lrose_pkg}/pkgs
 pkgDir=/tmp/lrose-pkgs
-#/bin/rm -rf $pkgDir
 mkdir -p $pkgDir
+
+# make scripts available to container
+
+scriptsDir=`pwd`
 
 # run script in container to make the package
 # use -v to cross-mount the pkgs directory and
 # scripts directory into the container
 
 docker run \
+    -v ${scriptsDir}:/scripts \
     -v ${pkgDir}:/pkgs \
-    -v `pwd`:/scripts \
     build.${lrose_pkg}/${os_type}:${os_version} \
     /scripts/build_rpm.redhat \
     -t ${os_type} -v ${os_version} \
@@ -105,7 +107,7 @@ mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 
-echo rsync -av ${pkgDir}/*/${lrose_pkg}-*-${os_type}*${os_version}*rpm ${releaseDir}
-rsync -av ${pkgDir}/*/${lrose_pkg}-*-${os_type}*${os_version}*rpm ${releaseDir}
+echo rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
+rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 
 

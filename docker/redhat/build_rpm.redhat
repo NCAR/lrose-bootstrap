@@ -109,13 +109,14 @@ then
   echo "NOTE - using rpm.spec.body.cidd"
   cat /scripts/rpm.spec.body.cidd >> rpm.spec
 else
-  if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
-  then
-    echo "NOTE - using rpm.spec.body.centos8"
-    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
-  else
-    cat /scripts/rpm.spec.body >> rpm.spec
-  fi
+  cat /scripts/rpm.spec.body >> rpm.spec
+#  if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
+#  then
+#    echo "NOTE - using rpm.spec.body.centos8"
+#    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
+#  else
+#    cat /scripts/rpm.spec.body >> rpm.spec
+#  fi
 fi
 
 echo "==>> spec file contents:"
@@ -131,7 +132,7 @@ rpmbuild -v -bb ./SPECS/rpm.spec
 
 echo "==>> rsync rpm back to /pkgs"
 
-rsync -av RPMS/* /pkgs
+rsync -av RPMS/*/*rpm /pkgs
 
 # add write permissions since this is created by root
 # and we need to remove them from the cross-mount later

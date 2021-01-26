@@ -51,12 +51,9 @@ done
 
 # perform the install and test
 
-#./redhat/install_pkg_and_test.redhat -t centos -v 6  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t centos -v 7  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t centos -v 8  -p ${lrose_pkg}
 
-#./redhat/install_pkg_and_test.redhat -t fedora -v 29 -p ${lrose_pkg}
-#./redhat/install_pkg_and_test.redhat -t fedora -v 30 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 31 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 32 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 33 -p ${lrose_pkg}

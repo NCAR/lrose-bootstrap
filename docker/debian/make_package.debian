@@ -77,13 +77,12 @@ fi
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/debian
+cd ~/git/lrose-containers/docker/debian
 
 # create directory to hold the .deb file
 # that will be written
 
-pkgDir=/tmp/${os_type}-${os_version}-${lrose_pkg}/pkgs
-/bin/rm -rf $pkgDir
+pkgDir=/tmp/lrose-pkgs
 mkdir -p $pkgDir
 
 # make scripts available to container
@@ -103,10 +102,11 @@ docker run \
 
 # ensure the release dir exists
 
-releaseDir=${HOME}/releases/lrose-${lrose_pkg}
+releaseDir=${HOME}/releases/${lrose_pkg}
 mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 
-rsync -av ${pkgDir}/*.deb ${releaseDir}
+echo rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*deb ${releaseDir}
+rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*deb ${releaseDir}
 
