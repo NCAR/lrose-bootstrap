@@ -89,7 +89,7 @@ mkdir -p BUILD RPMS SOURCES SPECS SRPMS
 
 echo "==>> creating spec file"
 
-name=lrose-${lrose_pkg}
+name=${lrose_pkg}
 version=${release_date}
 if [ "$release_date" == "latest" ]
 then
