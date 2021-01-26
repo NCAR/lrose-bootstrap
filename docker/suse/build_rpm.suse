@@ -89,7 +89,7 @@ mkdir -p BUILD RPMS SOURCES SPECS SRPMS
 
 echo "==>> creating spec file"
 
-name=lrose-${lrose_pkg}
+name=${lrose_pkg}
 version=${release_date}
 if [ "$release_date" == "latest" ]
 then
@@ -124,7 +124,7 @@ rpmbuild -v -bb ./SPECS/rpm.spec
 
 echo "==>> rsync rpm back to /pkgs"
 
-rsync -av RPMS/* /pkgs
+rsync -av RPMS/*/*rpm /pkgs
 
 # add write permissions since this is created by root
 # and we need to remove them from the cross-mount later

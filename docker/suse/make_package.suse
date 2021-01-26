@@ -77,21 +77,24 @@ fi
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/suse
+cd ~/git/lrose-containers/docker/suse
 
 # create directory that will hold the .rpm file
 
-pkgDir=/tmp/${os_type}-${os_version}-${lrose_pkg}/pkgs
-/bin/rm -rf $pkgDir
+pkgDir=/tmp/lrose-pkgs
 mkdir -p $pkgDir
+
+# make scripts available to container
+
+scriptsDir=`pwd`
 
 # run script in container to make the package
 # use -v to cross-mount the pkgs directory and
 # scripts directory into the container
 
 docker run \
+    -v ${scriptsDir}:/scripts \
     -v ${pkgDir}:/pkgs \
-    -v `pwd`:/scripts \
     build.${lrose_pkg}/${os_type}:${os_version} \
     /scripts/build_rpm.suse \
     -t ${os_type} -v ${os_version} \
@@ -99,10 +102,11 @@ docker run \
 
 # ensure the release dir exists
 
-releaseDir=${HOME}/releases/lrose-${lrose_pkg}
+releaseDir=${HOME}/releases/${lrose_pkg}
 mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 
-rsync -av ${pkgDir}/*/*.rpm ${releaseDir}
+echo rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
+rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 
