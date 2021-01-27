@@ -83,11 +83,7 @@ fi
 
 is_centos=`grep CentOS /etc/redhat-release`
 is_centos_8=`grep VERSION_ID /etc/os-release | grep 8`
-if [ -n "$is_centos" ]; then
-    yum -y update --nogpgcheck
-    echo "==>> install epel-release <<=="
-    yum install -y epel-release
-elif [ -n "$is_centos_8" ]; then
+if [ -n "$is_centos_8" ]; then
 # for centos 8, perform extra actions
     dnf -y update --nogpgcheck
     dnf install -y epel-release
@@ -95,6 +91,10 @@ elif [ -n "$is_centos_8" ]; then
     dnf config-manager --set-enabled powertools
     dnf install -y python2 python3
     alternatives --set python /usr/bin/python3
+elif [ -n "$is_centos" ]; then
+    yum -y update --nogpgcheck
+    echo "==>> install epel-release <<=="
+    yum install -y epel-release
 else
     yum -y update --nogpgcheck
 fi

@@ -53,6 +53,7 @@ done
 
 ./redhat/install_pkg_and_test.redhat -t centos -v 7  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t centos -v 8  -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t centos -v latest  -p ${lrose_pkg}
 
 ./redhat/install_pkg_and_test.redhat -t fedora -v 31 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 32 -p ${lrose_pkg}

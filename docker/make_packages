@@ -53,6 +53,7 @@ done
 
 ./redhat/make_package.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
 ./redhat/make_package.redhat -t centos -v 8  -p ${lrose_pkg} -r ${release_date}
+./redhat/make_package.redhat -t centos -v latest  -p ${lrose_pkg} -r ${release_date}
 
 ./redhat/make_package.redhat -t fedora -v 31 -p ${lrose_pkg} -r ${release_date}
 ./redhat/make_package.redhat -t fedora -v 32 -p ${lrose_pkg} -r ${release_date}
