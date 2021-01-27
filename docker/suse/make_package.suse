@@ -83,7 +83,7 @@ mkdir -p $pkgDir
 
 # go to scripts dir
 
-scriptsDir=~/git/lrose-containers/docker/redhat
+scriptsDir=~/git/lrose-containers/docker/suse
 cd $scriptsDir
 
 # set the container image to run
@@ -93,6 +93,10 @@ image=build.${lrose_pkg}/${os_type}:${os_version}
 # run script in container to make the package
 # use -v to cross-mount the pkgs directory and
 # scripts directory into the container
+
+echo "pkgDir: $pkgDir"
+echo "scriptsDir: $scriptsDir"
+echo "image: $image"
 
 docker run \
     -v ${scriptsDir}:/scripts \

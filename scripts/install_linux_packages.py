@@ -316,6 +316,10 @@ def installPackagesFedora():
 
 def installPackagesDebian():
 
+    # set the environment
+
+    os.environ["DEBIAN_FRONTEND"] = "noninteractive"
+
     # install main packages
     
     shellCmd("apt-get -y update")

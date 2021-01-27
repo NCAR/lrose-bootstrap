@@ -92,6 +92,7 @@ echo "  ==>>> logPath: $logPath"
 
 # install package
 
+export DEBIAN_FRONTEND=noninteractive
 apt-get install -y ${debPath}
 
 # check that RadxPrint runs
