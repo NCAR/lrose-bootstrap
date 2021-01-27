@@ -21,7 +21,7 @@ Requires: bzip2-devel
 Requires: eigen3-devel
 Requires: expat-devel
 Requires: fftw3-devel 
-Requires: flex-devel
+Requires: flex
 Requires: hdf5-devel
 Requires: libX11-devel
 Requires: libXext-devel 
@@ -33,7 +33,7 @@ Requires: netcdf-devel
 Requires: openmpi-devel 
 Requires: qt5-qtbase-devel
 Requires: qt5-qtdeclarative-devel 
-Requires: xorg-x11-apps
+Requires: xorg-x11-utils
 Requires: xorg-x11-xauth
 Requires: rpm-devel
 Requires: zlib-devel

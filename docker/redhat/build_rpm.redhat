@@ -109,14 +109,17 @@ then
   echo "NOTE - using rpm.spec.body.cidd"
   cat /scripts/rpm.spec.body.cidd >> rpm.spec
 else
-  cat /scripts/rpm.spec.body >> rpm.spec
-#  if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
-#  then
-#    echo "NOTE - using rpm.spec.body.centos8"
-#    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
-#  else
-#    cat /scripts/rpm.spec.body >> rpm.spec
-#  fi
+ if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
+ then
+   echo "NOTE - using rpm.spec.body.centos8"
+   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
+ elif [[ "$os_type" = centos ]] && [[ "$os_version" = latest ]]
+ then
+   echo "NOTE - using rpm.spec.body.centos8"
+   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
+ else
+   cat /scripts/rpm.spec.body >> rpm.spec
+ fi
 fi
 
 echo "==>> spec file contents:"

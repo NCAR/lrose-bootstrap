@@ -18,7 +18,7 @@ License:        BSD
  
 Requires: armadillo 
 Requires: bzip2
-Requires: eigen3
+Requires: eigen3-devel
 Requires: expat
 Requires: fftw3 
 Requires: flex

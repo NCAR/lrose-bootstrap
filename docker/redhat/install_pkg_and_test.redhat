@@ -10,7 +10,7 @@
 
 function usage() {
     echo
-    echo "Install lrose rpm in clean docker container"
+    echo "Install lrose rpm in clean docker container, and test"
     echo "Usage:"
     echo "  $scriptName [options below]"
     echo "  -h   :  help"
@@ -68,50 +68,40 @@ then
   echo "    lrose_pkg: ${lrose_pkg}"
 fi
 
-# go to scripts dir
+# go to pkgs dir
 
-cd ~/git/lrose-core/build/packages/redhat
-
-# compute Dockerfile path
-
-DockerfilePath=/tmp/docker/Dockerfile.install.${os_type}.${os_version}.${lrose_pkg}
-echo "Dockerfile path: " $DockerfilePath
-
-# create Dockerfile preamble with the FROM command
-
-mkdir -p /tmp/docker
-echo "#####################################################" > ${DockerfilePath}
-echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
-echo "#" >> ${DockerfilePath}
-
-# append the body of the Dockerfile
-
-cat Dockerfile.redhat.install >> ${DockerfilePath}
-echo "Dockerfile content:"
-cat ${DockerfilePath}
-
-# remove any old image
-
-tag=install.${lrose_pkg}/${os_type}:${os_version}
-docker image rm -f ${tag}
+pkgDir=/tmp/lrose-pkgs
+cd $pkgDir
 
 # make rpm file available to container
 
-pkgDir=/tmp/${os_type}-${os_version}-${lrose_pkg}/pkgs
+rpmName=`ls ${lrose_pkg}*${os_type}_${os_version}*.rpm`
+logName=${lrose_pkg}.${os_type}_${os_version}.install_log.txt
+rpmPath=${pkgDir}/${rpmName}
+logPath=${pkgDir}/${logName}
+echo "==>>  rpmPath: $rpmPath"
+echo "==>>  logPath: $logPath"
 
-# make install scripts available to container
+# go to scripts dir
 
-scriptsDir=`pwd`
+scriptsDir=~/git/lrose-containers/docker/redhat
+cd ${scriptsDir}
 
-# run the install, creating a new image for it
+# set the container image to run
 
-cd /tmp/docker
+image=docker.io/${os_type}:${os_version}
 
-docker build \
-    -v ${pkgDir}:/pkgs \
+# install the container and test an app from it
+
+docker run \
     -v ${scriptsDir}:/scripts \
-    --build-arg OS_TYPE=${os_type} \
-    --tag ${tag} \
-    --file ${DockerfilePath} .
+    -v ${pkgDir}:/pkgs \
+    ${image} \
+    /scripts/perform_install.redhat \
+    -t ${os_type} -v ${os_version} \
+    -p ${lrose_pkg} -n ${rpmName} -l ${logName}
 
+# print out the log file
+
+cat $logPath
 
