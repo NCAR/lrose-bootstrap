@@ -473,7 +473,7 @@ def createCMakeLists():
 
     dependDirsStr = ""
     if (options.buildNetcdf):
-        dependDirsStr = " --dependDirs " + prefixLibDir + " "
+        dependDirsStr = " --dependDirs " + prefixDir + " "
 
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr +
