@@ -133,13 +133,13 @@ rpmbuild -v -bb ./SPECS/rpm.spec
 
 # copy the rpm to the cross-mounted director
 
-echo "==>> rsync rpm back to /pkgs"
+echo "==>> rsync rpm back to /pkgDir"
 
-rsync -av RPMS/*/*rpm /pkgs
+rsync -av RPMS/*/*rpm /pkgDir
 
 # add write permissions since this is created by root
 # and we need to remove them from the cross-mount later
 
-chmod o+w -R /pkgs
-chmod g+w -R /pkgs
+chmod o+w -R /pkgDir
+chmod g+w -R /pkgDir
 

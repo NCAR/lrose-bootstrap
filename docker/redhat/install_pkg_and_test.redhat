@@ -70,12 +70,12 @@ fi
 
 # go to pkgs dir
 
-pkgDir=/tmp/lrose-pkgs
+pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
 cd $pkgDir
 
 # make rpm file available to container
 
-rpmName=`ls ${lrose_pkg}*${os_type}_${os_version}*.rpm`
+rpmName=`ls *.rpm`
 logName=${lrose_pkg}.${os_type}_${os_version}.install_log.txt
 rpmPath=${pkgDir}/${rpmName}
 logPath=${pkgDir}/${logName}
@@ -95,7 +95,7 @@ image=docker.io/${os_type}:${os_version}
 
 docker run \
     -v ${scriptsDir}:/scripts \
-    -v ${pkgDir}:/pkgs \
+    -v ${pkgDir}:/pkgDir \
     ${image} \
     /scripts/perform_install.redhat \
     -t ${os_type} -v ${os_version} \

@@ -77,7 +77,8 @@ fi
 
 # create directory that will hold the .rpm file
 
-pkgDir=/tmp/lrose-pkgs
+pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+/bin/rm -rf $pkgDir
 mkdir -p $pkgDir
 
 # go to scripts dir
@@ -95,7 +96,7 @@ image=build.${lrose_pkg}/${os_type}:${os_version}
 
 docker run \
     -v ${scriptsDir}:/scripts \
-    -v ${pkgDir}:/pkgs \
+    -v ${pkgDir}:/pkgDir \
     $image \
     /scripts/build_rpm.redhat \
     -t ${os_type} -v ${os_version} \
@@ -108,7 +109,6 @@ mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 
-echo rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 
 

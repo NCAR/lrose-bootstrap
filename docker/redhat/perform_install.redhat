@@ -101,9 +101,9 @@ fi
 
 # get the rpm
 
-rpmPath=/pkgs/${rpm_name}
+rpmPath=/pkgDir/${rpm_name}
 echo "  ==>>> rpmPath: $rpmPath"
-logPath=/pkgs/${log_name}
+logPath=/pkgDir/${log_name}
 echo "  ==>>> logPath: $logPath"
 
 # install the rpm
