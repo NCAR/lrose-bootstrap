@@ -14,18 +14,28 @@ function usage() {
     echo "  $scriptName [options below]"
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
+    echo "  -p ? :  set lrose_pkg"
+    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
     echo "  -t ? :  set os_type"
-    echo "          e.g. debian, ubuntu"
+    echo "          e.g. centos, fedora"
+    echo "  -v ? :  set os_version"
+    echo "          e.g. 7 for centos 7, 29 for fedora 29"
+    echo "  -n ? :  set deb name"
+    echo "  -l ? :  set log name"
     echo
 }
 
 scriptName=$(basename $0)
 
-os_type=centos
+os_type=debian
+os_version=9
+lrose_pkg=lrose-core
 debug=true
+deb_name=unknown
+log_name=unknown
 
 # Parse command line options.
-while getopts hdt: OPT; do
+while getopts hdt:p:v:n:l: OPT; do
     case "$OPT" in
         h)
             usage
@@ -34,8 +44,20 @@ while getopts hdt: OPT; do
         d)
             debug=true
             ;;
+        p)
+            lrose_pkg=$OPTARG
+            ;;
         t)
             os_type=$OPTARG
+            ;;
+        v)
+            os_version=$OPTARG
+            ;;
+        n)
+            deb_name=$OPTARG
+            ;;
+        l)
+            log_name=$OPTARG
             ;;
         \?)
             # getopts issues an error message
@@ -49,23 +71,37 @@ done
 if [ "$debug" == "true" ]
 then
   echo "Running $scriptName"
-  echo "  performing .deb install"
+  echo "  performing deb install"
   echo "    os_type: ${os_type}"
+  echo "    os_version: ${os_version}"
+  echo "    lrose_pkg: ${lrose_pkg}"
+  echo "    deb_name: ${deb_name}"
+  echo "    log_name: ${log_name}"
 fi
 
 # update
 
 apt-get update
 
-# install package
+# get the .deb path and log path
 
-debPath=`ls /pkgs/*.deb`
-echo "  pkgFile: $debPath"
+debPath=/pkgDir/${deb_name}
+echo "  ==>>> debPath: $debPath"
+logPath=/pkgDir/${log_name}
+echo "  ==>>> logPath: $logPath"
+
+# install package
 
 apt-get install -y ${debPath}
 
 # check that RadxPrint runs
 
 export LD_LIBRARY_PATH=/usr/local/lrose/lib
+/usr/local/lrose/bin/RadxPrint -h > $logPath 2>&1
 
-/usr/local/lrose/bin/RadxPrint -h
+# add write permissions since this is created by root
+# and we need to remove them from the cross-mount later
+
+chmod o+w -R $logPath
+chmod g+w -R $logPath
+

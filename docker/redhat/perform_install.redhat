@@ -108,7 +108,7 @@ echo "  ==>>> logPath: $logPath"
 
 # install the rpm
 
-yum install -y ${rpmPath}
+yum install --nogpgcheck -y ${rpmPath}
 
 # check that RadxPrint runs
 

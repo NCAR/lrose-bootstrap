@@ -109,6 +109,7 @@ mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 
+echo rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 rsync -av ${pkgDir}/${lrose_pkg}*${os_type}*${os_version}*rpm ${releaseDir}
 
 

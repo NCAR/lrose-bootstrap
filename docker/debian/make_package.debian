@@ -75,27 +75,28 @@ then
   echo "    release_date: ${release_date}"
 fi
 
-# go to scripts dir
+# create directory that will hold the .deb file
 
-cd ~/git/lrose-containers/docker/debian
-
-# create directory to hold the .deb file
-# that will be written
-
-pkgDir=/tmp/lrose-pkgs
+pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+/bin/rm -rf $pkgDir
 mkdir -p $pkgDir
 
-# make scripts available to container
+# go to scripts dir
 
-scriptsDir=`pwd`
+scriptsDir=~/git/lrose-containers/docker/debian
+cd $scriptsDir
+
+# set the container image to run
+
+image=build.${lrose_pkg}/${os_type}:${os_version}
 
 # run script in container to make the package
 # use -v to cross-mount the tmp directory into the container
 
 docker run \
     -v ${scriptsDir}:/scripts \
-    -v ${pkgDir}:/pkgs \
-    build.${lrose_pkg}/${os_type}:${os_version} \
+    -v ${pkgDir}:/pkgDir \
+    $image \
     /scripts/build_pkg.debian \
     -t ${os_type} -v ${os_version} \
     -p ${lrose_pkg} -r ${release_date}

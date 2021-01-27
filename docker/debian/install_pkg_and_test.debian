@@ -68,50 +68,40 @@ then
   echo "    lrose_pkg: ${lrose_pkg}"
 fi
 
+# go to pkgs dir
+
+pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+cd $pkgDir
+
+# get path to deb file and log file
+
+debName=`ls *.deb`
+logName=${lrose_pkg}.${os_type}_${os_version}.install_log.txt
+debPath=${pkgDir}/${debName}
+logPath=${pkgDir}/${logName}
+echo "==>>  debPath: $debPath"
+echo "==>>  logPath: $logPath"
+
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/debian
+scriptsDir=~/git/lrose-containers/docker/debian
+cd ${scriptsDir}
 
-# compute Dockerfile path
+# set the container image to run
 
-DockerfilePath=/tmp/docker/Dockerfile.install.${os_type}.${os_version}.${lrose_pkg}
-echo "Dockerfile path: " $DockerfilePath
+image=docker.io/${os_type}:${os_version}
 
-# create Dockerfile preamble with the FROM command
+# install the container and test an app from it
 
-mkdir -p /tmp/docker
-echo "####################################################" > ${DockerfilePath}
-echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
-echo "#" >> ${DockerfilePath}
-
-# append the body of the Dockerfile
-
-cat Dockerfile.debian.install >> ${DockerfilePath}
-echo "Dockerfile content:"
-cat ${DockerfilePath}
-
-# remove any old image
-
-tag=install.${lrose_pkg}/${os_type}:${os_version}
-docker image rm -f ${tag}
-
-# make .deb file available to container
-
-pkgDir=/tmp/${os_type}-${os_version}-${lrose_pkg}/pkgs
-
-# make install scripts available to container
-
-scriptsDir=`pwd`
-
-# run the install, creating a new image for it
-
-cd /tmp/docker
-
-docker build \
-    -v ${pkgDir}:/pkgs \
+docker run \
     -v ${scriptsDir}:/scripts \
-    --build-arg OS_TYPE=${os_type} \
-    --tag ${tag} \
-    --file ${DockerfilePath} .
+    -v ${pkgDir}:/pkgDir \
+    ${image} \
+    /scripts/perform_install.debian \
+    -t ${os_type} -v ${os_version} \
+    -p ${lrose_pkg} -n ${debName} -l ${logName}
 
+# print out the log file
+
+cat $logPath
 

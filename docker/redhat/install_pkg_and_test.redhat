@@ -73,7 +73,7 @@ fi
 pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
 cd $pkgDir
 
-# make rpm file available to container
+# get path to rpm file and log file
 
 rpmName=`ls *.rpm`
 logName=${lrose_pkg}.${os_type}_${os_version}.install_log.txt
