@@ -472,14 +472,12 @@ def createCMakeLists():
         debugStr = " --debug "
 
     dependDirsStr = ""
-    noFindNetcdfStr = ""
     if (options.buildNetcdf):
         dependDirsStr = " --dependDirs " + prefixDir + " "
-        noFindNetcdfStr = " --noFindNetcdf "
 
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
-             withJasperStr + dependDirsStr + noFindNetcdfStr +
+             withJasperStr + dependDirsStr +
              " --pkg " + package + " --installPrefix " + prefixDir)
 
 ########################################################################
