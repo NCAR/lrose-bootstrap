@@ -1,2 +1,4 @@
-# lrose-docker
-Scripts for docker builds for LROSE
+# lrose-bootstrap
+
+Bootstrap scripts for chkecking out and building LROSE.
+
