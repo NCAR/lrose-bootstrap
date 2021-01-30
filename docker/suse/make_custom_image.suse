@@ -80,13 +80,13 @@ echo "#" >> ${DockerfilePath}
 
 echo "RUN zypper -y update; zypper install -y python git" >> $DockerfilePath
 
-# get lrose-containers
+# get lrose-bootstrap
 
-echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-containers" >> $DockerfilePath
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
 
 # add install packages by calling python script
 
-echo "RUN ~/git/lrose-containers/scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # append the body of the Dockerfile
 # cat Dockerfile.suse.custom >> ${DockerfilePath}

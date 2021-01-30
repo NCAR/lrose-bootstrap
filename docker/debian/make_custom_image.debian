@@ -80,13 +80,13 @@ echo "#" >> ${DockerfilePath}
 
 echo "RUN apt-get update; apt-get install -y python git" >> $DockerfilePath
 
-# get lrose-containers
+# get lrose-bootstrap
 
-echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-containers" >> $DockerfilePath
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
 
 # add install packages by calling python script
 
-echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-containers/scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
 
 # append the body of the Dockerfile
 # cat Dockerfile.debian.custom >> ${DockerfilePath}

@@ -83,7 +83,7 @@ mkdir -p $pkgDir
 
 # go to scripts dir
 
-scriptsDir=~/git/lrose-containers/docker/redhat
+scriptsDir=~/git/lrose-bootstrap/docker/redhat
 cd $scriptsDir
 
 # set the container image to run

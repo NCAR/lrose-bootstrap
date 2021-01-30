@@ -84,7 +84,7 @@ echo "==>>  logPath: $logPath"
 
 # go to scripts dir
 
-scriptsDir=~/git/lrose-containers/docker/suse
+scriptsDir=~/git/lrose-bootstrap/docker/suse
 cd ${scriptsDir}
 
 # set the container image to run

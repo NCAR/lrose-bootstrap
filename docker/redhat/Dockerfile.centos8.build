@@ -11,7 +11,7 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    cd; cd git/lrose-containers; git pull; \
+    cd; cd git/lrose-bootstrap; git pull; \
     ./scripts/checkout_and_build_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
