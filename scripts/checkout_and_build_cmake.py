@@ -478,7 +478,7 @@ def createCMakeLists():
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr +
-             " --pkg " + package + " --installPrefix " + prefixDir)
+             " --installPrefix " + prefixDir)
 
 ########################################################################
 # write release information file
@@ -983,12 +983,14 @@ def shellCmd(cmd):
 
     print("Running cmd:", cmd, file=sys.stderr)
     
-    #if (logPath.find('no-logging') >= 0):
-    cmdToRun = cmd
-    #else:
-    #    print("Log file is:", logPath, file=sys.stderr)
-    #    print("    ....", file=sys.stderr)
-    #    cmdToRun = cmd + " 1>> " + logPath + " 2>&1"
+    if (options.verbose):
+        cmdToRun = cmd
+    elif (logPath.find('no-logging') >= 0):
+        cmdToRun = cmd
+    else:
+        print("Log file is:", logPath, file=sys.stderr)
+        print("    ....", file=sys.stderr)
+        cmdToRun = cmd + " 1>> " + logPath + " 2>&1"
 
     try:
         retcode = subprocess.check_call(cmdToRun, shell=True)
