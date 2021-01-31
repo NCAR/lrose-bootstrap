@@ -1,4 +1,4 @@
-# lrose-bootstrap
+# lrose-release
 
-Bootstrap scripts for chkecking out and building LROSE.
+Scripts for checking out and building LROSE, for release purposes.
 
