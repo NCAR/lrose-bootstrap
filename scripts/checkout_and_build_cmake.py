@@ -666,14 +666,14 @@ def buildPackage():
 
     logPath = prepareLogFile("build-libs");
     os.chdir(os.path.join(cmakeBuildDir, "libs"))
-    cmd = "make -k -j 8"
+    cmd = "make -j 8"
     shellCmd(cmd)
 
     # install the libraries
 
-    logPath = prepareLogFile("install-libs-to-tmp");
+    logPath = prepareLogFile("install-libs");
 
-    cmd = "make -k -j 8 install/strip"
+    cmd = "make -j 8 install/strip"
     shellCmd(cmd)
 
     if (options.no_core_apps == False):
@@ -689,20 +689,20 @@ def buildPackage():
 
         logPath = prepareLogFile("build-apps");
         os.chdir(os.path.join(cmakeBuildDir, "apps"))
-        cmd = "make -k -j 8"
+        cmd = "make -j 8"
         shellCmd(cmd)
         
         # install the apps
         
-        logPath = prepareLogFile("install-apps-to-tmp");
-        cmd = "make -k -j 8 install/strip"
+        logPath = prepareLogFile("install-apps");
+        cmd = "make -j 8 install/strip"
         shellCmd(cmd)
 
     # optionally install the scripts
 
     if (options.package == "lrose-core" and options.noScripts == False):
 
-        logPath = prepareLogFile("install-scripts-to-tmp");
+        logPath = prepareLogFile("install-scripts");
 
         # install perl5
         
