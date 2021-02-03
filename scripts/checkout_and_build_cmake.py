@@ -175,6 +175,12 @@ def main():
               file=sys.stderr)
         sys.exit(1)
 
+    # For Centos 7, use cmake3
+
+    getOSType()
+    if (osId == "centos" and osVersion == "7"):
+        options.use_cmake3 = True
+
     # for CIDD, set to static linkage
     if (options.package == "lrose-cidd"):
         options.static = True
@@ -234,6 +240,8 @@ def main():
 
     if (options.debug):
         print("Running %s:" % thisScriptName, file=sys.stderr)
+        print("  osId: ", osId, file=sys.stderr)
+        print("  osVersion: ", osVersion, file=sys.stderr)
         print("  package: ", package, file=sys.stderr)
         print("  releaseDate: ", releaseDate, file=sys.stderr)
         print("  releaseName: ", releaseName, file=sys.stderr)
@@ -944,16 +952,18 @@ def buildSamurai():
 
 def getOSType():
 
+    global osId, osVersion
+    osId = ""
+    osVersion = ""
+
     osrelease_file = open("/etc/os-release", "rt")
     lines = osrelease_file.readlines()
     osrelease_file.close()
-    osType = "unknown"
     for line in lines:
-        if (line.find('PRETTY_NAME') == 0):
-            lineParts = line.split('=')
-            osParts = lineParts[1].split('"')
-            osType = osParts[1]
-    return osType
+        if (line.find('ID=') == 0):
+            osId = line.split('=')[1].replace('"', '').strip()
+        elif (line.find('VERSION_ID=') == 0):
+            osVersion = line.split('=')[1].replace('"', '').strip()
 
 ########################################################################
 # prepare log file
