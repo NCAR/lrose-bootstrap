@@ -69,7 +69,7 @@ def main():
 
     usage = "usage: " + thisScriptName + " [options]"
     homeDir = os.environ['HOME']
-    prefixDirDefault = os.path.join(homeDir, 'lrose-install')
+    prefixDirDefault = os.path.join(homeDir, 'lrose')
     buildDirDefault = '/tmp/lrose-build'
     logDirDefault = '/tmp/lrose-build/logs'
     parser = OptionParser(usage)
