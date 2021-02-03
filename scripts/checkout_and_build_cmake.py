@@ -478,7 +478,7 @@ def createCMakeLists():
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr +
-             " --installPrefix " + prefixDir)
+             " --prefix " + prefixDir)
 
 ########################################################################
 # write release information file
