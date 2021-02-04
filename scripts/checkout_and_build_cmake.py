@@ -712,29 +712,29 @@ def buildPackage():
 
         logPath = prepareLogFile("install-scripts");
 
-        # install perl5
-        
-        perl5InstallDir = os.path.join(prefixLibDir, "perl5")
-        try:
-            os.makedirs(perl5InstallDir)
-        except:
-            print("Dir exists: " + perl5InstallDir, file=logFp)
-
-        perl5SourceDir = os.path.join(codebaseDir, "libs/perl5/src")
-        print("==>> perl5SourceDir:", perl5SourceDir, file=logFp)
-        print("==>> perl5InstallDir:", perl5InstallDir, file=logFp)
-        if (os.path.isdir(perl5SourceDir)):
-            os.chdir(perl5SourceDir)
-            cmd = "rsync -av *pm " + perl5InstallDir
-            print("running cmd:", cmd, file=logFp)
-            shellCmd("rsync -av *pm " + perl5InstallDir)
-
         # general
 
         generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
         if (os.path.isdir(generalScriptsDir)):
             os.chdir(generalScriptsDir)
             shellCmd("./install_scripts.lrose " + prefixScriptsDir)
+
+        # install perl5 - deprecated
+        #
+        #perl5InstallDir = os.path.join(prefixLibDir, "perl5")
+        #try:
+        #    os.makedirs(perl5InstallDir)
+        #except:
+        #    print("Dir exists: " + perl5InstallDir, file=logFp)
+        #
+        #perl5SourceDir = os.path.join(codebaseDir, "libs/perl5/src")
+        #print("==>> perl5SourceDir:", perl5SourceDir, file=logFp)
+        #print("==>> perl5InstallDir:", perl5InstallDir, file=logFp)
+        #if (os.path.isdir(perl5SourceDir)):
+        #    os.chdir(perl5SourceDir)
+        #    cmd = "rsync -av *pm " + perl5InstallDir
+        #    print("running cmd:", cmd, file=logFp)
+        #    shellCmd("rsync -av *pm " + perl5InstallDir)
 
 ########################################################################
 # perform final install
