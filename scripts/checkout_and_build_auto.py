@@ -42,15 +42,17 @@ def main():
 
     global options
     global package
-    global prefix
+
     global releaseName
     global releaseTag
     global releaseDate
+
     global netcdfDir
     global displaysDir
+
     global coreDir
     global codebaseDir
-    global scratchBuildDir
+
     global tmpBinDir
     global tmpLibDir
     global binDir
@@ -59,6 +61,13 @@ def main():
     global runtimeLibRelDir
     global includeDir
     global shareDir
+
+    global prefixDir
+    global prefixBinDir
+    global prefixLibDir
+    global prefixIncludeDir
+    global prefixShareDir
+
     global dateStr
     global debugStr
     global logPath
@@ -121,10 +130,6 @@ def main():
                       'Install dynamic runtime lrose libraries for all binaries, ' + \
                       'in a directory relative to the bin dir. ' + \
                       'System libraries are not included.')
-    parser.add_option('--noScripts',
-                      dest='noScripts', default=False,
-                      action="store_true",
-                      help='Do not install runtime scripts as well as binaries')
     parser.add_option('--buildNetcdf',
                       dest='buildNetcdf', default=False,
                       action="store_true",
@@ -145,12 +150,8 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake for samurai')
-    parser.add_option('--geolib',
-                      dest='build_geolib', default=False,
-                      action="store_true",
-                      help='Build and install geolib - for fractl, samurai')
-    parser.add_option('--no_core_apps',
-                      dest='no_core_apps', default=False,
+    parser.add_option('--noApps',
+                      dest='noApps', default=False,
                       action="store_true",
                       help='Do not build the lrose core apps')
 
@@ -172,7 +173,21 @@ def main():
               file=sys.stderr)
         sys.exit(1)
 
+    # For Centos 7, use cmake3
+
+    getOSType()
+    if (osId == "centos" and osVersion == "7"):
+        options.use_cmake3 = True
+
+    # cmake version
+
+    global cmakeExec
+    cmakeExec = 'cmake'
+    if (options.use_cmake3):
+        cmakeExec = 'cmake3'
+    
     # for CIDD, set to static linkage
+
     if (options.package == "lrose-cidd"):
         options.static = True
         
@@ -183,7 +198,6 @@ def main():
         debugStr = " --debug "
 
     package = options.package
-    prefix = options.prefix
     runtimeLibRelDir = package + "_runtime_libs"
 
     # runtime
@@ -229,10 +243,19 @@ def main():
     includeDir = os.path.join(prefix, 'include')
     shareDir = os.path.join(prefix, 'share')
     
+    prefix = options.prefix
+    prefixBinDir = os.path.join(prefixDir, 'bin')
+    prefixLibDir = os.path.join(prefixDir, 'lib')
+    prefixIncludeDir = os.path.join(prefixDir, 'include')
+    prefixShareDir = os.path.join(prefixDir, 'share')
+    prefixScriptsDir = os.path.join(prefixDir, 'scripts')
+
     # debug print
 
     if (options.debug):
         print("Running %s:" % thisScriptName, file=sys.stderr)
+        print("  osId: ", osId, file=sys.stderr)
+        print("  osVersion: ", osVersion, file=sys.stderr)
         print("  package: ", package, file=sys.stderr)
         print("  releaseDate: ", releaseDate, file=sys.stderr)
         print("  releaseName: ", releaseName, file=sys.stderr)
@@ -251,11 +274,10 @@ def main():
         print("  shareDir: ", shareDir, file=sys.stderr)
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
-        print("  build_geolib: ", options.build_geolib, file=sys.stderr)
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
-        print("  no_core_apps: ", options.no_core_apps, file=sys.stderr)
+        print("  noApps: ", options.noApps, file=sys.stderr)
 
     # create build dir
     
@@ -371,20 +393,16 @@ def main():
 
     # build CSU packages
 
-    if (options.build_geolib):
-        logPath = prepareLogFile("geolib");
-        buildGeolib()
-
     if (options.build_fractl):
-        logPath = prepareLogFile("fractl");
+        logPath = prepareLogFile("build-fractl");
         buildFractl()
 
     if (options.build_vortrac):
-        logPath = prepareLogFile("vortrac");
+        logPath = prepareLogFile("build-vortrac");
         buildVortrac()
 
     if (options.build_samurai):
-        logPath = prepareLogFile("samurai");
+        logPath = prepareLogFile("build-samurai");
         buildSamurai()
 
     sys.exit(0)
@@ -706,12 +724,12 @@ def buildPackage():
 
     # install the libraries
 
-    logPath = prepareLogFile("install-libs-to-tmp");
+    logPath = prepareLogFile("install-libs");
 
     cmd = "make -k install-strip"
     shellCmd(cmd)
 
-    if (options.no_core_apps == False):
+    if (options.noApps == False):
 
         # build the apps
 
@@ -722,39 +740,20 @@ def buildPackage():
         
         # install the apps
         
-        logPath = prepareLogFile("install-apps-to-tmp");
+        logPath = prepareLogFile("install-apps");
         cmd = "make -k install-strip"
         shellCmd(cmd)
 
-    # optionally install the scripts
+    # install the scripts
 
-    if (options.package == "lrose-core" and options.noScripts == False):
-
-        logPath = prepareLogFile("install-scripts-to-tmp");
-
-        # general
-
-        generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
-        if (os.path.isdir(generalScriptsDir)):
-            os.chdir(generalScriptsDir)
-            shellCmd("./install_scripts.lrose " + scriptsDir)
-
-        # install perl5 - deprecated
-        #
-        #perl5InstallDir = os.path.join(prefix, "lib/perl5")
-        #try:
-        #    os.makedirs(perl5InstallDir)
-        #except:
-        #    print("Dir exists: " + perl5InstallDir, file=logFp)
-        #
-        #perl5SourceDir = os.path.join(codebaseDir, "libs/perl5/src")
-        #print("==>> perl5SourceDir:", perl5SourceDir, file=logFp)
-        #print("==>> perl5InstallDir:", perl5InstallDir, file=logFp)
-        #if (os.path.isdir(perl5SourceDir)):
-        #    os.chdir(perl5SourceDir)
-        #    cmd = "rsync -av *pm " + perl5InstallDir
-        #    print("running cmd:", cmd, file=logFp)
-        #    shellCmd("rsync -av *pm " + perl5InstallDir)
+    logPath = prepareLogFile("install-scripts");
+    
+    # general
+    
+    generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
+    if (os.path.isdir(generalScriptsDir)):
+        os.chdir(generalScriptsDir)
+        shellCmd("./install_scripts.lrose " + scriptsDir)
 
 ########################################################################
 # perform final install
@@ -809,7 +808,7 @@ def checkInstall():
              " --package " + package)
     print("====================================================")
 
-    if (options.no_core_apps == False):
+    if (options.noApps == False):
         print(("============= Checking apps for " + package + " ============="))
         shellCmd("./build/scripts/checkApps.py" + \
                  " --prefix " + prefix + \
@@ -904,40 +903,31 @@ def buildFractl():
     global logPath
 
     print("==>> buildFractl", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
-    print("====>> includeDir: ", includeDir, file=sys.stderr)
-    print("====>> libDir: ", libDir, file=sys.stderr)
-    print("====>> binDir: ", binDir, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
+    
+    # set the environment
 
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
+    
     # check out fractl
 
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf fractl")
     shellCmd("git clone https://github.com/mmbell/fractl")
-    os.chdir("./fractl")
 
-    # set the environment
+    # run cmake to create makefiles
 
-    os.environ["LROSE_PREFIX"] = prefix
-    os.environ["LROSE_ROOT_DIR"] = prefix
-    os.environ["LROSE_INCLUDE_DIRS"] = includeDir
-    os.environ["LROSE_LIB_DIR"] = libDir
-    os.environ["LROSE_BIN_DIR"] = binDir
-    os.environ["CMAKE_INSTALL_PREFIX"] = prefix
+    fractlDir = os.path.join(options.buildDir, "fractl");
+    cmakeBuildDir = os.path.join(fractlDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
     
-    # create makefiles
-
-    cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
+    
+    # do the build and install
 
-    # do the build
-
-    cmd = "make -j 4"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     return
@@ -950,47 +940,47 @@ def buildVortrac():
     global logPath
 
     print("====>> buildVortrac", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
+
+    # set the environment
+
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
 
     # check out vortrac
 
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf vortrac")
     shellCmd("git clone https://github.com/mmbell/vortrac")
-    os.chdir("./vortrac/src")
 
-    # set the environment
+    # run cmake to create makefiles
 
-    os.environ["LROSE_INSTALL_DIR"] = prefix
-
-    osType = getOSType()
-    if (osType == 'Debian GNU/Linux 10 (buster)' or
-        osType == 'Ubuntu 19.10'):
-        # cmake does not work in latest Debian versions
-        # so copy in Makefile instead of using qmake
-        shellCmd("/bin/cp -f _makefiles/Makefile.debian10 Makefile")
-    else:
-        # create Makefile using cmake
-        cmd = "qmake ."
-        shellCmd(cmd)
-
-    # do the build
-
-    cmd = "make -j 4"
+    vortracDir = os.path.join(options.buildDir, "vortrac");
+    cmakeBuildDir = os.path.join(vortracDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
+    
+    # run cmake to create makefiles - in-source build
+    
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
     
+    # do the build and install
+    
+    cmd = "make -k -j 8 install/strip"
+    shellCmd(cmd)
+    
+    # install resources
+    
+    os.chdir(vortracDir)
+
     if (sys.platform == "darwin"):
-        cmd = "rsync ../Resources/*.xml vortrac.app/Contents/Resources"
+        os.makedirs("vortrac.app/Contents/Resources")
+        cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
         shellCmd(cmd)
 
-    cmd = "rsync ../Resources " + prefix
+    cmd = "rsync -av Resources " + prefixDir
     shellCmd(cmd)
     
-    # do the install
-
-    cmd = "rsync ./vortrac " + binDir
-    shellCmd(cmd)
-
     return
 
 ########################################################################
@@ -1001,43 +991,31 @@ def buildSamurai():
     global logPath
 
     print("==>> buildSamurai", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
-    print("====>> includeDir: ", includeDir, file=sys.stderr)
-    print("====>> libDir: ", libDir, file=sys.stderr)
-    print("====>> binDir: ", binDir, file=sys.stderr)
+    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
 
+    # set the environment
+
+    os.environ["LROSE_INSTALL_DIR"] = prefixDir
+    
     # check out samurai
 
     os.chdir(options.buildDir)
     shellCmd("/bin/rm -rf samurai")
     shellCmd("git clone https://github.com/mmbell/samurai")
-    os.chdir("./samurai")
-
-    # set the environment
-
-    os.environ["LROSE_PREFIX"] = prefix
-    os.environ["LROSE_ROOT_DIR"] = prefix
-    os.environ["LROSE_INCLUDE_DIRS"] = includeDir
-    os.environ["LROSE_LIB_DIR"] = libDir
-    os.environ["LROSE_BIN_DIR"] = binDir
-    os.environ["CMAKE_INSTALL_PREFIX"] = prefix
     
-    # create makefiles
+    # run cmake to create makefiles - in-source build
+    
+    samuraiDir = os.path.join(options.buildDir, "samurai");
+    cmakeBuildDir = os.path.join(samuraiDir, "build")
+    os.makedirs(cmakeBuildDir)
+    os.chdir(cmakeBuildDir)
 
-    if (options.use_cmake3):
-        cmd = "cmake3 -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
-    else:
-        cmd = "cmake -DCMAKE_INSTALL_PREFIX=" + prefix + " ."
+    cmd = cmakeExec + " .."
     shellCmd(cmd)
 
-    # do the build
+    # do the build and install
 
-    cmd = "make -j 4"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
+    cmd = "make -k -j 8 install/strip"
     shellCmd(cmd)
 
     return
@@ -1047,16 +1025,18 @@ def buildSamurai():
 
 def getOSType():
 
+    global osId, osVersion
+    osId = ""
+    osVersion = ""
+
     osrelease_file = open("/etc/os-release", "rt")
     lines = osrelease_file.readlines()
     osrelease_file.close()
-    osType = "unknown"
     for line in lines:
-        if (line.find('PRETTY_NAME') == 0):
-            lineParts = line.split('=')
-            osParts = lineParts[1].split('"')
-            osType = osParts[1]
-    return osType
+        if (line.find('ID=') == 0):
+            osId = line.split('=')[1].replace('"', '').strip()
+        elif (line.find('VERSION_ID=') == 0):
+            osVersion = line.split('=')[1].replace('"', '').strip()
 
 ########################################################################
 # prepare log file
@@ -1086,7 +1066,9 @@ def shellCmd(cmd):
 
     print("Running cmd:", cmd, file=sys.stderr)
     
-    if (logPath.find('no-logging') >= 0):
+    if (options.verbose):
+        cmdToRun = cmd
+    elif (logPath.find('no-logging') >= 0):
         cmdToRun = cmd
     else:
         print("Log file is:", logPath, file=sys.stderr)

@@ -59,7 +59,6 @@ def main():
     global prefixLibDir
     global prefixIncludeDir
     global prefixShareDir
-    global prefixScriptsDir
 
     global dateStr
     global logPath
@@ -88,7 +87,7 @@ def main():
     parser.add_option('--package',
                       dest='package', default='lrose-core',
                       help='Package name. Options are: ' + \
-                      'lrose-core (default), lrose-radx, lrose-cidd, samurai')
+                      'lrose-core (default), lrose-radx, lrose-cidd, apar, samurai')
     parser.add_option('--releaseDate',
                       dest='releaseDate', default='latest',
                       help='Date from which to compute tag for git clone. Applies if --tag is not used.')
@@ -122,10 +121,6 @@ def main():
                       'Install dynamic runtime lrose libraries for all binaries, ' + \
                       'in a directory relative to the bin dir. ' + \
                       'System libraries are not included.')
-    parser.add_option('--noScripts',
-                      dest='noScripts', default=False,
-                      action="store_true",
-                      help='Do not install runtime scripts as well as binaries')
     parser.add_option('--buildNetcdf',
                       dest='buildNetcdf', default=False,
                       action="store_true",
@@ -146,8 +141,8 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake for samurai')
-    parser.add_option('--no_core_apps',
-                      dest='no_core_apps', default=False,
+    parser.add_option('--noApps',
+                      dest='noApps', default=False,
                       action="store_true",
                       help='Do not build the lrose core apps')
     parser.add_option('--withJasper',
@@ -169,6 +164,7 @@ def main():
     if (options.package != "lrose-core" and
         options.package != "lrose-radx" and
         options.package != "lrose-cidd" and
+        options.package != "apar" and
         options.package != "samurai") :
         print("ERROR: invalid package name: %s:" % options.package, file=sys.stderr)
         print("  options: lrose-core, lrose-radx, lrose-cidd, samurai",
@@ -181,6 +177,13 @@ def main():
     if (osId == "centos" and osVersion == "7"):
         options.use_cmake3 = True
 
+    # cmake version
+
+    global cmakeExec
+    cmakeExec = 'cmake'
+    if (options.use_cmake3):
+        cmakeExec = 'cmake3'
+    
     # for CIDD, set to static linkage
     if (options.package == "lrose-cidd"):
         options.static = True
@@ -227,15 +230,7 @@ def main():
     prefixLibDir = os.path.join(prefixDir, 'lib')
     prefixIncludeDir = os.path.join(prefixDir, 'include')
     prefixShareDir = os.path.join(prefixDir, 'share')
-    prefixScriptsDir = os.path.join(prefixDir, 'scripts')
 
-    # cmake version
-
-    global cmakeExec
-    cmakeExec = 'cmake'
-    if (options.use_cmake3):
-        cmakeExec = 'cmake3'
-    
     # debug print
 
     if (options.debug):
@@ -264,7 +259,7 @@ def main():
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
-        print("  no_core_apps: ", options.no_core_apps, file=sys.stderr)
+        print("  noApps: ", options.noApps, file=sys.stderr)
 
     # create build dir
     
@@ -369,15 +364,15 @@ def main():
     # build CSU packages
 
     if (options.build_fractl):
-        logPath = prepareLogFile("fractl");
+        logPath = prepareLogFile("build-fractl");
         buildFractl()
 
     if (options.build_vortrac):
-        logPath = prepareLogFile("vortrac");
+        logPath = prepareLogFile("build-vortrac");
         buildVortrac()
 
     if (options.build_samurai):
-        logPath = prepareLogFile("samurai");
+        logPath = prepareLogFile("build-samurai");
         buildSamurai()
 
     sys.exit(0)
@@ -684,7 +679,7 @@ def buildPackage():
     cmd = "make -j 8 install/strip"
     shellCmd(cmd)
 
-    if (options.no_core_apps == False):
+    if (options.noApps == False):
 
         # build and install tdrp_gen
 
@@ -705,36 +700,6 @@ def buildPackage():
         logPath = prepareLogFile("install-apps");
         cmd = "make -j 8 install/strip"
         shellCmd(cmd)
-
-    # optionally install the scripts
-
-    if (options.package == "lrose-core" and options.noScripts == False):
-
-        logPath = prepareLogFile("install-scripts");
-
-        # general
-
-        generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
-        if (os.path.isdir(generalScriptsDir)):
-            os.chdir(generalScriptsDir)
-            shellCmd("./install_scripts.lrose " + prefixScriptsDir)
-
-        # install perl5 - deprecated
-        #
-        #perl5InstallDir = os.path.join(prefixLibDir, "perl5")
-        #try:
-        #    os.makedirs(perl5InstallDir)
-        #except:
-        #    print("Dir exists: " + perl5InstallDir, file=logFp)
-        #
-        #perl5SourceDir = os.path.join(codebaseDir, "libs/perl5/src")
-        #print("==>> perl5SourceDir:", perl5SourceDir, file=logFp)
-        #print("==>> perl5InstallDir:", perl5InstallDir, file=logFp)
-        #if (os.path.isdir(perl5SourceDir)):
-        #    os.chdir(perl5SourceDir)
-        #    cmd = "rsync -av *pm " + perl5InstallDir
-        #    print("running cmd:", cmd, file=logFp)
-        #    shellCmd("rsync -av *pm " + perl5InstallDir)
 
 ########################################################################
 # perform final install
@@ -771,7 +736,7 @@ def checkInstall():
              " --package " + package)
     print("====================================================")
 
-    if (options.no_core_apps == False):
+    if (options.noApps == False):
         print(("============= Checking apps for " + package + " ============="))
         shellCmd("./build/scripts/checkApps.py" + \
                  " --prefix " + prefixDir + \
