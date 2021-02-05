@@ -375,8 +375,6 @@ def main():
         logPath = prepareLogFile("build-samurai");
         buildSamurai()
 
-    sys.exit(0)
-
     # delete the tmp dir
 
     if (options.clean):

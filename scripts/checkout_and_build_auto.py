@@ -2,7 +2,7 @@
 
 #===========================================================================
 #
-# Checkout and build LROSE, using autoconf and configure.
+# Checkout and build LROSE, using autoconf/automake and configure.
 #
 # This script performs the following steps:
 #
@@ -52,15 +52,7 @@ def main():
 
     global coreDir
     global codebaseDir
-
-    global tmpBinDir
-    global tmpLibDir
-    global binDir
-    global scriptsDir
-    global libDir
     global runtimeLibRelDir
-    global includeDir
-    global shareDir
 
     global prefixDir
     global prefixBinDir
@@ -69,7 +61,6 @@ def main():
     global prefixShareDir
 
     global dateStr
-    global debugStr
     global logPath
     global logFp
 
@@ -78,8 +69,8 @@ def main():
     usage = "usage: " + thisScriptName + " [options]"
     homeDir = os.environ['HOME']
     prefixDirDefault = os.path.join(homeDir, 'lrose')
-    buildDirDefault = '/tmp/lrose_build'
-    logDirDefault = '/tmp/lrose_build/logs'
+    buildDirDefault = '/tmp/lrose-build'
+    logDirDefault = '/tmp/lrose-build/logs'
     parser = OptionParser(usage)
     parser.add_option('--clean',
                       dest='clean', default=False,
@@ -96,7 +87,7 @@ def main():
     parser.add_option('--package',
                       dest='package', default='lrose-core',
                       help='Package name. Options are: ' + \
-                      'lrose-core (default), lrose-radx, lrose-cidd, samurai')
+                      'lrose-core (default), lrose-radx, lrose-cidd, apar, samurai')
     parser.add_option('--releaseDate',
                       dest='releaseDate', default='latest',
                       help='Date from which to compute tag for git clone. Applies if --tag is not used.')
@@ -105,13 +96,13 @@ def main():
                       help='Tag to check out lrose. Overrides --releaseDate')
     parser.add_option('--prefix',
                       dest='prefix', default=prefixDirDefault,
-                      help='Install directory, default is ~/lrose')
+                      help='Install directory, default: ' + prefixDirDefault)
     parser.add_option('--buildDir',
                       dest='buildDir', default=buildDirDefault,
-                      help='Temporary build dir, default is /tmp/lrose_build')
+                      help='Temporary build dir, default: ' + buildDirDefault)
     parser.add_option('--logDir',
                       dest='logDir', default=logDirDefault,
-                      help='Logging dir, default is /tmp/lrose_build/logs')
+                      help='Logging dir, default: ' + logDirDefault)
     parser.add_option('--static',
                       dest='static', default=False,
                       action="store_true",
@@ -163,13 +154,12 @@ def main():
     # check package name
 
     if (options.package != "lrose-core" and
-        options.package != "lrose-blaze" and
-        options.package != "lrose-cyclone" and
         options.package != "lrose-radx" and
         options.package != "lrose-cidd" and
+        options.package != "apar" and
         options.package != "samurai") :
         print("ERROR: invalid package name: %s:" % options.package, file=sys.stderr)
-        print("  options: lrose-core, lrose-blaze, lrose-cyclone, lrose-cidd, samurai",
+        print("  options: lrose-core, lrose-radx, lrose-cidd, samurai",
               file=sys.stderr)
         sys.exit(1)
 
@@ -187,16 +177,9 @@ def main():
         cmakeExec = 'cmake3'
     
     # for CIDD, set to static linkage
-
     if (options.package == "lrose-cidd"):
         options.static = True
         
-    debugStr = " "
-    if (options.verbose):
-        debugStr = " --verbose "
-    elif (options.debug):
-        debugStr = " --debug "
-
     package = options.package
     runtimeLibRelDir = package + "_runtime_libs"
 
@@ -229,26 +212,16 @@ def main():
 
     # set directories
     
-    scratchBuildDir = os.path.join(options.buildDir, 'scratch')
     coreDir = os.path.join(options.buildDir, "lrose-core")
     displaysDir = os.path.join(options.buildDir, "lrose-displays")
     netcdfDir = os.path.join(options.buildDir, "lrose-netcdf")
     codebaseDir = os.path.join(coreDir, "codebase")
 
-    tmpBinDir = os.path.join(scratchBuildDir, 'bin')
-    tmpLibDir = os.path.join(scratchBuildDir, 'lib')
-    binDir = os.path.join(prefix, 'bin')
-    scriptsDir = os.path.join(prefix, 'scripts')
-    libDir = os.path.join(prefix, 'lib')
-    includeDir = os.path.join(prefix, 'include')
-    shareDir = os.path.join(prefix, 'share')
-    
-    prefix = options.prefix
+    prefixDir = options.prefix
     prefixBinDir = os.path.join(prefixDir, 'bin')
     prefixLibDir = os.path.join(prefixDir, 'lib')
     prefixIncludeDir = os.path.join(prefixDir, 'include')
     prefixShareDir = os.path.join(prefixDir, 'share')
-    prefixScriptsDir = os.path.join(prefixDir, 'scripts')
 
     # debug print
 
@@ -267,13 +240,14 @@ def main():
         print("  codebaseDir: ", codebaseDir, file=sys.stderr)
         print("  displaysDir: ", displaysDir, file=sys.stderr)
         print("  netcdfDir: ", netcdfDir, file=sys.stderr)
-        print("  prefixDir: ", prefix, file=sys.stderr)
-        print("  binDir: ", binDir, file=sys.stderr)
-        print("  libDir: ", libDir, file=sys.stderr)
-        print("  includeDir: ", includeDir, file=sys.stderr)
-        print("  shareDir: ", shareDir, file=sys.stderr)
+        print("  prefixDir: ", prefixDir, file=sys.stderr)
+        print("  prefixBinDir: ", prefixBinDir, file=sys.stderr)
+        print("  prefixLibDir: ", prefixLibDir, file=sys.stderr)
+        print("  prefixIncludeDir: ", prefixIncludeDir, file=sys.stderr)
+        print("  prefixShareDir: ", prefixShareDir, file=sys.stderr)
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
+        print("  cmakeExec: ", cmakeExec, file=sys.stderr)
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
@@ -290,11 +264,13 @@ def main():
     logPath = os.path.join(options.logDir, "initialize");
     logFp = open(logPath, "w+")
     
-    # make tmp dirs
+    # make dirs
 
     try:
-        os.makedirs(scratchBuildDir)
-        os.makedirs(tmpBinDir)
+        os.makedirs(prefixDir)
+        os.makedirs(prefixBinDir)
+        os.makedirs(prefixLibDir)
+        os.makedirs(prefixIncludeDir)
         os.makedirs(options.logDir)
     except:
         print("  note - dirs already exist", file=sys.stderr)
@@ -331,7 +307,7 @@ def main():
     if (options.package.find("lrose-core") >= 0):
         mocDirs = ["apps/radar/src/HawkEye",
                    "apps/radar/src/HawkEdit",
-                   "apps/radar/src/Condor"]
+                   "apps/radar/src/IpsEye"]
     elif (options.package.find("lrose") >= 0):
         mocDirs = ["apps/radar/src/HawkEye"]
         
@@ -362,7 +338,7 @@ def main():
     if (options.installAllRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLibFiles.py"
         cmd = scriptPath + \
-              " --binDir " + tmpBinDir + \
+              " --binDir " + prefixBinDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -372,8 +348,8 @@ def main():
     elif (options.installLroseRuntimeLibs):
         scriptPath = "../build/scripts/installOriginLroseLibs.py"
         cmd = scriptPath + \
-              " --binDir " + tmpBinDir + \
-              " --libDir " + tmpLibDir + \
+              " --binDir " + prefixBinDir + \
+              " --libDir " + prefixLibDir + \
               " --relDir " + runtimeLibRelDir
         if (options.verbose):
             cmd = cmd + " --verbose"
@@ -404,8 +380,6 @@ def main():
     if (options.build_samurai):
         logPath = prepareLogFile("build-samurai");
         buildSamurai()
-
-    sys.exit(0)
 
     # delete the tmp dir
 
@@ -491,6 +465,12 @@ def setupAutoconf():
     shutil.copy("../build/autoconf/Makefile.top",
                 "./Makefile")
     
+    debugStr = " "
+    if (options.verbose):
+        debugStr = " --verbose "
+    elif (options.debug):
+        debugStr = " --debug "
+
     if (options.static):
         if (package == "lrose-cidd"):
             shutil.copy("../build/autoconf/configure.base.cidd",
@@ -532,7 +512,7 @@ def createReleaseInfoFile():
 
     # go to core dir
 
-    os.chdir(scratchBuildDir)
+    os.chdir(prefixDir)
 
     # open info file
 
@@ -665,12 +645,12 @@ def buildNetcdf():
 
     os.chdir(netcdfDir)
     if (package == "lrose-cidd"):
-        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + scratchBuildDir)
+        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + prefixDir)
     else:
         if sys.platform == "darwin":
-            shellCmd("./build_and_install_netcdf.osx -x " + scratchBuildDir)
+            shellCmd("./build_and_install_netcdf.osx -x " + prefixDir)
         else:
-            shellCmd("./build_and_install_netcdf -x " + scratchBuildDir)
+            shellCmd("./build_and_install_netcdf -x " + prefixDir)
 
 ########################################################################
 # build package
@@ -681,13 +661,14 @@ def buildPackage():
 
     # set the environment
 
-    os.environ["LDFLAGS"] = "-L" + scratchBuildDir + "/lib " + \
+    os.environ["LDFLAGS"] = "-L" + prefixLibDir + \
                             "-Wl,--enable-new-dtags," + \
                             "-rpath," + \
                             "'$$ORIGIN/" + runtimeLibRelDir + \
                             ":$$ORIGIN/../lib" + \
-                            ":" + libDir + \
-                            ":" + tmpLibDir + "'"
+                            ":" + prefixLibDir + \
+                            ":" + prefixLibDir + "'"
+
     os.environ["FC"] = "gfortran"
     os.environ["F77"] = "gfortran"
     os.environ["F90"] = "gfortran"
@@ -708,11 +689,11 @@ def buildPackage():
     logPath = prepareLogFile("run-configure");
     os.chdir(codebaseDir)
     if (options.buildNetcdf):
-        cmd = "./configure --with-hdf5=" + scratchBuildDir + \
-              " --with-netcdf=" + scratchBuildDir + \
-                                " --prefix=" + scratchBuildDir
+        cmd = "./configure --with-hdf5=" + prefixDir + \
+              " --with-netcdf=" + prefixDir + \
+                                " --prefix=" + prefixDir
     else:
-        cmd = "./configure --prefix=" + scratchBuildDir
+        cmd = "./configure --prefix=" + prefixDir
     shellCmd(cmd)
 
     # build the libraries
@@ -724,16 +705,20 @@ def buildPackage():
 
     # install the libraries
 
-    logPath = prepareLogFile("install-libs");
-
     cmd = "make -k install-strip"
     shellCmd(cmd)
 
     if (options.noApps == False):
 
-        # build the apps
+        # build tdrp_gen
 
         logPath = prepareLogFile("build-apps");
+        os.chdir(os.path.join(codebaseDir, "apps/tdrp/src/tdrp_gen"))
+        cmd = "make -j 8 install-strip"
+        shellCmd(cmd)
+        
+        # build the apps
+
         os.chdir(os.path.join(codebaseDir, "apps"))
         cmd = "make -k -j 8"
         shellCmd(cmd)
@@ -748,53 +733,33 @@ def buildPackage():
 
     logPath = prepareLogFile("install-scripts");
     
-    # general
-    
-    generalScriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
-    if (os.path.isdir(generalScriptsDir)):
-        os.chdir(generalScriptsDir)
-        shellCmd("./install_scripts.lrose " + scriptsDir)
+    scriptsDir = os.path.join(codebaseDir, "apps/scripts/src")
+    if (os.path.isdir(scriptsDir)):
+        os.chdir(scriptsDir)
+        shellCmd("./install_scripts.lrose " + prefixBinDir)
 
 ########################################################################
 # perform final install
 
 def doFinalInstall():
 
-    # make target dirs
-
-    try:
-        os.makedirs(binDir)
-        os.makedirs(libDir)
-        os.makedirs(includeDir)
-        os.makedirs(shareDir)
-    except:
-        print("  note - dirs already exist", file=logFp)
-    
     # install docs etc
     
     os.chdir(coreDir)
 
-    shellCmd("rsync -av LICENSE.txt " + prefix)
-    shellCmd("rsync -av release_notes " + prefix)
-    shellCmd("rsync -av docs " + prefix)
+    shellCmd("rsync -av LICENSE.txt " + prefixDir)
+    shellCmd("rsync -av release_notes " + prefixDir)
+    shellCmd("rsync -av docs " + prefixDir)
 
     if (package == "lrose-cidd"):
         shellCmd("rsync -av ./codebase/apps/cidd/src/CIDD/scripts " +
-                 options.prefix)
+                 prefixDir)
 
     # install color scales
 
     if (os.path.isdir(displaysDir)):
         os.chdir(displaysDir)
-        shellCmd("rsync -av color_scales " + shareDir)
-
-    # install binaries and libs
-
-    os.chdir(scratchBuildDir)
-
-    shellCmd("rsync -av bin " + prefix)
-    shellCmd("rsync -av lib " + prefix)
-    shellCmd("rsync -av include " + prefix)
+        shellCmd("rsync -av color_scales " + prefixShareDir)
 
 ########################################################################
 # check the install
@@ -804,20 +769,20 @@ def checkInstall():
     os.chdir(coreDir)
     print(("============= Checking libs for " + package + " ============="))
     shellCmd("./build/scripts/checkLibs.py" + \
-             " --prefix " + prefix + \
+             " --prefix " + prefixDir + \
              " --package " + package)
     print("====================================================")
 
     if (options.noApps == False):
         print(("============= Checking apps for " + package + " ============="))
         shellCmd("./build/scripts/checkApps.py" + \
-                 " --prefix " + prefix + \
+                 " --prefix " + prefixDir + \
                  " --package " + package)
         print("====================================================")
     
     print("**************************************************")
     print("*** Done building auto release *******************")
-    print(("*** Installed in dir: " + prefix + " ***"))
+    print(("*** Installed in dir: " + prefixDir + " ***"))
     print("**************************************************")
 
 ########################################################################
@@ -851,49 +816,6 @@ def prune(tree):
                 if (options.verbose):
                     print("pruning empty dir: " + tree, file=logFp)
                 shutil.rmtree(tree)
-
-########################################################################
-# build geographiclib
-
-def buildGeolib():
-
-    global logPath
-
-    print("==>> buildGeolib", file=sys.stderr)
-    print("====>> prefix: ", prefix, file=sys.stderr)
-
-    # check out fractl
-
-    os.chdir(options.buildDir)
-    shellCmd("/bin/rm -rf geographiclib")
-    shellCmd("git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib")
-    os.chdir("./geographiclib")
-    shellCmd("mkdir BUILD");
-    os.chdir("./BUILD")
-
-    # set the install environment
-
-    os.environ["LROSE_PREFIX"] = prefix
-    
-    # create makefiles
-
-    if (options.use_cmake3):
-        cmd = "cmake3 -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
-    else:
-        cmd = "cmake -D CMAKE_INSTALL_PREFIX=" + prefix + " .."
-    shellCmd(cmd)
-
-    # do the build
-
-    cmd = "make -j 4"
-    shellCmd(cmd)
-
-    # do the install
-
-    cmd = "make install"
-    shellCmd(cmd)
-
-    return
 
 ########################################################################
 # build fractl package
