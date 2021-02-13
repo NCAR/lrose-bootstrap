@@ -342,7 +342,7 @@ def installPackagesOracle():
 
     shellCmd("dnf install -y --allowerasing " +
              "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
-             "xorg-x11-xauth xorg-x11-apps " +
+             "xorg-x11-xauth " +
              "rpm-build redhat-rpm-config " +
              "rpm-devel rpmdevtools")
 
