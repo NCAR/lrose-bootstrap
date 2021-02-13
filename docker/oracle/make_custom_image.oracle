@@ -1,0 +1,102 @@
+#! /bin/bash
+
+###########################################################
+# build custom docker image for oracle, with required packages
+
+#--------------------------------------------------------------------
+# usage function
+#
+
+function usage() {
+    echo
+    echo "Create custom docker image for lrose"
+    echo "Usage:"
+    echo "  $scriptName [options below]"
+    echo "  -h   :  help"
+    echo "  -d   :  turn debugging on"
+    echo "  -t ? :  set os_type"
+    echo "          e.g. oraclelinux"
+    echo "  -v ? :  set os_version"
+    echo "          e.g. 8"
+    echo
+}
+
+scriptName=$(basename $0)
+
+os_type=oraclelinux
+os_version=8
+debug=true
+
+# Parse command line options.
+while getopts hdt:v: OPT; do
+    case "$OPT" in
+        h)
+            usage
+            exit 0
+            ;;
+        d)
+            debug=true
+            ;;
+        t)
+            os_type=$OPTARG
+            ;;
+        v)
+            os_version=$OPTARG
+            ;;
+        \?)
+            # getopts issues an error message
+            echo "Problems with command line usage"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+if [ "$debug" == "true" ]
+then
+  echo "Running $scriptName"
+  echo "  creating custom docker image for lrose"
+  echo "    os_type: ${os_type}"
+  echo "    os_version: ${os_version}"
+fi
+
+# go to scripts dir
+
+cd ~/git/lrose-core/build/packages/oracle
+
+# compute Dockerfile path
+
+mkdir -p /tmp/docker
+DockerfilePath=/tmp/docker/Dockerfile.custom.${os_type}.${os_version}
+echo "  DockerfileName is: " $DockerfileName
+
+#########################################################
+# create Dockerfile
+
+echo "  Creating DockerfilePath: " $DockerfilePath
+
+# add get image
+
+echo "####################################################" > $DockerfilePath
+echo "FROM ${os_type}:${os_version}" >> $DockerfilePath
+echo "#" >> $DockerfilePath
+
+# update and add install python and git
+
+echo "RUN dnf -y update; dnf install -y oracle-epel-release-el8; dnf install -y 'dnf-command(config-manager)'; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
+
+# get lrose-bootstrap
+
+echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
+
+# add install packages by calling python script
+
+echo "RUN ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
+
+# using the Dockerfile, create the custom image
+
+cd /tmp/docker
+
+docker build \
+    --tag custom/${os_type}:${os_version} \
+    --file ${DockerfilePath} .
