@@ -19,16 +19,16 @@ function usage() {
     echo "  -r ? :  set release_date"
     echo "          e.g. latest, 20190105"
     echo "  -t ? :  set os_type"
-    echo "          e.g. centos, fedora"
+    echo "          e.g. oraclelinux"
     echo "  -v ? :  set os_version"
-    echo "          e.g. 7 for centos 7, 29 for fedora 29"
+    echo "          e.g. 8"
     echo
 }
 
 scriptName=$(basename $0)
 
-os_type=centos
-os_version=7
+os_type=oraclelinux
+os_version=8
 lrose_pkg=lrose-core
 release_date=latest
 debug=true
@@ -92,21 +92,7 @@ echo "#" >> ${DockerfilePath}
 
 # append the body of the Dockerfile
 
-if [ "$lrose_pkg" = "cidd" ]
-then
-  cat Dockerfile.oracle.build.cidd >> ${DockerfilePath}
-else
-    # switch based on OS version
-    if [ "$os_type" = centos -a "$os_version" = 6 ] ; then
-        cat Dockerfile.centos6.build >> ${DockerfilePath}
-    elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
-        cat Dockerfile.centos7.build >> ${DockerfilePath}
-    elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
-        cat Dockerfile.centos8.build >> ${DockerfilePath}
-    else
-        cat Dockerfile.fedora.build >> ${DockerfilePath}
-    fi
-fi
+cat Dockerfile.oracle.build >> ${DockerfilePath}
 
 # remove old image if present
 

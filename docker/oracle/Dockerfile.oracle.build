@@ -1,24 +1,24 @@
 #===================================================
-# build lrose in centos8 container
+# build lrose in oracle linux container
 
 ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
-    echo "Building lrose in centos8 container"; \
+    echo "Building lrose in oraclelinux container"; \
     echo "  package is: ${LROSE_PKG}" 
 
 # run the checkout and build script
 
 RUN \
-    cd; cd git/lrose-bootstrap; git pull; \
+    cd; cd git/lrose-bootstrap; git pull --ff-only; \
     ./scripts/checkout_and_build_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --fractl --vortrac --samurai
+    --buildNetcdf
 
 # clean up
 
