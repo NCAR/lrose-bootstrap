@@ -10,8 +10,15 @@ These builds have been tested on the following versions:
 
   * centos 6
   * centos 7
+  * centos 8
+  * centos latest (stream)
+  * fedora 27
   * fedora 28
   * fedora 29
+  * fedora 30
+  * fedora 31
+  * fedora 32
+  * fedora 33
 
 ## Steps in the process
 
