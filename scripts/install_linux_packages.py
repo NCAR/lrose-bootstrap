@@ -123,18 +123,18 @@ def installPackagesCentos6():
     # install main packages
 
     shellCmd("yum install -y tcsh wget git tkcvs " +
-            "emacs rsync python " +
-            "m4 make cmake libtool autoconf automake " +
-            "gcc gcc-c++ gcc-gfortran glibc-devel " +
-            "libX11-devel libXext-devel " +
-            "libpng-devel libtiff-devel zlib-devel " +
-            "expat-devel libcurl-devel " +
-            "flex-devel fftw3-devel " +
-            "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
-            "hdf5-devel netcdf-devel " +
-            "xorg-x11-xauth xorg-x11-apps " +
-            "rpm-build redhat-rpm-config " +
-                 "rpm-devel rpmdevtools ")
+             "emacs rsync python " +
+             "m4 make cmake libtool autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel " +
+             "libX11-devel libXext-devel " +
+             "libpng-devel libtiff-devel zlib-devel " +
+             "expat-devel libcurl-devel " +
+             "flex-devel fftw3-devel " +
+             "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth xorg-x11-apps " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools ")
 
     # install required 32-bit packages for CIDD
 
