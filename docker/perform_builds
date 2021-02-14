@@ -70,3 +70,5 @@ done
 ./suse/do_lrose_build.suse -t opensuse -v latest -p ${lrose_pkg} -r ${release_date}
 ./suse/do_lrose_build.suse -t opensuse -v leap -p ${lrose_pkg} -r ${release_date}
 
+./oracle/do_lrose_build.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
+

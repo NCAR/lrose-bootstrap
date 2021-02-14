@@ -69,4 +69,5 @@ done
 ./suse/install_pkg_and_test.suse -t opensuse -v leap     -p ${lrose_pkg}
 ./suse/install_pkg_and_test.suse -t opensuse -v latest   -p ${lrose_pkg}
 
+./oracle/install_pkg_and_test.oracle -t oraclelinux -v 8 -p ${lrose_pkg}
 

@@ -65,3 +65,5 @@ docker image rm -f build.${lrose_pkg}/ubuntu:20.04
 
 docker image rm -f build.${lrose_pkg}/opensuse:leap
 docker image rm -f build.${lrose_pkg}/opensuse:latest
+
+docker image rm -f build.${lrose_pkg}/oraclelinux:8

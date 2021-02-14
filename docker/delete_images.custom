@@ -23,4 +23,7 @@ docker image rm -f custom/ubuntu:20.04
 docker image rm -f custom/opensuse:leap
 docker image rm -f custom/opensuse:latest
 
+docker image rm -f custom/oraclelinux:8
+
+
 
