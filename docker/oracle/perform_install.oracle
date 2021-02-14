@@ -15,11 +15,11 @@ function usage() {
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
     echo "  -p ? :  set lrose_pkg"
-    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
+    echo "          e.g. lrose-core, lrose-radx"
     echo "  -t ? :  set os_type"
-    echo "          e.g. centos, fedora"
+    echo "          e.g. oraclelinux"
     echo "  -v ? :  set os_version"
-    echo "          e.g. 7 for centos 7, 29 for fedora 29"
+    echo "          e.g. 8"
     echo "  -n ? :  set rpm name"
     echo "  -l ? :  set log name"
     echo
@@ -27,8 +27,8 @@ function usage() {
 
 scriptName=$(basename $0)
 
-os_type=centos
-os_version=7
+os_type=oraclelinux
+os_version=8
 lrose_pkg=lrose-core
 debug=true
 rpm_name=unknown
@@ -83,21 +83,12 @@ fi
 
 is_centos=`grep CentOS /etc/oracle-release`
 is_centos_8=`grep VERSION_ID /etc/os-release | grep 8`
-if [ -n "$is_centos_8" ]; then
-# for centos 8, perform extra actions
-    dnf -y update --nogpgcheck
-    dnf install -y epel-release
-    dnf install -y 'dnf-command(config-manager)'
-    dnf config-manager --set-enabled powertools
-    dnf install -y python2 python3
-    alternatives --set python /usr/bin/python3
-elif [ -n "$is_centos" ]; then
-    yum -y update --nogpgcheck
-    echo "==>> install epel-release <<=="
-    yum install -y epel-release
-else
-    yum -y update --nogpgcheck
-fi
+
+dnf -y update --nogpgcheck
+dnf install -y oracle-epel-release-el8
+dnf install -y 'dnf-command(config-manager)'
+dnf install -y python2 python3
+alternatives --set python /usr/bin/python3
 
 # get the rpm
 
@@ -108,16 +99,11 @@ echo "  ==>>> logPath: $logPath"
 
 # install the rpm
 
-yum install --nogpgcheck -y ${rpmPath}
+dnf install --nogpgcheck -y ${rpmPath}
 
 # check that RadxPrint runs
 
-if [ -f "/usr/local/cidd/bin/CIDD" ]
-then
-  /usr/local/cidd/bin/CIDD -h > $logPath 2>&1
-else
-  /usr/local/lrose/bin/RadxPrint -h > $logPath 2>&1
-fi
+/usr/local/lrose/bin/RadxPrint -h > $logPath 2>&1
 
 # add write permissions since this is created by root
 # and we need to remove them from the cross-mount later

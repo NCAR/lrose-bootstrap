@@ -19,20 +19,20 @@ function usage() {
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
     echo "  -p ? :  set lrose_pkg"
-    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
+    echo "          e.g. lrose-core, lrose-radx"
     echo "  -r ? :  set release_date"
     echo "          e.g. latest, 20190105"
     echo "  -t ? :  set os_type"
-    echo "          e.g. centos, fedora"
+    echo "          e.g. oraclelinux"
     echo "  -v ? :  set os_version"
-    echo "          e.g. 7 for centos 7, 29 for fedora 29"
+    echo "          e.g. 8"
     echo
 }
 
 scriptName=$(basename $0)
 
-os_type=centos
-os_version=7
+os_type=oraclelinux
+os_version=8
 lrose_pkg=lrose-core
 debug=true
 release_date=latest
@@ -104,24 +104,7 @@ echo "%define name ${name}" >> rpm.spec
 echo "%define version ${version}" >> rpm.spec
 echo "%define release ${release}" >> rpm.spec
 
-if [ "$lrose_pkg" = "cidd" ]
-then
-  echo "NOTE - using rpm.spec.body.cidd"
-  cat /scripts/rpm.spec.body.cidd >> rpm.spec
-else
- if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
- then
-   echo "NOTE - using rpm.spec.body.centos8"
-   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- elif [[ "$os_type" = centos ]] && [[ "$os_version" = latest ]]
- then
-   echo "NOTE - using rpm.spec.body.centos8"
-   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- else
-   cat /scripts/rpm.spec.body >> rpm.spec
- fi
-fi
-
+cat /scripts/rpm.spec.body.oracle >> rpm.spec
 echo "==>> spec file contents:"
 cat rpm.spec
 

@@ -16,18 +16,18 @@ function usage() {
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
     echo "  -p ? :  set lrose_pkg"
-    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
+    echo "          e.g. lrose-core, lrose-radx"
     echo "  -t ? :  set os_type"
-    echo "          e.g. centos, fedora"
+    echo "          e.g. oraclelinux"
     echo "  -v ? :  set os_version"
-    echo "          e.g. 7 for centos 7, 29 for fedora 29"
+    echo "          e.g. 8"
     echo
 }
 
 scriptName=$(basename $0)
 
-os_type=centos
-os_version=7
+os_type=oraclelinux
+os_version=8
 lrose_pkg=lrose-core
 debug=true
 
