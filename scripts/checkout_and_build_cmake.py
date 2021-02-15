@@ -29,6 +29,7 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 import glob
+from sys import platform
 
 def main():
 
@@ -140,7 +141,7 @@ def main():
     parser.add_option('--cmake3',
                       dest='use_cmake3', default=False,
                       action="store_true",
-                      help='Use cmake3 instead of cmake for samurai')
+                      help='Use cmake3 instead of cmake')
     parser.add_option('--noApps',
                       dest='noApps', default=False,
                       action="store_true",
@@ -911,6 +912,10 @@ def getOSType():
     global osId, osVersion
     osId = "unknown"
     osVersion = "unknown"
+
+    if sys.platform == "darwin":
+        osId = "darwin"
+        return
 
     if (os.path.isdir("/etc/os-release") == False):
         return
