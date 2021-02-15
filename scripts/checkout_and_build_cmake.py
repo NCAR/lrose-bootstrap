@@ -909,8 +909,11 @@ def buildSamurai():
 def getOSType():
 
     global osId, osVersion
-    osId = ""
-    osVersion = ""
+    osId = "unknown"
+    osVersion = "unknown"
+
+    if (os.path.isdir("/etc/os-release") == False):
+        return
 
     osrelease_file = open("/etc/os-release", "rt")
     lines = osrelease_file.readlines()
