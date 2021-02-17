@@ -8,7 +8,6 @@ To make use of these you will need to install docker.
 
 These builds have been tested on the following versions:
 
-  * centos 6
   * centos 7
   * centos 8
   * centos latest (stream)
@@ -31,45 +30,63 @@ The following are the steps required in the process:
 | Create the rpm | ```make_package.redhat``` |
 | Install and test the rpm | ```install_pkg_and_test.redhat``` |
 
+The details of the steps are as follows:
+
+### Create custom container: run ```make_custom_image.redhat```.
+
+Create a container, based on the OS image, with the relevant packages installed.
+
+The created container will be called, as an example:
+
+```
+  custom/centos:7
+```
+
+### Perform the lrose build: run ```do_lrose_build.redhat```.
+
+Perform the build in the custom container.
+
+This creates a new container, that will be called, as an example:
+
+```
+  build.lrose-core/centos:7
+```
+
+### Create the rpm: run ```make_package.redhat```.
+
+This will create the rpm from the build, and store it in, as an example:
+
+```
+  /tmp/pkg.centos_7.lrose-core/lrose-core-20210217-centos_7.x86_64.rpm
+```
+
+with a copy in
+
+```
+  $HOME/releases/lrose-core
+```
+
+### Install and test the rpm: run ```install_pkg_and_test.redhat```.
+
 For the test step, the RPM is installed into a clean container, and one of the applications is run to make sure the installation was successful.
 
-## Examples of running the scripts
-
-### Centos 6 for blaze
+The command we run as a test is:
 
 ```
-  make_custom_image.redhat centos 6
-  do_lrose_build.redhat centos 6 blaze
-  make_package.redhat centos 6 blaze
-  install_pkg_and_test.redhat centos 6 blaze
+  RadxPrint -h
 ```
 
-### Centos 7 for core
+On success this will create a log file with the output from ```RadxPrint```.
+
+The log file will be, as an example:
 
 ```
-  make_custom_image.redhat centos 7
-  do_lrose_build.redhat centos 7 core
-  make_package.redhat centos 7 core
-  install_pkg_and_test.redhat centos 7 core
+  /tmp/pkg.centos_7.lrose-core/lrose-core.centos_7.install_log.txt
 ```
 
-### Fedora 28 for blaze
+The length of the log file should be over 5000 bytes.
 
-```
-  make_custom_image.redhat fedora 28
-  do_lrose_build.redhat fedora 28 blaze
-  make_package.redhat fedora 28 blaze
-  install_pkg_and_test.redhat fedora 28 blaze
-```
-
-### Fedora 29 for core
-
-```
-  make_custom_image.redhat fedora 29
-  do_lrose_build.redhat fedora 29 core
-  make_package.redhat fedora 29 core
-  install_pkg_and_test.redhat fedora 29 core
-```
+If it is shorter than this, it is likely that an error occurred. Check the log file to see what went wrong.
 
 ## Location of RPMs
 
@@ -80,16 +97,17 @@ After the RPMs are built they are placed in /tmp.
 For example:
 
 ```
-  /tmp/centos-6-blaze/pkgs/x86_64/lrose-blaze-20190127.centos_6.x86_64.rpm
-  /tmp/centos-7-core/pkgs/x86_64/lrose-blaze-20190127.centos_7.x86_64.rpm
-  /tmp/fedora-28-blaze/pkgs/x86_64/lrose-blaze-20190127.fedora_28.x86_64.rpm
-  /tmp/fedora-29-core/pkgs/x86_64/lrose-blaze-20190127.fedora_29.x86_64.rpm
+  /tmp/pkg.centos_7.lrose-core/lrose-core-20210217-centos_7.x86_64.rpm
+  /tmp/pkg.centos_8.lrose-core/lrose-core-20210217-centos_8.x86_64.rpm
+  /tmp/pkg.centos_latest.lrose-core/lrose-core-20210217-centos_latest.x86_64.rpm
+  /tmp/pkg.fedora_31.lrose-core/lrose-core-20210217-fedora_31.x86_64.rpm
+  /tmp/pkg.fedora_31.lrose-core/lrose-core-20210217-fedora_32.x86_64.rpm
+  /tmp/pkg.fedora_31.lrose-core/lrose-core-20210217-fedora_33.x86_64.rpm
 ```
 
-These are also copied into the release directories:
+These are also copied into the release directory:
 
 ```
-  $HOME/releases/lrose-blaze
   $HOME/releases/lrose-core
 ```
 
@@ -108,7 +126,7 @@ This step is not needed for fedora.
 The use yum to install the RPM. For example:
 
 ```
-  yum install -y ./lrose-blaze-20190127.fedora_29.x86_64.rpm
+  yum install -y ./lrose-core-20210217-centos_7.x86_64.rpm
 ```
 
 Note that you need to specify the absolute path, hence the '.'.
