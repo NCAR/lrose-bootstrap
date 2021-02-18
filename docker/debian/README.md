@@ -52,7 +52,7 @@ This creates a new container, that will be called, as an example:
 This will create the rpm from the build, and store it in, as an example:
 
 ```
-  /tmp/pkg.centos_7.lrose-core/lrose-core-20210217-debian_10.amd64.deb
+  /tmp/pkg.debian_10.lrose-core/lrose-core-20210217-debian_10.amd64.deb
 ```
 
 with a copy in
