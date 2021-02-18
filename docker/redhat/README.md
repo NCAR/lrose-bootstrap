@@ -1,8 +1,8 @@
-# Building RPM packages for RedHat-type OSs (RHEL, CENTOS, FEDORA)
+# Building RPM packages for RedHat-based OSs (RHEL, CENTOS, FEDORA)
 
-## Building RPMS using docker
+## Building RPMS using Docker
 
-We use docker containers to build the RPMs for various RedHat versions of LINUX.
+We use Docker containers to build the RPMs for various RedHat versions of LINUX.
 
 To make use of these you will need to install docker.
 
