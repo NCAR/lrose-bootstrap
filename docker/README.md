@@ -18,7 +18,7 @@ There are 4 steps to this process:
 | [redhat](./redhat/README.md) | Centos, Fedora, RHEL |
 | [debian](./debian/README.md)   | Debian, Ubuntu |
 | [suse](./suse/README.md)  | OpenSuse |
-| [oracle](./suse/README.md)  | OracleLinux |
+| [oracle](./oracle/README.md)  | OracleLinux |
 
 ## High-level scripts
 
