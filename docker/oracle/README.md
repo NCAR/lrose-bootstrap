@@ -21,45 +21,63 @@ The following are the steps required in the process:
 | Create the rpm | ```make_package.oracle``` |
 | Install and test the rpm | ```install_pkg_and_test.oracle``` |
 
+The details of the steps are as follows:
+
+### Create custom container: run ```make_custom_image.oracle```.
+
+Create a container, based on the OS image, with the relevant packages installed.
+
+The created container will be called, as an example:
+
+```
+  custom/oraclelinux:8
+```
+
+### Perform the lrose build: run ```do_lrose_build.oracle```.
+
+Perform the build in the custom container.
+
+This creates a new container, that will be called, as an example:
+
+```
+  build.lrose-core/oraclelinux:8
+```
+
+### Create the rpm: run ```make_package.oracle```.
+
+This will create the rpm from the build, and store it in, as an example:
+
+```
+  /tmp/pkg.oraclelinux_8.lrose-core/lrose-core-20210217-oraclelinux_8.x86_64.rpm
+```
+
+with a copy in
+
+```
+  $HOME/releases/lrose-core
+```
+
+### Install and test the rpm: run ```install_pkg_and_test.oracle```.
+
 For the test step, the RPM is installed into a clean container, and one of the applications is run to make sure the installation was successful.
 
-## Examples of running the scripts
-
-### Centos 6 for blaze
+The command we run as a test is:
 
 ```
-  make_custom_image.oracle centos 6
-  do_lrose_build.oracle centos 6 blaze
-  make_package.oracle centos 6 blaze
-  install_pkg_and_test.oracle centos 6 blaze
+  RadxPrint -h
 ```
 
-### Centos 7 for core
+On success this will create a log file with the output from ```RadxPrint```.
+
+The log file will be, as an example:
 
 ```
-  make_custom_image.oracle centos 7
-  do_lrose_build.oracle centos 7 core
-  make_package.oracle centos 7 core
-  install_pkg_and_test.oracle centos 7 core
+  /tmp/pkg.oraclelinux_8.lrose-core/lrose-core.oraclelinux_8.install_log.txt
 ```
 
-### Fedora 28 for blaze
+The length of the log file should be over 5000 bytes.
 
-```
-  make_custom_image.oracle fedora 28
-  do_lrose_build.oracle fedora 28 blaze
-  make_package.oracle fedora 28 blaze
-  install_pkg_and_test.oracle fedora 28 blaze
-```
-
-### Fedora 29 for core
-
-```
-  make_custom_image.oracle fedora 29
-  do_lrose_build.oracle fedora 29 core
-  make_package.oracle fedora 29 core
-  install_pkg_and_test.oracle fedora 29 core
-```
+If it is shorter than this, it is likely that an error occurred. Check the log file to see what went wrong.
 
 ## Location of RPMs
 
@@ -70,16 +88,12 @@ After the RPMs are built they are placed in /tmp.
 For example:
 
 ```
-  /tmp/centos-6-blaze/pkgs/x86_64/lrose-blaze-20190127.centos_6.x86_64.rpm
-  /tmp/centos-7-core/pkgs/x86_64/lrose-blaze-20190127.centos_7.x86_64.rpm
-  /tmp/fedora-28-blaze/pkgs/x86_64/lrose-blaze-20190127.fedora_28.x86_64.rpm
-  /tmp/fedora-29-core/pkgs/x86_64/lrose-blaze-20190127.fedora_29.x86_64.rpm
+  /tmp/pkg.oraclelinux_8.lrose-core/lrose-core-20210217-oraclelinux_8.x86_64.rpm
 ```
 
-These are also copied into the release directories:
+These are also copied into the release directory:
 
 ```
-  $HOME/releases/lrose-blaze
   $HOME/releases/lrose-core
 ```
 
@@ -87,21 +101,18 @@ These are also copied into the release directories:
 
 You use yum to install the RPMs on your host.
 
-For RHEL and CENTOS, you first need to install epel-release:
+For ORACLE, you first need to install oracle-epel-release-el8:
 
 ```
-  yum install -y epel-release
+  yum install -y oracle-epel-release-el8
 ```
-
-This step is not needed for fedora.
 
 The use yum to install the RPM. For example:
 
 ```
-  yum install -y ./lrose-blaze-20190127.fedora_29.x86_64.rpm
+  yum install -y ./lrose-core-20210217-oraclelinux_8.x86_64.rpm
 ```
 
 Note that you need to specify the absolute path, hence the '.'.
 
-  
 
