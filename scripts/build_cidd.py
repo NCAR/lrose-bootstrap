@@ -50,8 +50,8 @@ def main():
     usage = "usage: " + thisScriptName + " [options]"
     homeDir = os.environ['HOME']
     prefixDirDefault = os.path.join(homeDir, 'cidd')
-    buildDirDefault = '/tmp/cidd_build'
-    logDirDefault = '/tmp/cidd_build/logs'
+    buildDirDefault = '/tmp/cidd-build'
+    logDirDefault = '/tmp/cidd-build/logs'
 
     parser = OptionParser(usage)
 
