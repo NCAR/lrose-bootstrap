@@ -458,7 +458,11 @@ def createCMakeLists():
     staticStr = " "
     if (options.static):
         staticStr = " --static "
-    
+
+    m32Str = " "
+    if (options.package == "lrose-cidd"):
+        m32Str = " --m32 "
+
     withJasperStr = " "
     if (options.withJasper):
         withJasperStr = " --withJasper "
@@ -479,7 +483,7 @@ def createCMakeLists():
 
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
-             withJasperStr + dependDirsStr +
+             withJasperStr + dependDirsStr + m32Str +
              " --prefix " + prefixDir)
 
 ########################################################################

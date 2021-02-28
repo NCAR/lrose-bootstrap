@@ -104,7 +104,7 @@ def main():
 
     # set the script dir (lsose-core/build)
     
-    scriptToCall = os.path.join(thisScriptDir, 'checkout_and_build_auto.py')
+    scriptToCall = os.path.join(thisScriptDir, 'checkout_and_build_cmake.py')
 
     # set up command
 
