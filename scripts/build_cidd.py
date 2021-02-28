@@ -132,7 +132,7 @@ def main():
     if (options.installLroseRuntimeLibs):
         cmd += " --installLroseRuntimeLibs"
 
-    cmd += " --noScripts"
+    # cmd += " --noScripts"
     cmd += " --buildNetcdf"
 
     # debug print
