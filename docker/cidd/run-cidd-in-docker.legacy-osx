@@ -62,7 +62,7 @@ lrose_docker_run_options () {
         #
         # handle case where XQuartz is not running on :0
         #
-        lrose_display_number=`ps -e | grep 'Xquartz :\d' | grep -v xinit | awk '{ print substr($5,2); }'`
+        lrose_display_number=`ps -e | grep 'Xquartz :\d' | grep -v bin\/xinit | awk '{ print substr($5,2); }'`
         #
         # if not set or empty, default to 0
         #
