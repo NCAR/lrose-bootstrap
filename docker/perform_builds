@@ -56,9 +56,10 @@ done
 
 #./redhat/do_lrose_build.redhat -t fedora -v 29 -p ${lrose_pkg} -r ${release_date}
 #./redhat/do_lrose_build.redhat -t fedora -v 30 -p ${lrose_pkg} -r ${release_date}
-./redhat/do_lrose_build.redhat -t fedora -v 31 -p ${lrose_pkg} -r ${release_date}
+#./redhat/do_lrose_build.redhat -t fedora -v 31 -p ${lrose_pkg} -r ${release_date}
 ./redhat/do_lrose_build.redhat -t fedora -v 32 -p ${lrose_pkg} -r ${release_date}
 ./redhat/do_lrose_build.redhat -t fedora -v 33 -p ${lrose_pkg} -r ${release_date}
+./redhat/do_lrose_build.redhat -t fedora -v 34 -p ${lrose_pkg} -r ${release_date}
 
 ./debian/do_lrose_build.debian -t debian -v 9 -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t debian -v 10 -p ${lrose_pkg} -r ${release_date}

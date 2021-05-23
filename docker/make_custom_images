@@ -13,9 +13,10 @@
 
 #./redhat/make_custom_image.redhat -t fedora -v 29 >& /tmp/make_custom_image.fedora.29.log &
 #./redhat/make_custom_image.redhat -t fedora -v 30 >& /tmp/make_custom_image.fedora.30.log &
-./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
+#./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
 ./redhat/make_custom_image.redhat -t fedora -v 32 >& /tmp/make_custom_image.fedora.32.log &
 ./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
+./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
 
 # DEBIAN
 
