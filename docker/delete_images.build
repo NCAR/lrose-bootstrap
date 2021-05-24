@@ -52,9 +52,10 @@ docker image rm -f build.${lrose_pkg}/centos:latest
 
 #docker image rm -f build.${lrose_pkg}/fedora:29
 #docker image rm -f build.${lrose_pkg}/fedora:30
-docker image rm -f build.${lrose_pkg}/fedora:31
+#docker image rm -f build.${lrose_pkg}/fedora:31
 docker image rm -f build.${lrose_pkg}/fedora:32
 docker image rm -f build.${lrose_pkg}/fedora:33
+docker image rm -f build.${lrose_pkg}/fedora:34
 
 docker image rm -f build.${lrose_pkg}/debian:9
 docker image rm -f build.${lrose_pkg}/debian:10
