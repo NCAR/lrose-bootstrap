@@ -40,7 +40,7 @@ echo "    os_version: latest"
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/cidd
+cd ~/git/lrose-bootstrap/docker/cidd
 
 # compute Dockerfile path
 
@@ -54,7 +54,7 @@ docker image rm -f ${tag}
 
 # make build script available to container
 
-scriptsDir=~/git/lrose-core/build
+scriptsDir=~/git/lrose-core/build/scripts
 
 # create the image
 

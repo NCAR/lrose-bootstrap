@@ -6,7 +6,7 @@
 # 1. install the required packages
 # 2. perform the build
 
-FROM centos
+FROM custom/centos:7
 
 RUN \
 # need to install epel-release first
