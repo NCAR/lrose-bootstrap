@@ -37,7 +37,7 @@ if [[ $docker_exit_code != 0 ]]; then
     echo 'Please install docker or add it to PATH'
     exit $docker_exit_code
 fi
-cidd_docker_image='nsflrose/lrose-cidd'
+cidd_docker_image='ncareol/lrose-cidd'
 echo
 echo "cidd_docker_image: " $cidd_docker_image
 

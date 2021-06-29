@@ -49,6 +49,7 @@ RUN \
     --prefix /usr/local/cidd \
     --buildDir /tmp/cidd_build \
     --buildNetcdf \
+    --installLroseRuntimeLibs \
     --logDir /tmp/cidd_build_logs; \
 # then clean up
     /bin/rm -rf /tmp/cidd_build /tmp/cidd_build_logs
