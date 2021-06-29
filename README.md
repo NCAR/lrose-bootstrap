@@ -47,3 +47,7 @@ for the usage.
 
 See: [Creating packages](./docker/README.md)
 
+## Build CIDD and push CIDD image to DockerHub
+
+See: [Build CIDD](./docker/docs/create_cidd_image_and_push_to_dockerhub.md)
+
