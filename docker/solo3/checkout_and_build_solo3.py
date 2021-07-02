@@ -64,9 +64,9 @@ def main():
 
     usage = "usage: " + thisScriptName + " [options]"
     homeDir = os.environ['HOME']
-    prefixDirDefault = os.path.join(homeDir, 'lrose')
-    buildDirDefault = '/tmp/lrose-build'
-    logDirDefault = '/tmp/lrose-build/logs'
+    prefixDirDefault = '/tmp/solo3-install'
+    buildDirDefault = '/tmp/solo3-build'
+    logDirDefault = '/tmp/solo3-build/logs'
     parser = OptionParser(usage)
     parser.add_option('--clean',
                       dest='clean', default=False,
@@ -85,7 +85,7 @@ def main():
                       help='Date from which to compute tag for git clone. Applies if --tag is not used.')
     parser.add_option('--tag',
                       dest='tag', default='master',
-                      help='Tag to check out lrose. Overrides --releaseDate')
+                      help='Tag to check out solo3. Overrides --releaseDate')
     parser.add_option('--prefix',
                       dest='prefix', default=prefixDirDefault,
                       help='Install directory, default: ' + prefixDirDefault)
@@ -95,10 +95,6 @@ def main():
     parser.add_option('--logDir',
                       dest='logDir', default=logDirDefault,
                       help='Logging dir, default: ' + logDirDefault)
-    parser.add_option('--static',
-                      dest='static', default=False,
-                      action="store_true",
-                      help='use static linking, default is dynamic')
     parser.add_option('--installRuntimeLibs',
                       dest='installRuntimeLibs', default=False,
                       action="store_true",
@@ -106,6 +102,10 @@ def main():
                       'Install dynamic runtime libraries for all binaries, ' + \
                       'in a directory relative to the bin dir. ' + \
                       'System libraries are included.')
+    parser.add_option('--static',
+                      dest='static', default=False,
+                      action="store_true",
+                      help='use static linking, default is dynamic')
     (options, args) = parser.parse_args()
     
     if (options.verbose):
@@ -135,13 +135,13 @@ def main():
                                int(dateStr[4:6]),
                                int(dateStr[6:8]))
         releaseTag = "master"
-        releaseName = options.package + "-" + dateStr
+        releaseName = package + "-" + dateStr
     else:
         # check we have a good release date
         releaseDate = datetime(int(options.releaseDate[0:4]),
                                int(options.releaseDate[4:6]),
                                int(options.releaseDate[6:8]))
-        releaseTag = options.package + "-" + options.releaseDate[0:8]
+        releaseTag = package + "-" + options.releaseDate[0:8]
         releaseName = releaseTag
 
     # set directories
@@ -319,10 +319,20 @@ def buildPackage():
     cmd = "env"
     shellCmd(cmd)
 
+    # run autoconf
+
+    os.chdir(solo3Dir)
+    logPath = prepareLogFile("run-autoconf");
+    if (options.static):
+        cmd = "./runAutoConf.py --dir ."
+    else:
+        cmd = "./runAutoConf.py --dir . --shared"
+    shellCmd(cmd)
+
     # run configure
 
-    logPath = prepareLogFile("run-configure");
     os.chdir(solo3Dir)
+    logPath = prepareLogFile("run-configure");
     cmd = "./configure --prefix=" + prefixDir
     shellCmd(cmd)
 
@@ -361,7 +371,7 @@ def checkInstall():
     shellCmd("./checkSolo3Install.py" + \
                  " --prefix " + prefixDir + \
                  " --package " + package)
-        print("====================================================")
+    print("====================================================")
     
     print("**************************************************")
     print("*** Done building auto release *******************")
