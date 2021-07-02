@@ -154,6 +154,10 @@ def main():
                       dest='verboseMake', default=False,
                       action="store_true",
                       help='Verbose output for make, default is summary')
+    parser.add_option('--iscray',
+                      dest='iscray', default=False,
+                      action="store_true",
+                      help='True if the Cray compiler is used')
 
     (options, args) = parser.parse_args()
     
@@ -481,10 +485,14 @@ def createCMakeLists():
     if (options.buildNetcdf):
         dependDirsStr = " --dependDirs " + prefixDir + " "
 
+    iscrayStr = ""
+    if (options.iscray):
+       iscrayStr = " --iscray "
+
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr + m32Str +
-             " --prefix " + prefixDir)
+             " --prefix " + prefixDir + iscrayStr)
 
 ########################################################################
 # write release information file
