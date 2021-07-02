@@ -341,12 +341,10 @@ def buildPackage():
     logPath = prepareLogFile("build-apps");
     cmd = "make -j 8"
     shellCmd(cmd)
-    cmd = "make -k install-strip"
-    shellCmd(cmd)
 
-    # install the libraries
+    # do the install
 
-    cmd = "make -k install-strip"
+    cmd = "make -k install"
     shellCmd(cmd)
 
 ########################################################################
@@ -369,8 +367,7 @@ def checkInstall():
     os.chdir(solo3Dir)
     print(("============= Checking install for " + package + " apps ============="))
     shellCmd("./checkSolo3Install.py" + \
-                 " --prefix " + prefixDir + \
-                 " --package " + package)
+                 " --prefix " + prefixDir)
     print("====================================================")
     
     print("**************************************************")
