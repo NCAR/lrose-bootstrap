@@ -54,7 +54,7 @@ docker image rm -f ${tag}
 
 # make build script available to container
 
-scriptsDir=~/git/lrose-core/build/scripts
+scriptsDir=~/git/lrose-bootstrap/docker/solo3
 
 # create the image
 
