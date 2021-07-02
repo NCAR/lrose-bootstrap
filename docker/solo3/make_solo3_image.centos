@@ -1,0 +1,65 @@
+#! /bin/bash
+
+###########################################################
+# build solo3 docker image for centos, with required packages
+
+#--------------------------------------------------------------------
+# usage function
+#
+
+function usage() {
+    echo
+    echo "Create docker image for solo3"
+    echo "Usage:"
+    echo "  $scriptName [options below]"
+    echo "  -h   :  help"
+}
+
+scriptName=$(basename $0)
+
+# Parse command line options.
+while getopts h OPT; do
+    case "$OPT" in
+        h)
+            usage
+            exit 0
+            ;;
+        \?)
+            # getopts issues an error message
+            echo "Problems with command line usage"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+echo "Running $scriptName"
+echo "  creating docker image for solo3"
+echo "    os_type: centos"
+echo "    os_version: latest"
+
+# go to scripts dir
+
+cd ~/git/lrose-bootstrap/docker/solo3
+
+# compute Dockerfile path
+
+DockerfilePath=Dockerfile.centos.solo3
+echo "  Dockerfile path: " $DockerfilePath
+
+# remove old image if present
+
+tag=build.lrose-solo3/centos:latest
+docker image rm -f ${tag}
+
+# make build script available to container
+
+scriptsDir=~/git/lrose-core/build/scripts
+
+# create the image
+
+docker build \
+    -v ${scriptsDir}:/scripts \
+    --tag ${tag} \
+    --file ${DockerfilePath} .
+
