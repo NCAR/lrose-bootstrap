@@ -47,7 +47,7 @@ def main():
                       help='Set verbose debugging on')
     parser.add_option('--dir',
                       dest='dir', default=thisDir,
-                      help='Directory containing the DORADE data. Default is the current directory.  Do not use '.', rather leave it unspecified.')
+                      help='Directory containing the DORADE data. Default is the current directory.')
     parser.add_option('--docker_image',
                       dest='docker_image',
                       default='nsflrose/lrose-solo3',
@@ -94,6 +94,10 @@ def main():
 
     # debug
 
+    dataDir = options.dir
+    if (dataDir.find('.') >= 0):
+        dataDir = thisDir
+
     if (options.debug):
         print("Running %s:" % thisScriptName, file=sys.stderr)
         print("  docker image: ", options.docker_image, file=sys.stderr)
@@ -102,11 +106,12 @@ def main():
         else:
             print("  OS: this is NOT a mac", file=sys.stderr)
         print("  displayStr: ", displayStr, file=sys.stderr)
+        print("  dataDir: ", dataDir, file=sys.stderr)
 
     # set up call for running docker
     
     cmd = "docker run -v $HOME/.Xauthority:/root/.Xauthority "
-    cmd += "-v " + options.dir + ":/data "
+    cmd += "-v " + dataDir + ":/data "
     cmd += displayStr + " "
     cmd += options.docker_image + " "
     cmd += "bash -c \"cd /data; /usr/local/solo3/bin/solo3\" "
