@@ -213,9 +213,7 @@ def main():
         cmd = scriptPath + \
               " --binDir " + prefixBinDir + \
               " --relDir " + runtimeLibRelDir
-        if (options.verbose):
-            cmd = cmd + " --verbose"
-        elif (options.debug):
+        if (options.debug):
             cmd = cmd + " --debug"
         shellCmd(cmd)
 

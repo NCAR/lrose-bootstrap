@@ -26,14 +26,11 @@ RUN \
     hdf5-devel netcdf-devel \
     xorg-x11-xauth xorg-x11-apps \
     rpm-build redhat-rpm-config \
-    rpm-devel rpmdevtools \
+    rpm-devel rpmdevtools; \
 # do the checkout and build
-    /scripts/checkout_and_build_auto.py \
-    --package lrose-solo3 \
+    /scripts/checkout_and_build_solo3.py \
     --prefix /usr/local/solo3 \
     --buildDir /tmp/solo3_build \
-    --buildNetcdf \
-    --installLroseRuntimeLibs \
     --logDir /tmp/solo3_build_logs; \
 # then clean up
     /bin/rm -rf /tmp/solo3_build /tmp/solo3_build_logs
