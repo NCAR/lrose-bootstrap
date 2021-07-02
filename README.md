@@ -47,7 +47,11 @@ for the usage.
 
 See: [Creating packages](./docker/README.md)
 
-## Build CIDD and push CIDD image to DockerHub
+## Build CIDD and push image to DockerHub
 
-See: [Build CIDD](./docker/docs/create_cidd_image_and_push_to_dockerhub.md)
+See: [Build CIDD for docker](./docker/docs/create_cidd_image_and_push_to_dockerhub.md)
+
+## Build solo3 and push image to DockerHub
+
+See: [Build solo3 for docker](./docker/docs/create_solo3_image_and_push_to_dockerhub.md)
 

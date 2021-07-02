@@ -47,7 +47,7 @@ def main():
                       help='Set verbose debugging on')
     parser.add_option('--dir',
                       dest='dir', default=thisDir,
-                      help='Directory containing the DORADE data')
+                      help='Directory containing the DORADE data. Default is the current directory.  Do not use '.', rather leave it unspecified.')
     parser.add_option('--docker_image',
                       dest='docker_image',
                       default='nsflrose/lrose-solo3',
