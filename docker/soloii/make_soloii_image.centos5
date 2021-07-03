@@ -60,7 +60,7 @@ echo "  Dockerfile path: " $DockerfilePath
 # remove old image if present
 
 tag=build.lrose-soloii/centos5:latest
-docker image rm -f ${tag}
+#docker image rm -f ${tag}
 
 # create the image
 
