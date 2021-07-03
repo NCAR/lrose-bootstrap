@@ -65,7 +65,7 @@ docker image rm -f ${tag}
 # create the image
 
 docker build \
-    -v ${tarDir}:/tarDir \
-    --tag ${tag} \
-    --file ${DockerfilePath} .
+       -v ${tarDir}:/tarDir \
+       --tag ${tag} \
+       --file ${DockerfilePath} .
 
