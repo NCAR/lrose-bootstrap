@@ -32,7 +32,7 @@ The following high-level scripts are provided:
 
 * ```install_and_test_packages```: install each package file in a clean container, and run RadxPrint to check that the apps will run
 
-* ```remove_running_containers```: remove any containers that are currently running
+* ```stop_running_containers```: stop any containers that are currently running
 
 * ```delete_images.build```: delete docker images from the build step
 
