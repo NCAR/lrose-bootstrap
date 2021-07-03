@@ -1,13 +1,10 @@
+###################################################################
+# build soloii under centos 5
 #
-# soloii under centos 5
-#
-# requires archive of source @ docker/lrose-soloii-$SOLOII_VERSION.tgz
-# this can be handled by running ./docker/build-docker-soloii-1-18.sh
+# called by make_soloii_image.centos5
 #
 FROM ncareol/centos:5.11-0
-MAINTAINER Erik Johnson <ej@ucar.edu>
-
-# COPY docker/iptables /etc/sysconfig/iptables
+MAINTAINER Mike Dixon <dixon@ucar.edu>
 
 #
 # https://github.com/NCAR/lrose-soloii
@@ -33,23 +30,26 @@ ENV PKG_CONFIG_PATH /usr/lib/pkgconfig
 #     package libselinux-1.33.4-5.7.el5.centos.x86_64 (which is newer than libselinux-1.33.4-5.7.el5.i386) is already installed
 #
 
+ENV BUILD_DIR /tmp/lrose-soloii
+ENV TAR_DIR /tarDir
+
 RUN yum -y downgrade libselinux \
     && yum -y install $PACKAGES_KEEP $PACKAGES $PACKAGES_i386 \
-    && cd $SOLO_DIR \
+    && mkdir $BUILD_DIR \
+    && cd $BUILD_DIR \
+    && tar xvfz $TAR_DIR/lrose-soloii.tgz
+    && cd lrose-soloii
     && ./configure --prefix=/usr \
-    && make \
-    && cd - && rm -rf $SOLO_DIR \
+    && make -j 8 \
+    && make install \
+    && cd - && rm -rf $BUILD_DIR \
     && yum -y remove $PACKAGES $PACKAGES_i386 \
     && yum -y clean all
-
 
 #
 # build & install soloii
 #
 
-#ENV SOLO_DIR /tmp/lrose-soloii
-#ENV SOLO_ARCHIVE /tmp/lrose-soloii.tgz
-#ENV SOLOII_VERSION 1.18
 
 #RUN mkdir $SOLO_DIR; cd $SOLO_DIR;
 #    /scripts/checkout_and_build_soloii.py \

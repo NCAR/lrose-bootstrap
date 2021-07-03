@@ -38,28 +38,34 @@ echo "  creating docker image for soloii"
 echo "    os_type: centos"
 echo "    os_version: latest"
 
+# clone soloii and create soloii source tar file
+
+tarDir=/tmp/soloii_tar
+/bin/rm -rf ${tarDir}
+mkdir -p ${tarDir}
+cd ${tarDir}
+git clone https://github.com/ncar/lrose-soloii
+tar cvfz lrose-soloii.tgz lrose-soloii
+
 # go to scripts dir
 
-cd ~/git/lrose-bootstrap/docker/soloii
+bootstrapDir=~/git/lrose-bootstrap/docker/soloii
+cd ${bootstrapDir}
 
 # compute Dockerfile path
 
-DockerfilePath=Dockerfile.centos.soloii
+DockerfilePath=Dockerfile.centos5.soloii
 echo "  Dockerfile path: " $DockerfilePath
 
 # remove old image if present
 
-tag=build.lrose-soloii/centos:latest
+tag=build.lrose-soloii/centos5:latest
 docker image rm -f ${tag}
-
-# make build script available to container
-
-scriptsDir=~/git/lrose-bootstrap/docker/soloii
 
 # create the image
 
 docker build \
-    -v ${scriptsDir}:/scripts \
+    -v ${tarDir}:/tarDir \
     --tag ${tag} \
     --file ${DockerfilePath} .
 
