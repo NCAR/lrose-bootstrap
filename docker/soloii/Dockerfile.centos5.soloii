@@ -24,8 +24,8 @@ MAINTAINER Mike Dixon <dixon@ucar.edu>
 #   gtk+-devel, glibc-devel, glib-devel,
 #   libXi-devel, libXext-devel, libX11-devel, netcdf-devel
 
-ENV PACKAGES_KEEP gtk+ libX11.i386 netcdf.i386 libgcc.i386 fonts-ISO8859-2
-ENV PACKAGES gcc gcc-gfortran pkgconfig make glibc-utils glibc-devel ncurses-devel
+ENV PACKAGES_KEEP tcsh gtk+ libX11.i386 netcdf.i386 libgcc.i386 fonts-ISO8859-2
+ENV PACKAGES gcc gcc-gfortran pkgconfig make glibc-utils glibc-devel ncurses-devel emacs
 ENV PACKAGES_i386 gtk+-devel.i386 glibc-devel.i386 glib-devel.i386 libXi-devel.i386 libXext-devel.i386 libX11-devel.i386  netcdf-devel.i386
 
 # configure: error: Failed to run gtk-config. Is gtk+ (gtk+-devel) installed on the system?
