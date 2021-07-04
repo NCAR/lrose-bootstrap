@@ -1,0 +1,32 @@
+#==============================================================
+# Build solo3 in a CENTOS 7 Docker image
+#
+# solo3, xltrs3, nx_reblock3 and ddex3 will be installed in:
+#   /usr/local/bin
+#
+FROM custom/centos:7
+
+ENV PACKAGES \
+    tcsh wget git \
+    m4 make libtool autoconf automake \
+    gcc gcc-c++ gcc-gfortran glibc-devel \
+    libX11-devel libXext-devel xorg-x11-xauth xorg-x11-apps \
+    libpng-devel libtiff-devel zlib-devel bzip2-devel hdf5-devel netcdf-devel \
+    gtk+-devel gtkmm24-devel glib-devel glibmm24-devel
+
+ENV BUILD_DIR /tmp/lrose-solo3
+
+RUN yum -y install $PACKAGES \
+    && cd /tmp \
+    && git clone https://github.com/ncar/lrose-solo3 \
+    && cd lrose-solo3 \
+    && aclocal \
+    && autoheader \
+    && automake --add-missing \
+    && autoconf \
+    && ./configure --prefix=/usr/local \
+    && make -j 8 \
+    && make install \
+    && cd - && rm -rf $BUILD_DIR \
+    && yum -y clean all
+

@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ###########################################################
-# build solo3 docker image for centos, with required packages
+# build solo3 docker image for centos7, with required packages
 
 #--------------------------------------------------------------------
 # usage function
@@ -35,31 +35,20 @@ done
 
 echo "Running $scriptName"
 echo "  creating docker image for solo3"
-echo "    os_type: centos"
-echo "    os_version: latest"
+echo "    os_type: centos7"
 
-# go to scripts dir
+# set Dockerfile path
 
-cd ~/git/lrose-bootstrap/docker/solo3
-
-# compute Dockerfile path
-
-DockerfilePath=Dockerfile.centos.solo3
+DockerfilePath=Dockerfile.centos7.solo3
 echo "  Dockerfile path: " $DockerfilePath
 
-# remove old image if present
+# set tag
 
-tag=build.lrose-solo3/centos:latest
-docker image rm -f ${tag}
-
-# make build script available to container
-
-scriptsDir=~/git/lrose-bootstrap/docker/solo3
+tag=nsflrose/lrose-solo3:latest
 
 # create the image
 
 docker build \
-    -v ${scriptsDir}:/scripts \
-    --tag ${tag} \
-    --file ${DockerfilePath} .
+       --tag ${tag} \
+       --file ${DockerfilePath} .
 
