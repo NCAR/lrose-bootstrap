@@ -9,7 +9,8 @@
 #
 ###################################################################
 
-FROM ncareol/centos:5.11-0
+FROM nsflrose/centos5:custom
+#FROM ncareol/centos:5.11-0
 MAINTAINER Mike Dixon <dixon@ucar.edu>
 
 # soloii repo is:
@@ -40,11 +41,9 @@ ENV PKG_CONFIG_PATH /usr/lib/pkgconfig
 
 ENV BUILD_DIR /tmp/lrose-soloii
 ENV TAR_DIR /tarDir
+ENV CFLAGS -g
 
-RUN yum -y downgrade libselinux \
-    && yum -y install $PACKAGES_KEEP $PACKAGES $PACKAGES_i386 \
-    && mkdir $BUILD_DIR \
-    && cd $BUILD_DIR \
+RUN cd /tmp \
     && tar xvfz $TAR_DIR/lrose-soloii.tgz \
     && cd lrose-soloii \
     && ./configure --prefix=/usr/local \
@@ -53,4 +52,17 @@ RUN yum -y downgrade libselinux \
     && cd - && rm -rf $BUILD_DIR \
     && yum -y remove $PACKAGES $PACKAGES_i386 \
     && yum -y clean all
+
+#RUN yum -y downgrade libselinux \
+#    && yum -y install $PACKAGES_KEEP $PACKAGES $PACKAGES_i386 \
+#    && mkdir $BUILD_DIR \
+#    && cd $BUILD_DIR \
+#    && tar xvfz $TAR_DIR/lrose-soloii.tgz \
+#    && cd lrose-soloii \
+#    && ./configure --prefix=/usr/local \
+#    && make -j 8 \
+#    && make install \
+#    && cd - && rm -rf $BUILD_DIR \
+#    && yum -y remove $PACKAGES $PACKAGES_i386 \
+#    && yum -y clean all
 

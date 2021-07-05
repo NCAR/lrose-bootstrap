@@ -1,0 +1,54 @@
+#! /bin/bash
+
+###############################################################
+# build cusrom docker image for centos5, with required packages
+# ready for soloii
+
+#--------------------------------------------------------------------
+# usage function
+#
+
+function usage() {
+    echo
+    echo "Create docker centos5 image for building soloii"
+    echo "Usage:"
+    echo "  $scriptName [options below]"
+    echo "  -h   :  help"
+}
+
+scriptName=$(basename $0)
+
+# Parse command line options.
+while getopts h OPT; do
+    case "$OPT" in
+        h)
+            usage
+            exit 0
+            ;;
+        \?)
+            # getopts issues an error message
+            echo "Problems with command line usage"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+echo "Running $scriptName"
+echo "  creating docker centos5 image for building soloii"
+
+# set Dockerfile path
+
+DockerfilePath=Dockerfile.centos5.custom
+echo "  Dockerfile path: " $DockerfilePath
+
+# set tag
+
+tag=nsflrose/centos5:custom
+
+# create the image
+
+docker build \
+       --tag ${tag} \
+       --file ${DockerfilePath} .
+
