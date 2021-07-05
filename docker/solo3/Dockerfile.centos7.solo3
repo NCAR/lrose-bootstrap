@@ -4,7 +4,8 @@
 # solo3, xltrs3, nx_reblock3 and ddex3 will be installed in:
 #   /usr/local/bin
 #
-FROM custom/centos:7
+#FROM custom/centos:7
+FROM centos:7
 
 ENV PACKAGES \
     tcsh wget git \
