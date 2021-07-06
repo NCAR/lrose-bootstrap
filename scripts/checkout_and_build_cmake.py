@@ -158,9 +158,16 @@ def main():
                       dest='iscray', default=False,
                       action="store_true",
                       help='True if the Cray compiler is used')
-
+    parser.add_option('--isfujitsu',
+                      dest='isfujitsu', default=False,
+                      action="store_true",
+                      help='True if the Fujitsu compiler is used')
+    
     (options, args) = parser.parse_args()
     
+    # sanity check: we could not use Cray and Fujitsu compilers at the same time
+    expect (not (options.iscray and options.isfujitsu), "iscray and isfujitsu could not be both True)
+            
     if (options.verbose):
         options.debug = True
 
@@ -489,10 +496,15 @@ def createCMakeLists():
     if (options.iscray):
        iscrayStr = " --iscray "
 
+    isfujitsuStr = ""
+    if (options.isfujitsu):
+       isfujitsuStr = " --isfujitsu "
+            
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr + m32Str +
-             " --prefix " + prefixDir + iscrayStr)
+             " --prefix " + prefixDir + iscrayStr +
+             isfujitsuStr)
 
 ########################################################################
 # write release information file
