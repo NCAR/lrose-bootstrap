@@ -272,7 +272,9 @@ def main():
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
         print("  noApps: ", options.noApps, file=sys.stderr)
-
+        print("  iscray: ", options.iscray, file=sys.stderr)
+        print("  isfujitsu: ", options.isfujitsu, file=sys.stderr)
+        
     # create build dir
     
     createBuildDir()
