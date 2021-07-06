@@ -1,0 +1,69 @@
+#! /bin/bash
+
+###############################################################
+# build soloii docker image for centos5, with required packages
+
+#--------------------------------------------------------------------
+# usage function
+#
+
+function usage() {
+    echo
+    echo "Create docker image for soloii"
+    echo "Usage:"
+    echo "  $scriptName [options below]"
+    echo "  -h   :  help"
+}
+
+scriptName=$(basename $0)
+
+# Parse command line options.
+while getopts h OPT; do
+    case "$OPT" in
+        h)
+            usage
+            exit 0
+            ;;
+        \?)
+            # getopts issues an error message
+            echo "Problems with command line usage"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+echo "Running $scriptName"
+echo "  creating docker image for soloii"
+echo "    os_type: centos5"
+
+# clone soloii and create soloii source tar file
+
+tarDir=/tmp/soloii_tar
+#/bin/rm -rf ${tarDir}
+#mkdir -p ${tarDir}
+#cd ${tarDir}
+#git clone https://github.com/ncar/lrose-soloii
+#tar cvfz /tmp/lrose-soloii.tgz lrose-soloii
+
+# go to scripts dir
+
+bootstrapDir=~/git/lrose-bootstrap/docker/soloii
+cd ${bootstrapDir}
+
+# set Dockerfile path
+
+DockerfilePath=Dockerfile.centos5.test
+echo "  Dockerfile path: " $DockerfilePath
+
+# set tag
+
+tag=nsflrose/lrose-soloii:latest
+
+# create the image
+
+docker build \
+       -v ${tarDir}:/tarDir \
+       --tag ${tag} \
+       --file ${DockerfilePath} .
+
