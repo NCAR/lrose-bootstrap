@@ -166,7 +166,7 @@ def main():
     (options, args) = parser.parse_args()
     
     # sanity check: we could not use Cray and Fujitsu compilers at the same time
-    expect (not (options.iscray and options.isfujitsu), "iscray and isfujitsu could not be both True)
+    expect (not (options.iscray and options.isfujitsu), "iscray and isfujitsu could not be both True")
             
     if (options.verbose):
         options.debug = True
