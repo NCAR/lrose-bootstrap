@@ -154,9 +154,20 @@ def main():
                       dest='verboseMake', default=False,
                       action="store_true",
                       help='Verbose output for make, default is summary')
-
+    parser.add_option('--iscray',
+                      dest='iscray', default=False,
+                      action="store_true",
+                      help='True if the Cray compiler is used')
+    parser.add_option('--isfujitsu',
+                      dest='isfujitsu', default=False,
+                      action="store_true",
+                      help='True if the Fujitsu compiler is used')
+    
     (options, args) = parser.parse_args()
     
+    # sanity check: we could not use Cray and Fujitsu compilers at the same time
+    assert not (options.iscray and options.isfujitsu), "iscray and isfujitsu could not be both True..."
+            
     if (options.verbose):
         options.debug = True
 
@@ -261,7 +272,9 @@ def main():
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
         print("  noApps: ", options.noApps, file=sys.stderr)
-
+        print("  iscray: ", options.iscray, file=sys.stderr)
+        print("  isfujitsu: ", options.isfujitsu, file=sys.stderr)
+        
     # create build dir
     
     createBuildDir()
@@ -481,10 +494,19 @@ def createCMakeLists():
     if (options.buildNetcdf):
         dependDirsStr = " --dependDirs " + prefixDir + " "
 
+    iscrayStr = ""
+    if (options.iscray):
+       iscrayStr = " --iscray "
+
+    isfujitsuStr = ""
+    if (options.isfujitsu):
+       isfujitsuStr = " --isfujitsu "
+            
     shellCmd("../build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr + m32Str +
-             " --prefix " + prefixDir)
+             " --prefix " + prefixDir + iscrayStr +
+             isfujitsuStr)
 
 ########################################################################
 # write release information file
