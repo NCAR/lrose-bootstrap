@@ -266,6 +266,7 @@ def main():
         print("  prefixIncludeDir: ", prefixIncludeDir, file=sys.stderr)
         print("  prefixShareDir: ", prefixShareDir, file=sys.stderr)
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
+        print("  verboseMake: ", options.verboseMake, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
         print("  cmakeExec: ", cmakeExec, file=sys.stderr)
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
