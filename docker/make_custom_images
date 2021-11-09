@@ -14,14 +14,16 @@
 #./redhat/make_custom_image.redhat -t fedora -v 29 >& /tmp/make_custom_image.fedora.29.log &
 #./redhat/make_custom_image.redhat -t fedora -v 30 >& /tmp/make_custom_image.fedora.30.log &
 #./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
-./redhat/make_custom_image.redhat -t fedora -v 32 >& /tmp/make_custom_image.fedora.32.log &
+#./redhat/make_custom_image.redhat -t fedora -v 32 >& /tmp/make_custom_image.fedora.32.log &
 ./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
 ./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
+./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
 
 # DEBIAN
 
 ./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &
 ./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
+./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
 
 # UBUNTU
 
