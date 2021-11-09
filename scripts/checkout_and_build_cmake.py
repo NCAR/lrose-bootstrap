@@ -695,6 +695,8 @@ def buildPackage():
     logPath = prepareLogFile("build-libs");
     os.chdir(os.path.join(cmakeBuildDir, "libs"))
     cmd = "make -j 8"
+    if (options.verboseMake):
+        cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
     # install the libraries
@@ -702,6 +704,8 @@ def buildPackage():
     logPath = prepareLogFile("install-libs");
 
     cmd = "make -j 8 install/strip"
+    if (options.verboseMake):
+        cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
     if (options.noApps == False):
@@ -711,6 +715,8 @@ def buildPackage():
         logPath = prepareLogFile("build-tdrp-gen");
         os.chdir(os.path.join(cmakeBuildDir, "apps/tdrp/src/tdrp_gen"))
         cmd = "make install/strip"
+        if (options.verboseMake):
+            cmd = cmd + " VERBOSE=1"
         shellCmd(cmd)
         
         # build the apps
@@ -718,12 +724,16 @@ def buildPackage():
         logPath = prepareLogFile("build-apps");
         os.chdir(os.path.join(cmakeBuildDir, "apps"))
         cmd = "make -j 8"
+        if (options.verboseMake):
+            cmd = cmd + " VERBOSE=1"
         shellCmd(cmd)
         
         # install the apps
         
         logPath = prepareLogFile("install-apps");
         cmd = "make -j 8 install/strip"
+        if (options.verboseMake):
+            cmd = cmd + " VERBOSE=1"
         shellCmd(cmd)
 
 ########################################################################
@@ -838,6 +848,8 @@ def buildFractl():
     # do the build and install
 
     cmd = "make -k -j 8 install/strip"
+    if (options.verboseMake):
+        cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
     return
@@ -877,6 +889,8 @@ def buildVortrac():
     # do the build and install
     
     cmd = "make -k -j 8 install/strip"
+    if (options.verboseMake):
+        cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
     
     # install resources
@@ -926,6 +940,8 @@ def buildSamurai():
     # do the build and install
 
     cmd = "make -k -j 8 install/strip"
+    if (options.verboseMake):
+        cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
     return
