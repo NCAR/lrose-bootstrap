@@ -821,8 +821,6 @@ def prune(tree):
 
 def buildFractl():
 
-    global logPath
-
     print("==>> buildFractl", file=sys.stderr)
     print("====>> prefixDir: ", prefixDir, file=sys.stderr)
     
@@ -839,19 +837,30 @@ def buildFractl():
     # run cmake to create makefiles
 
     fractlDir = os.path.join(options.buildDir, "fractl");
-    cmakeBuildDir = os.path.join(fractlDir, "build")
-    os.makedirs(cmakeBuildDir)
-    os.chdir(cmakeBuildDir)
+    os.chdir(fractlDir)
     
-    cmd = cmakeExec + " .."
+    cmd = "./do_build_fractl -d -i "
+    cmd = cmd + " -p " + prefixDir
+    cmd = cmd + " -l " + prefixDir
+    
+    if (options.verboseMake):
+        cmd = cmd + " -v "
+
     shellCmd(cmd)
+
+    #cmakeBuildDir = os.path.join(fractlDir, "build")
+    #os.makedirs(cmakeBuildDir)
+    #os.chdir(cmakeBuildDir)
+    
+    #cmd = cmakeExec + " .."
+    #shellCmd(cmd)
     
     # do the build and install
 
-    cmd = "make -k -j 8 install/strip"
-    if (options.verboseMake):
-        cmd = cmd + " VERBOSE=1"
-    shellCmd(cmd)
+    #cmd = "make -k -j 8 install/strip"
+    #if (options.verboseMake):
+    #    cmd = cmd + " VERBOSE=1"
+    #shellCmd(cmd)
 
     return
 
@@ -859,8 +868,6 @@ def buildFractl():
 # build vortrac package
 
 def buildVortrac():
-
-    global logPath
 
     print("====>> buildVortrac", file=sys.stderr)
     print("====>> prefixDir: ", prefixDir, file=sys.stderr)
@@ -878,6 +885,8 @@ def buildVortrac():
     # run cmake to create makefiles
 
     vortracDir = os.path.join(options.buildDir, "vortrac");
+    os.chdir(vortracDir)
+
     cmakeBuildDir = os.path.join(vortracDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
@@ -912,8 +921,6 @@ def buildVortrac():
 # build samurai package
 
 def buildSamurai():
-
-    global logPath
 
     print("==>> buildSamurai", file=sys.stderr)
     print("====>> prefixDir: ", prefixDir, file=sys.stderr)
