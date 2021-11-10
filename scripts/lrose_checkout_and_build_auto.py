@@ -125,18 +125,6 @@ def main():
                       dest='buildNetcdf', default=False,
                       action="store_true",
                       help='Build netcdf and hdf5 from source')
-    parser.add_option('--fractl',
-                      dest='build_fractl', default=False,
-                      action="store_true",
-                      help='Checkout and build fractl after core build is complete')
-    parser.add_option('--vortrac',
-                      dest='build_vortrac', default=False,
-                      action="store_true",
-                      help='Checkout and build vortrac after core build is complete')
-    parser.add_option('--samurai',
-                      dest='build_samurai', default=False,
-                      action="store_true",
-                      help='Checkout and build samurai after core build is complete')
     parser.add_option('--cmake3',
                       dest='use_cmake3', default=False,
                       action="store_true",
@@ -248,9 +236,6 @@ def main():
         print("  buildNetcdf: ", options.buildNetcdf, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
         print("  cmakeExec: ", cmakeExec, file=sys.stderr)
-        print("  build_fractl: ", options.build_fractl, file=sys.stderr)
-        print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
-        print("  build_samurai: ", options.build_samurai, file=sys.stderr)
         print("  noApps: ", options.noApps, file=sys.stderr)
 
     # create build dir
@@ -366,20 +351,6 @@ def main():
 
     logPath = prepareLogFile("no-logging");
     checkInstall()
-
-    # build CSU packages
-
-    if (options.build_fractl):
-        logPath = prepareLogFile("build-fractl");
-        buildFractl()
-
-    if (options.build_vortrac):
-        logPath = prepareLogFile("build-vortrac");
-        buildVortrac()
-
-    if (options.build_samurai):
-        logPath = prepareLogFile("build-samurai");
-        buildSamurai()
 
     # delete the tmp dir
 
@@ -816,131 +787,6 @@ def prune(tree):
                 if (options.verbose):
                     print("pruning empty dir: " + tree, file=logFp)
                 shutil.rmtree(tree)
-
-########################################################################
-# build fractl package
-
-def buildFractl():
-
-    global logPath
-
-    print("==>> buildFractl", file=sys.stderr)
-    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
-    
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefixDir
-    
-    # check out fractl
-
-    os.chdir(options.buildDir)
-    shellCmd("/bin/rm -rf fractl")
-    shellCmd("git clone https://github.com/mmbell/fractl")
-
-    # run cmake to create makefiles
-
-    fractlDir = os.path.join(options.buildDir, "fractl");
-    cmakeBuildDir = os.path.join(fractlDir, "build")
-    os.makedirs(cmakeBuildDir)
-    os.chdir(cmakeBuildDir)
-    
-    cmd = cmakeExec + " .."
-    shellCmd(cmd)
-    
-    # do the build and install
-
-    cmd = "make -k -j 8 install/strip"
-    shellCmd(cmd)
-
-    return
-
-########################################################################
-# build vortrac package
-
-def buildVortrac():
-
-    global logPath
-
-    print("====>> buildVortrac", file=sys.stderr)
-    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
-
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefixDir
-
-    # check out vortrac
-
-    os.chdir(options.buildDir)
-    shellCmd("/bin/rm -rf vortrac")
-    shellCmd("git clone https://github.com/mmbell/vortrac")
-
-    # run cmake to create makefiles
-
-    vortracDir = os.path.join(options.buildDir, "vortrac");
-    cmakeBuildDir = os.path.join(vortracDir, "build")
-    os.makedirs(cmakeBuildDir)
-    os.chdir(cmakeBuildDir)
-    
-    # run cmake to create makefiles - in-source build
-    
-    cmd = cmakeExec + " .."
-    shellCmd(cmd)
-    
-    # do the build and install
-    
-    cmd = "make -k -j 8 install/strip"
-    shellCmd(cmd)
-    
-    # install resources
-    
-    os.chdir(vortracDir)
-
-    if (sys.platform == "darwin"):
-        os.makedirs("vortrac.app/Contents/Resources")
-        cmd = "rsync -av Resources/*.xml vortrac.app/Contents/Resources"
-        shellCmd(cmd)
-
-    cmd = "rsync -av Resources " + prefixDir
-    shellCmd(cmd)
-    
-    return
-
-########################################################################
-# build samurai package
-
-def buildSamurai():
-
-    global logPath
-
-    print("==>> buildSamurai", file=sys.stderr)
-    print("====>> prefixDir: ", prefixDir, file=sys.stderr)
-
-    # set the environment
-
-    os.environ["LROSE_INSTALL_DIR"] = prefixDir
-    
-    # check out samurai
-
-    os.chdir(options.buildDir)
-    shellCmd("/bin/rm -rf samurai")
-    shellCmd("git clone https://github.com/mmbell/samurai")
-    
-    # run cmake to create makefiles - in-source build
-    
-    samuraiDir = os.path.join(options.buildDir, "samurai");
-    cmakeBuildDir = os.path.join(samuraiDir, "build")
-    os.makedirs(cmakeBuildDir)
-    os.chdir(cmakeBuildDir)
-
-    cmd = cmakeExec + " .."
-    shellCmd(cmd)
-
-    # do the build and install
-
-    cmd = "make -k -j 8 install/strip"
-    shellCmd(cmd)
-
-    return
 
 ########################################################################
 # get the OS type from the /etc/os-release file in linux
