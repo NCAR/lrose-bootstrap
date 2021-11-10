@@ -11,8 +11,8 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    cd; cd git/lrose-bootstrap; git pull --ff-only; \
-    ./scripts/do_build_all.py \
+    cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
+    ./do_build_all.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
