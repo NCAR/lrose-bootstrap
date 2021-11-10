@@ -126,7 +126,7 @@ if [ "$os_type" = centos -a "$os_version" = 6 ] ; then
         -v ${scriptsDir}:/scripts \
         -v ${logsDir}:/logs \
         custom/${os_type}:${os_version} \
-        /scripts/checkout_and_build_auto.py \
+        /scripts/lrose_checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
         --buildDir /tmp/lrose-build \
         --logDir /logs \
@@ -135,7 +135,7 @@ elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
         -v ${scriptsDir}:/scripts \
         -v ${logsDir}:/logs \
         custom/${os_type}:${os_version} \
-        /scripts/checkout_and_build_auto.py \
+        /scripts/lrose_checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
         --buildDir /tmp/lrose-build \
         --logDir /logs \
@@ -145,7 +145,7 @@ elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
         -v ${scriptsDir}:/scripts \
         -v ${logsDir}:/logs \
         custom/${os_type}:${os_version} \
-        /scripts/checkout_and_build_auto.py \
+        /scripts/lrose_checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
         --buildDir /tmp/lrose-build \
         --logDir /logs \
@@ -155,7 +155,7 @@ else
         -v ${scriptsDir}:/scripts \
         -v ${logsDir}:/logs \
         custom/${os_type}:${os_version} \
-        /scripts/checkout_and_build_auto.py \
+        /scripts/lrose_checkout_and_build_auto.py \
         --prefix /usr/local/lrose \
         --buildDir /tmp/lrose-build \
         --logDir /logs \

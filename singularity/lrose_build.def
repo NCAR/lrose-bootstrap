@@ -43,7 +43,7 @@ From: centos:8
 # perform the build, install in /usr/local/lrose
 
   cd /tmp/singularity/git/lrose-bootstrap/build
-  ./checkout_and_build_auto.py \
+  ./lrose_checkout_and_build_cmake.py \
     --package lrose-core \
     --releaseDate latest \
     --prefix /usr/local/lrose \

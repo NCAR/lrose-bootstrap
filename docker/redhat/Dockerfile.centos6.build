@@ -12,7 +12,7 @@ RUN \
 
 RUN \
     cd; cd git/lrose-bootstrap; git pull --ff-only; \
-    ./scripts/checkout_and_build_cmake.py \
+    ./scripts/do_build_all.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \

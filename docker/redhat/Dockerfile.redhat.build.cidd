@@ -11,7 +11,7 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    /scripts/checkout_and_build_auto.py \
+    /scripts/lrose_checkout_and_build_auto.py \
     --package lrose-${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/cidd \
