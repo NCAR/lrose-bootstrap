@@ -302,7 +302,7 @@ def main():
 
     # run lrose build
 
-    logPath = prepareLogFile("build-lrose");
+    logPath = prepareLogFile("no-logging");
     cmd = "checkout_and_build_cmake.py"
     if (options.clean):
         cmd = cmd + " --clean"
@@ -324,7 +324,7 @@ def main():
         cmd = cmd + " --installAllRuntimeLibs"
     if (options.installLroseRuntimeLibs):
         cmd = cmd + " --installLroseRuntimeLibs"
-    if (options.cmake3):
+    if (options.use_cmake3):
         cmd = cmd + " --cmake3"
     if (options.withJasper):
         cmd = cmd + " --withJasper"
@@ -501,7 +501,7 @@ def buildSamurai():
 
     # do the build and install
 
-    cmd = "make -k -j 8 install/strip"
+    cmd = "make -k -j 8 -DCMAKE_INSTALL_PREFIX=" + prefixDir + " install/strip"
     if (options.verboseMake):
         cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
