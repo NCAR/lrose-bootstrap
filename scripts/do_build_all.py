@@ -393,20 +393,11 @@ def buildFractl():
     # run cmake to create makefiles
 
     fractlDir = os.path.join(options.buildDir, "fractl");
-    os.chdir(fractlDir)
-    
-    #cmd = "./do_build_fractl -d -i "
-    #cmd = cmd + " -p " + prefixDir
-    #cmd = cmd + " -l " + prefixDir
-    #if (options.verboseMake):
-    #    cmd = cmd + " -v "
-    #shellCmd(cmd)
-
     cmakeBuildDir = os.path.join(fractlDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
     
-    cmd = cmakeExec + " .."
+    cmd = cmakeExec + " -DCMAKE_INSTALL_PREFIX=" + prefixDir + " .."
     shellCmd(cmd)
     
     # do the build and install
@@ -439,15 +430,13 @@ def buildVortrac():
     # run cmake to create makefiles
 
     vortracDir = os.path.join(options.buildDir, "vortrac");
-    os.chdir(vortracDir)
-
     cmakeBuildDir = os.path.join(vortracDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
     
     # run cmake to create makefiles - in-source build
     
-    cmd = cmakeExec + " .."
+    cmd = cmakeExec + " -DCMAKE_INSTALL_PREFIX=" + prefixDir + " .."
     shellCmd(cmd)
     
     # do the build and install
