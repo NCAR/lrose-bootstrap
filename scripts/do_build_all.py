@@ -496,14 +496,15 @@ def buildSamurai():
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
 
-    cmd = cmakeExec + " .."
+    cmd = cmakeExec + " -DCMAKE_INSTALL_PREFIX=" + prefixDir + " .."
     shellCmd(cmd)
 
     # do the build and install
 
-    cmd = "make -k -j 8 -DCMAKE_INSTALL_PREFIX=" + prefixDir + " install/strip"
+    cmd = "make -k -j 8"
     if (options.verboseMake):
         cmd = cmd + " VERBOSE=1"
+    cmd = cmd + " install/strip"
     shellCmd(cmd)
 
     return
