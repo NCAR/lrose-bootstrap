@@ -117,6 +117,10 @@ else
  then
    echo "NOTE - using rpm.spec.body.centos8"
    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
+ elif [[ "$os_type" = almalinux ]] && [[ "$os_version" = 8 ]]
+ then
+   echo "NOTE - using rpm.spec.body.centos8"
+   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
  else
    cat /scripts/rpm.spec.body >> rpm.spec
  fi
