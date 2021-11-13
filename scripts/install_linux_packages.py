@@ -91,7 +91,7 @@ def main():
         elif (osVersion == 8):
             installPackagesCentos8()
     elif (osType == "almalinux"):
-        if (osVersion == 8):
+        if (osVersion.find("8") >= 0):
             installPackagesAlmalinux8()
     elif (osType == "fedora"):
          installPackagesFedora()
