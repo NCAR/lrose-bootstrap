@@ -19,6 +19,10 @@
 ./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
 ./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
 
+# ALMA LINUX
+
+./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
+
 # DEBIAN
 
 ./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &

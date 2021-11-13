@@ -60,6 +60,8 @@ done
 ./redhat/install_pkg_and_test.redhat -t fedora -v 33 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 34 -p ${lrose_pkg}
 
+./redhat/install_pkg_and_test.redhat -t almalinux -v 8  -p ${lrose_pkg}
+
 ./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
 
