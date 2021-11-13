@@ -48,7 +48,6 @@ def main():
     global releaseTag
     global releaseDate
 
-    global netcdfDir
     global displaysDir
 
     global coreDir
@@ -234,7 +233,6 @@ def main():
     
     coreDir = os.path.join(options.buildDir, "lrose-core")
     displaysDir = os.path.join(options.buildDir, "lrose-displays")
-    netcdfDir = os.path.join(options.buildDir, "lrose-netcdf")
     codebaseDir = os.path.join(coreDir, "codebase")
 
     prefixDir = options.prefix
@@ -259,7 +257,6 @@ def main():
         print("  coreDir: ", coreDir, file=sys.stderr)
         print("  codebaseDir: ", codebaseDir, file=sys.stderr)
         print("  displaysDir: ", displaysDir, file=sys.stderr)
-        print("  netcdfDir: ", netcdfDir, file=sys.stderr)
         print("  prefixDir: ", prefixDir, file=sys.stderr)
         print("  prefixBinDir: ", prefixBinDir, file=sys.stderr)
         print("  prefixLibDir: ", prefixLibDir, file=sys.stderr)
@@ -294,12 +291,6 @@ def main():
     except:
         print("  note - dirs already exist", file=sys.stderr)
 
-    # build netcdf support
-    
-    if (options.buildNetcdf):
-        logPath = prepareLogFile("build-netcdf");
-        buildNetcdf()
-
     # run lrose build
 
     logPath = prepareLogFile("no-logging");
@@ -324,6 +315,8 @@ def main():
         cmd = cmd + " --installAllRuntimeLibs"
     if (options.installLroseRuntimeLibs):
         cmd = cmd + " --installLroseRuntimeLibs"
+    if (options.buildNetcdf):
+        cmd = cmd + " --buildNetcdf"
     if (options.use_cmake3):
         cmd = cmd + " --cmake3"
     if (options.withJasper):
@@ -357,20 +350,6 @@ def main():
 
     logFp.close()
     sys.exit(0)
-
-########################################################################
-# build netCDF
-
-def buildNetcdf():
-
-    os.chdir(netcdfDir)
-    if (package == "lrose-cidd"):
-        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + prefixDir)
-    else:
-        if sys.platform == "darwin":
-            shellCmd("./build_and_install_netcdf.osx -x " + prefixDir)
-        else:
-            shellCmd("./build_and_install_netcdf -x " + prefixDir)
 
 ########################################################################
 # build fractl package
