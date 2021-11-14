@@ -63,6 +63,7 @@ done
 #./redhat/do_lrose_build.redhat -t fedora -v 35 -p ${lrose_pkg} -r ${release_date}
 
 ./redhat/do_lrose_build.redhat -t almalinux -v 8  -p ${lrose_pkg} -r ${release_date}
+./redhat/do_lrose_build.redhat -t almalinux -v latest  -p ${lrose_pkg} -r ${release_date}
 
 ./debian/do_lrose_build.debian -t debian -v 9 -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t debian -v 10 -p ${lrose_pkg} -r ${release_date}

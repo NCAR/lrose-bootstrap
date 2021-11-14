@@ -57,8 +57,12 @@ docker image rm -f build.${lrose_pkg}/fedora:32
 docker image rm -f build.${lrose_pkg}/fedora:33
 docker image rm -f build.${lrose_pkg}/fedora:34
 
+docker image rm -f build.${lrose_pkg}/almalinux:8
+docker image rm -f build.${lrose_pkg}/almalinux:latest
+
 docker image rm -f build.${lrose_pkg}/debian:9
 docker image rm -f build.${lrose_pkg}/debian:10
+docker image rm -f build.${lrose_pkg}/debian:11
 
 docker image rm -f build.${lrose_pkg}/ubuntu:16.04
 docker image rm -f build.${lrose_pkg}/ubuntu:18.04
