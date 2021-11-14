@@ -622,6 +622,15 @@ def trimToMakefiles(subDir):
 def buildNetcdf():
 
     os.chdir(netcdfDir)
+
+    if (package == "lrose-cidd"):
+        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + prefixDir)
+    else:
+        if sys.platform == "darwin":
+            shellCmd("./build_and_install_netcdf.osx -x " + prefixDir)
+        else:
+            shellCmd("./build_and_install_netcdf -x " + prefixDir)
+
     if (package == "lrose-cidd"):
         shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + options.netcdfPrefix)
     else:
