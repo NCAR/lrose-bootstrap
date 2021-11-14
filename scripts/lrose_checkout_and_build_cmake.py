@@ -467,7 +467,7 @@ def createCMakeLists():
 
     dependDirsStr = ""
     if (options.buildNetcdf):
-        dependDirsStr = " --dependDirs " + netcdfPrefix + " "
+        dependDirsStr = " --dependDirs " + options.netcdfPrefix + " "
 
     iscrayStr = ""
     if (options.iscray):
