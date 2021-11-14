@@ -292,7 +292,9 @@ def main():
     if (options.package.find("lrose-core") >= 0):
         mocDirs = ["apps/radar/src/HawkEye",
                    "apps/radar/src/HawkEdit",
-                   "apps/radar/src/IpsEye"]
+                   "apps/radar/src/IpsEye",
+                   "apps/radar/src/Sprite",
+                   "apps/radar/src/TsAscope"]
     elif (options.package.find("lrose") >= 0):
         mocDirs = ["apps/radar/src/HawkEye"]
         
