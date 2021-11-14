@@ -18,7 +18,8 @@ RUN \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --buildNetcdf
+    --buildNetcdf \
+    --netcdfPrefix /usr/local
 
 # clean up
 

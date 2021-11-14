@@ -125,6 +125,9 @@ def main():
                       dest='buildNetcdf', default=False,
                       action="store_true",
                       help='Build netcdf and hdf5 from source')
+    parser.add_option('--netcdfPrefix',
+                      dest='netcdfPrefix', default=prefixDirDefault,
+                      help='Netcdf install directory, default: ' + prefixDirDefault)
     parser.add_option('--fractl',
                       dest='build_fractl', default=False,
                       action="store_true",
@@ -317,6 +320,7 @@ def main():
         cmd = cmd + " --installLroseRuntimeLibs"
     if (options.buildNetcdf):
         cmd = cmd + " --buildNetcdf"
+        cmd = cmd + " --netcdfPrefix " + options.netcdfPrefix
     if (options.use_cmake3):
         cmd = cmd + " --cmake3"
     if (options.withJasper):

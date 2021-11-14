@@ -126,6 +126,9 @@ def main():
                       dest='buildNetcdf', default=False,
                       action="store_true",
                       help='Build netcdf and hdf5 from source')
+    parser.add_option('--netcdfPrefix',
+                      dest='netcdfPrefix', default=prefixDirDefault,
+                      help='Netcdf install directory, default: ' + prefixDirDefault)
     parser.add_option('--cmake3',
                       dest='use_cmake3', default=False,
                       action="store_true",
@@ -464,7 +467,7 @@ def createCMakeLists():
 
     dependDirsStr = ""
     if (options.buildNetcdf):
-        dependDirsStr = " --dependDirs " + prefixDir + " "
+        dependDirsStr = " --dependDirs " + netcdfPrefix + " "
 
     iscrayStr = ""
     if (options.iscray):
@@ -620,12 +623,12 @@ def buildNetcdf():
 
     os.chdir(netcdfDir)
     if (package == "lrose-cidd"):
-        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + prefixDir)
+        shellCmd("./build_and_install_netcdf.cidd_linux32 -x " + netcdfPrefix)
     else:
         if sys.platform == "darwin":
-            shellCmd("./build_and_install_netcdf.osx -x " + prefixDir)
+            shellCmd("./build_and_install_netcdf.osx -x " + netcdfPrefix)
         else:
-            shellCmd("./build_and_install_netcdf -x " + prefixDir)
+            shellCmd("./build_and_install_netcdf -x " + netcdfPrefix)
 
 ########################################################################
 # build package
