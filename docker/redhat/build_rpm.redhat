@@ -111,15 +111,15 @@ then
 else
  if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
  then
-   echo "NOTE - using rpm.spec.body.centos8"
+   echo "NOTE - centos 8 using rpm.spec.body.centos8"
    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
  elif [[ "$os_type" = centos ]] && [[ "$os_version" = latest ]]
  then
-   echo "NOTE - using rpm.spec.body.centos8"
+   echo "NOTE - centos latest using rpm.spec.body.centos8"
    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- elif [[ "$os_type" = almalinux ]] && [[ "$os_version" = 8 ]]
+ elif [ "$os_type" = almalinux ]
  then
-   echo "NOTE - using rpm.spec.body.centos8"
+   echo "NOTE - almalinux using rpm.spec.body.centos8"
    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
  else
    cat /scripts/rpm.spec.body >> rpm.spec
