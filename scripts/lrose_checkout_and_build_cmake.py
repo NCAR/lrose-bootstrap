@@ -659,7 +659,10 @@ def buildPackage():
     cmakeBuildDir = os.path.join(codebaseDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
-    cmd = cmakeExec + " -DCMAKE_INSTALL_PREFIX=" + prefixDir + " .."
+    cmd = cmakeExec
+    cmd = cmd + " -DCMAKE_INSTALL_PREFIX=" + prefixDir
+    cmd = cmd + " -DLDFLAGS=" + prefixLibDir
+    cmd = cmd + " .."
     shellCmd(cmd)
     
     # build the libraries
