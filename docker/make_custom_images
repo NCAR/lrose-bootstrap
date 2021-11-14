@@ -17,11 +17,12 @@
 #./redhat/make_custom_image.redhat -t fedora -v 32 >& /tmp/make_custom_image.fedora.32.log &
 ./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
 ./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
-./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
+#./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
 
 # ALMA LINUX
 
 ./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
+./redhat/make_custom_image.redhat -t almalinux -v latest >& /tmp/make_custom_image.almalinux.latest.log &
 
 # DEBIAN
 

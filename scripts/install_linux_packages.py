@@ -88,11 +88,10 @@ def main():
             installPackagesCentos6()
         elif (osVersion == 7):
             installPackagesCentos7()
-        elif (osVersion == 8):
+        else:
             installPackagesCentos8()
     elif (osType == "almalinux"):
-        if (osVersion >= 8):
-            installPackagesAlmalinux8()
+        installPackagesAlmalinux8()
     elif (osType == "fedora"):
          installPackagesFedora()
     elif (osType == "debian"):

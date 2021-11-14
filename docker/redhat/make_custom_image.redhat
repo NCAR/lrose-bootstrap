@@ -87,7 +87,7 @@ if [ "$os_type" = fedora ]
 then
     echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
 else
-    # various version of centos or almalinux
+    # various versions of centos or almalinux
     if [ "$os_version" = 6 ] ; then
         echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     elif [ "$os_version" = 7 ] ; then
