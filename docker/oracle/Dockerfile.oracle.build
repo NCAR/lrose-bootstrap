@@ -12,14 +12,13 @@ RUN \
 
 RUN \
     cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
-    ./do_build_all.py \
+    ./lrose_checkout_and_build_auto.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --buildNetcdf \
-    --netcdfPrefix /usr/local
+    --buildNetcdf
 
 # clean up
 
