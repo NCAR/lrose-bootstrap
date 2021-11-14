@@ -64,6 +64,7 @@ done
 
 ./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
+./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
 
 ./debian/install_pkg_and_test.debian -t ubuntu -v 16.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 18.04  -p ${lrose_pkg}
