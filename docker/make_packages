@@ -74,4 +74,4 @@ done
 ./suse/make_package.suse -t opensuse -v leap     -p ${lrose_pkg} -r ${release_date}
 ./suse/make_package.suse -t opensuse -v latest   -p ${lrose_pkg} -r ${release_date}
 
-./oracle/make_package.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
+#./oracle/make_package.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
