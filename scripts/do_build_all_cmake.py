@@ -294,6 +294,12 @@ def main():
     except:
         print("  note - dirs already exist", file=sys.stderr)
 
+    # install linux packages
+
+    logPath = prepareLogFile("install-packages");
+    cmd = os.path.join(thisScriptDir, "install_linux_packages.py")
+    shellCmd(cmd)
+
     # run lrose build
 
     logPath = prepareLogFile("no-logging");
