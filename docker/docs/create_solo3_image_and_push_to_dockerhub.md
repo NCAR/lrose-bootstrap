@@ -28,7 +28,7 @@ This will create an image named:
   build.lrose-solo3/centos:latest
 ```
 
-## Tag the image
+## Tag the image (no longer needed)
 
 ```
    docker tag build.lrose-solo3/centos:latest nsflrose/lrose-solo3:latest
