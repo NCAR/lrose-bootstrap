@@ -108,13 +108,15 @@ def main():
         print("  displayStr: ", displayStr, file=sys.stderr)
         print("  dataDir: ", dataDir, file=sys.stderr)
 
+    # get the sweep files in a list
+
     # set up call for running docker
     
     cmd = "docker run -v $HOME/.Xauthority:/root/.Xauthority "
     cmd += "-v " + dataDir + ":/data "
     cmd += displayStr + " "
     cmd += options.docker_image + " "
-    cmd += "bash -c \"cd /data; /usr/local/solo3/bin/solo3\" "
+    cmd += "bash -c \"cd /data; /usr/local/bin/solo3\" "
 
     # run the command
 
