@@ -110,13 +110,21 @@ def main():
 
     # get the sweep files in a list
 
+    sweepList = " "
+    allFiles = os.listdir(dataDir)
+    for file in allFiles:
+        if (file.find("swp.") == 0):
+            sweepList = sweepList + " ./" + file
+    print("  sweepList: ", sweepList, file=sys.stderr)
+
     # set up call for running docker
     
     cmd = "docker run -v $HOME/.Xauthority:/root/.Xauthority "
     cmd += "-v " + dataDir + ":/data "
     cmd += displayStr + " "
     cmd += options.docker_image + " "
-    cmd += "bash -c \"cd /data; /usr/local/bin/solo3\" "
+    bashcmd = "cd /data; /usr/local/bin/solo3 -f " + sweepList
+    cmd += 'bash -c \"' + bashcmd + '\"'
 
     # run the command
 
