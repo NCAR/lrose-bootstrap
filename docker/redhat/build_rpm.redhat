@@ -117,6 +117,10 @@ else
  then
    echo "NOTE - centos latest using rpm.spec.body.centos8"
    cat /scripts/rpm.spec.body.centos8 >> rpm.spec
+ elif [[ "$os_type" = fedora ]]
+ then
+   echo "NOTE - fedora using rpm.spec.body.fedora"
+   cat /scripts/rpm.spec.body.fedora >> rpm.spec
  elif [ "$os_type" = almalinux ]
  then
    echo "NOTE - almalinux using rpm.spec.body.centos8"
