@@ -352,7 +352,7 @@ def installPackagesFedora():
              "xorg-x11-xauth " +
              "luit oclock x11perf xbiff xclock xclipboard xconsole " +
              "xcursorgen xeyes xfd xfontsel xload xlogo xmag " +
-             "xmessage xpr xvidtune xwd xwud xterm" +
+             "xmessage xpr xvidtune xwd xwud xterm " +
              "rpm-build redhat-rpm-config " +
              "rpm-devel rpmdevtools")
 
