@@ -648,12 +648,19 @@ def buildPackage():
 
     # set the environment
 
-    os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
-                            "-Wl,--enable-new-dtags," + \
-                            "-rpath," + \
-                            "'$$ORIGIN/" + runtimeLibRelDir + \
-                            ":" + prefixLibDir + \
-                            ":" + prefixLibDir + "'"
+    if (options.installAllRuntimeLibs or options.installLroseRuntimeLibs):
+        os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
+            "-Wl,--enable-new-dtags," + \
+            "-rpath," + \
+            "'$$ORIGIN/" + runtimeLibRelDir + \
+            ":$$ORIGIN/../lib" + \
+            ":" + prefixLibDir + \
+            ":" + prefixLibDir + "'"
+    else:
+        os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
+            "-Wl,--enable-new-dtags," + \
+            "-rpath," + \
+            "'" + prefixLibDir + "'"
 
     if (sys.platform == "darwin"):
         os.environ["PKG_CONFIG_PATH"] = "/usr/local/opt/qt/lib/pkgconfig"
