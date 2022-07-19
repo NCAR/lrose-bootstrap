@@ -88,8 +88,10 @@ def main():
             installPackagesCentos6()
         elif (osVersion == 7):
             installPackagesCentos7()
-        else:
+        elif (osVersion == 8):
             installPackagesCentos8()
+        else:
+            installPackagesCentos9()
     elif (osType == "almalinux"):
         installPackagesAlmalinux8()
     elif (osType == "fedora"):
@@ -271,6 +273,61 @@ def installPackagesCentos8():
 
     shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
     
+########################################################################
+# install packages for CentOS Stream 9
+
+def installPackagesCentos9():
+
+    # install epel
+
+    shellCmd("dnf install -y epel-release python3")
+    shellCmd("dnf install -y 'dnf-command(config-manager)'")
+    shellCmd("alternatives --set python /usr/bin/python3")
+
+    # install main packages
+    # break this up into pieces so it does not crash inside docker
+
+    shellCmd("dnf install -y --allowerasing " +
+             "tcsh wget git emacs rsync python3 mlocate " +
+             "platform-python-devel m4 make cmake libtool " +
+             "autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "libX11-devel libXext-devel libcurl-devel " +
+             "libpng-devel libtiff-devel zlib-devel libzip-devel " +
+             "eigen3-devel armadillo-devel " +
+             "expat-devel libcurl-devel openmpi-devel " +
+             "flex-devel fftw3-devel ")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth xorg-x11-apps " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools")
+
+    # install required 32-bit packages for CIDD
+
+    if (options.cidd32):
+        shellCmd("dnf install -y --allowerasing " +
+                 "xrdb " +
+                 "glibc-devel.i686 libX11-devel.i686 libXext-devel.i686 " +
+                 "libcurl-devel.i686 " +
+                 "libtiff-devel.i686 libpng-devel.i686 " +
+                 "libstdc++-devel.i686 libtiff-devel.i686 ")
+        shellCmd("dnf install -y --allowerasing " +
+                 "zlib-devel.i686 expat-devel.i686 flex-devel.i686 " +
+                 "fftw-devel.i686 bzip2-devel.i686 " +
+                 "gnuplot ImageMagick-devel ImageMagick-c++-devel " +
+                 "xorg-x11-fonts-100dpi xorg-x11-fonts-ISO8859-1-100dpi " +
+                 "xorg-x11-fonts-75dpi xorg-x11-fonts-ISO8859-1-75dpi " +
+                 "xorg-x11-fonts-misc")
+
+    # create link for qtmake
+
+    shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
+
 ########################################################################
 # install packages for ALMALINUX 8
 
