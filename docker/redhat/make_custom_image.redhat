@@ -15,7 +15,7 @@ function usage() {
     echo "  -h   :  help"
     echo "  -d   :  turn debugging on"
     echo "  -t ? :  set os_type"
-    echo "          e.g. centos, fedora"
+    echo "          e.g. centos, fedora, almalinux"
     echo "  -v ? :  set os_version"
     echo "          e.g. 7 for centos 7, 29 for fedora 29"
     echo
@@ -86,6 +86,14 @@ echo "#" >> $DockerfilePath
 if [ "$os_type" = fedora ]
 then
     echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
+elif [ "$os_type" = almalinux ]
+then
+    echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
+    if [ "$os_version" = 8 ] ; then
+        echo "RUN dnf -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled powertools; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
+    elif [ "$os_version" = 9 ] ; then
+        echo "RUN dnf -y update; yum install -y python git" >> $DockerfilePath
+    fi
 else
     # various versions of centos or almalinux
     if [ "$os_version" = 6 ] ; then

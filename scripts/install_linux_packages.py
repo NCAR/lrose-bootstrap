@@ -93,7 +93,10 @@ def main():
         else:
             installPackagesCentos9()
     elif (osType == "almalinux"):
-        installPackagesAlmalinux8()
+        if (osVersion == 8):
+            installPackagesAlmalinux8()
+        else:
+            installPackagesAlmalinux()
     elif (osType == "fedora"):
          installPackagesFedora()
     elif (osType == "debian"):
@@ -375,6 +378,61 @@ def installPackagesAlmalinux8():
                  "libstdc++-devel.i686 libtiff-devel.i686 ")
         shellCmd("dnf install -y --allowerasing " +
                  "zlib-devel.i686 expat-devel.i686 flex-devel.i686 " +
+                 "fftw-devel.i686 bzip2-devel.i686 " +
+                 "gnuplot ImageMagick-devel ImageMagick-c++-devel " +
+                 "xorg-x11-fonts-100dpi xorg-x11-fonts-ISO8859-1-100dpi " +
+                 "xorg-x11-fonts-75dpi xorg-x11-fonts-ISO8859-1-75dpi " +
+                 "xorg-x11-fonts-misc")
+
+    # create link for qtmake
+
+    shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
+    
+########################################################################
+# install packages for ALMALINUX beyond 8
+
+def installPackagesAlmalinux():
+
+    # install epel
+
+    shellCmd("dnf install -y epel-release python")
+    shellCmd("dnf install -y 'dnf-command(config-manager)'")
+
+    # install main packages
+    # break this up into pieces so it does not crash inside docker
+
+    shellCmd("dnf install -y " +
+             "tcsh wget git " +
+             "emacs rsync python mlocate " +
+             "python-devel platform-python-devel " +
+             "m4 make cmake libtool autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "libX11-devel libXext-devel libcurl-devel " +
+             "libpng-devel libtiff-devel zlib-devel libzip " +
+             "armadillo-devel " +
+             "expat-devel libcurl-devel openmpi-devel " +
+             "flex fftw3-devel ")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools")
+
+    # install required 32-bit packages for CIDD
+    
+    if (options.cidd32):
+        shellCmd("dnf install -y --allowerasing " +
+                 "xrdb " +
+                 "glibc-devel.i686 libX11-devel.i686 libXext-devel.i686 " +
+                 "libcurl-devel.i686 " +
+                 "libtiff-devel.i686 libpng-devel.i686 " +
+                 "libstdc++-devel.i686 libtiff-devel.i686 ")
+        shellCmd("dnf install -y --allowerasing " +
+                 "zlib-devel.i686 expat-devel.i686 " +
                  "fftw-devel.i686 bzip2-devel.i686 " +
                  "gnuplot ImageMagick-devel ImageMagick-c++-devel " +
                  "xorg-x11-fonts-100dpi xorg-x11-fonts-ISO8859-1-100dpi " +
