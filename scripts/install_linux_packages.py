@@ -411,7 +411,7 @@ def installPackagesAlmalinux():
     shellCmd("dnf install -y --allowerasing " +
              "libX11-devel libXext-devel libcurl-devel " +
              "libpng-devel libtiff-devel zlib-devel libzip " +
-             "armadillo-devel " +
+             # "eigen3-devel armadillo-devel " +
              "expat-devel libcurl-devel openmpi-devel " +
              "flex fftw3-devel ")
 
