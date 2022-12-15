@@ -395,7 +395,6 @@ def installPackagesAlmalinux():
 
     # install epel
 
-    shellCmd("echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     shellCmd("dnf install -y epel-release python")
     shellCmd("dnf install -y 'dnf-command(config-manager)'")
 
@@ -409,14 +408,12 @@ def installPackagesAlmalinux():
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel")
 
-    shellCmd("echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     shellCmd("dnf install -y --allowerasing " +
              "libX11-devel libXext-devel libcurl-devel " +
              "libpng-devel libtiff-devel zlib-devel libzip " +
              # "eigen3-devel armadillo-devel " +
              "expat-devel libcurl-devel openmpi-devel " +
              "flex fftw3-devel ")
-    shellCmd("echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     shellCmd("dnf install -y --allowerasing " +
              "bzip2-devel qt5-qtbase-devel qt5-qtdeclarative-devel " +
