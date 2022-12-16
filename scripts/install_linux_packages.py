@@ -80,6 +80,7 @@ def main():
     print("  OS type: ", osType, file=sys.stderr)
     print("  OS version: ", osVersion, file=sys.stderr)
     print("****************************************************", file=sys.stderr)
+    print("1111111111111111111111111111111111111111111111111111", file=sys.stderr)
 
     # install the relevant packages
 
