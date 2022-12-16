@@ -84,6 +84,7 @@ def main():
     # install the relevant packages
 
     if (osType == "centos"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 6):
             installPackagesCentos6()
         elif (osVersion == 7):
@@ -93,20 +94,25 @@ def main():
         else:
             installPackagesCentos9()
     elif (osType == "almalinux"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 8):
             installPackagesAlmalinux8()
         else:
             installPackagesAlmalinux()
     elif (osType == "rockylinux"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 8):
             installPackagesRockylinux8()
         else:
             installPackagesRockylinux()
     elif (osType == "fedora"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
          installPackagesFedora()
     elif (osType == "debian"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
          installPackagesDebian()
     elif (osType == "ubuntu"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 22.04):
             print("==================================================", file=sys.stderr)
             print("Running installPackagesUbuntu22()", file=sys.stderr)
@@ -116,8 +122,10 @@ def main():
             print("Running installPackagesDebian()", file=sys.stderr)
             installPackagesDebian()
     elif (osType == "suse"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
          installPackagesSuse()
     elif (osType == "oracle"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
          installPackagesOracle()
     else:
         print("ERROR - unsupported OS type: ", osType, " version: ", osVersion, file=sys.stderr)
