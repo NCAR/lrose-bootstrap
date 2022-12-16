@@ -1,0 +1,26 @@
+#===================================================
+# build lrose in rhel9 container
+
+ARG LROSE_PKG=lrose-core
+ARG RELEASE_DATE=latest
+
+RUN \
+    echo "Building lrose in rhel9 container"; \
+    echo "  package is: ${LROSE_PKG}" 
+
+# run the checkout and build script
+
+RUN \
+    cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
+    ./do_build_all_cmake.py \
+    --package ${LROSE_PKG} \
+    --releaseDate ${RELEASE_DATE} \
+    --prefix /usr/local/lrose \
+    --buildDir /tmp/lrose-build \
+    --logDir /tmp/build-logs \
+    --samurai
+
+# clean up
+
+RUN \
+    /bin/rm -rf /tmp/lrose-build

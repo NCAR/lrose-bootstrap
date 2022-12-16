@@ -1,11 +1,11 @@
 #===================================================
-# build lrose in centos8 container
+# build lrose in rhel generic container
 
 ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
-    echo "Building lrose in almalinux8 container"; \
+    echo "Building lrose in rhel container"; \
     echo "  package is: ${LROSE_PKG}" 
 
 # run the checkout and build script
