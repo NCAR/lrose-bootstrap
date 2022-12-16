@@ -80,7 +80,6 @@ def main():
     print("  OS type: ", osType, file=sys.stderr)
     print("  OS version: ", osVersion, file=sys.stderr)
     print("****************************************************", file=sys.stderr)
-    print("1111111111111111111111111111111111111111111111111111", file=sys.stderr)
 
     # install the relevant packages
 
@@ -115,12 +114,8 @@ def main():
     elif (osType == "ubuntu"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 22.04):
-            print("==================================================", file=sys.stderr)
-            print("Running installPackagesUbuntu22()", file=sys.stderr)
             installPackagesUbuntu22()
         else:
-            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=sys.stderr)
-            print("Running installPackagesDebian()", file=sys.stderr)
             installPackagesDebian()
     elif (osType == "suse"):
         print("=====>> OS type: ", osType, file=sys.stderr)
@@ -143,6 +138,8 @@ def main():
 # install packages for CENTOS 6
 
 def installPackagesCentos6():
+
+    print("====>> running installPackagesCentos6()", file=sys.stderr)
 
     # install epel
 
@@ -198,6 +195,8 @@ def installPackagesCentos6():
 
 def installPackagesCentos7():
 
+    print("====>> running installPackagesCentos7()", file=sys.stderr)
+
     # install epel
 
     shellCmd("yum install -y epel-release")
@@ -244,6 +243,8 @@ def installPackagesCentos7():
 # install packages for CENTOS 8
 
 def installPackagesCentos8():
+
+    print("====>> running installPackagesCentos8()", file=sys.stderr)
 
     # install epel
 
@@ -302,6 +303,8 @@ def installPackagesCentos8():
 
 def installPackagesCentos9():
 
+    print("====>> running installPackagesCentos9()", file=sys.stderr)
+
     # install epel
 
     shellCmd("dnf install -y epel-release python3")
@@ -356,6 +359,8 @@ def installPackagesCentos9():
 # install packages for ALMALINUX 8
 
 def installPackagesAlmalinux8():
+
+    print("====>> running installPackagesAlmalinux8()", file=sys.stderr)
 
     # install epel
 
@@ -414,6 +419,8 @@ def installPackagesAlmalinux8():
 
 def installPackagesAlmalinux():
 
+    print("====>> running installPackagesAlmalinux()", file=sys.stderr)
+
     # install epel
 
     shellCmd("dnf install -y epel-release python")
@@ -468,6 +475,8 @@ def installPackagesAlmalinux():
 # install packages for ROCKYLINUX 8
 
 def installPackagesRockylinux8():
+
+    print("====>> running installPackagesRockylinux8()", file=sys.stderr)
 
     # install epel
 
@@ -526,6 +535,8 @@ def installPackagesRockylinux8():
 
 def installPackagesRockylinux():
 
+    print("====>> running installPackagesRockylinux()", file=sys.stderr)
+
     # install epel
 
     shellCmd("dnf install -y epel-release python")
@@ -581,6 +592,8 @@ def installPackagesRockylinux():
 
 def installPackagesFedora():
 
+    print("====>> running installPackagesFedora()", file=sys.stderr)
+
     # install main packages
     # break this up into pieces so it does not crash inside docker
 
@@ -628,6 +641,8 @@ def installPackagesFedora():
 
 def installPackagesOracle():
 
+    print("====>> running installPackagesOracle()", file=sys.stderr)
+
     # install epel
 
     shellCmd("dnf install -y oracle-epel-release-el8 python2 python3")
@@ -664,6 +679,8 @@ def installPackagesOracle():
 # install packages for Debian
 
 def installPackagesDebian():
+
+    print("====>> running installPackagesDebian()", file=sys.stderr)
 
     # set the environment
 
@@ -711,6 +728,8 @@ def installPackagesDebian():
 
 def installPackagesUbuntu22():
 
+    print("====>> running installPackagesUbuntu22()", file=sys.stderr)
+
     # set the environment
 
     os.environ["DEBIAN_FRONTEND"] = "noninteractive"
@@ -757,6 +776,8 @@ def installPackagesUbuntu22():
 # install packages for suse
 
 def installPackagesSuse():
+
+    print("====>> running installPackagesSuse()", file=sys.stderr)
 
     # install main packages
 
