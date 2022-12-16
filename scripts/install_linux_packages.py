@@ -108,10 +108,10 @@ def main():
             installPackagesRockylinux()
     elif (osType == "fedora"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-         installPackagesFedora()
+        installPackagesFedora()
     elif (osType == "debian"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-         installPackagesDebian()
+        installPackagesDebian()
     elif (osType == "ubuntu"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion == 22.04):
