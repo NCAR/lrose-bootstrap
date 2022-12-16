@@ -86,7 +86,7 @@ echo "#" >> $DockerfilePath
 if [ "$os_type" = fedora ]
 then
     echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
-elif [ "$os_type" = almalinux ]
+elif [ "$os_type" = almalinux ] || [ "$os_type" = rockylinux ] 
 then
     echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     if [ "$os_version" = 8 ] ; then
