@@ -78,7 +78,13 @@ echo "#" >> ${DockerfilePath}
 
 # add install python
 
-echo "RUN apt-get update; apt-get install -y python git" >> $DockerfilePath
+if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
+then
+    # install python 3
+    echo "RUN apt-get update; apt-get install -y python3 git; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+else
+    echo "RUN apt-get update; apt-get install -y python git" >> $DockerfilePath
+fi
 
 # get lrose-bootstrap
 

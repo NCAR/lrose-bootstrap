@@ -107,7 +107,10 @@ def main():
     elif (osType == "debian"):
          installPackagesDebian()
     elif (osType == "ubuntu"):
-         installPackagesDebian()
+        if (osVersion == 22.04):
+            installPackagesUbuntu22()
+        else:
+            installPackagesDebian()
     elif (osType == "suse"):
          installPackagesSuse()
     elif (osType == "oracle"):
@@ -671,6 +674,53 @@ def installPackagesDebian():
     # create link for qmake
 
     shellCmd("cd /usr/bin; " +
+             "/bin/rm -f qmake qmake-qt5; " +
+             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
+             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
+
+    # install packages for running CIDD
+
+    if (options.cidd32):
+        shellCmd("/usr/bin/dpkg --add-architecture i386")
+        shellCmd("apt-get -y update")
+        shellCmd("apt-get install -y " +
+                 "libx11-dev:i386 " +
+                 "libxext-dev:i386 " +
+                 "libfftw3-dev:i386 " +
+                 "libexpat-dev:i386 " +
+                 "libpng-dev:i386 " +
+                 "libfl-dev:i386 " +
+                 "libbz2-dev:i386 " +
+                 "libzip-dev:i386")
+
+########################################################################
+# install packages for Debian
+
+def installPackagesUbuntu22():
+
+    # set the environment
+
+    os.environ["DEBIAN_FRONTEND"] = "noninteractive"
+
+    # install main packages
+    
+    shellCmd("apt-get -y update")
+    shellCmd("apt-get install -y " +
+             "tcsh git gcc g++ gfortran rsync chrpath " +
+             "automake make cmake mlocate libtool pkg-config python3 " +
+             "libcurl3-dev curl " +
+             "libfl-dev libbz2-dev libx11-dev libpng-dev " +
+             "libfftw3-dev libexpat1-dev " +
+             "qtbase5-dev qtdeclarative5-dev " +
+             "libeigen3-dev libzip-dev " +
+             "libarmadillo-dev libopenmpi-dev " +
+             "libnetcdf-dev libhdf5-dev hdf5-tools " +
+             "libcurl4-openssl-dev")
+
+    # create link for qmake
+
+    shellCmd("cd /usr/bin; " +
+             "/bin/rm -f python; ln -s python3 python; " +
              "/bin/rm -f qmake qmake-qt5; " +
              "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
              "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
