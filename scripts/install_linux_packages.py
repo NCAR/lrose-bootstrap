@@ -124,10 +124,10 @@ def main():
             installPackagesDebian()
     elif (osType == "suse"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-         installPackagesSuse()
+        installPackagesSuse()
     elif (osType == "oracle"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-         installPackagesOracle()
+        installPackagesOracle()
     else:
         print("ERROR - unsupported OS type: ", osType, " version: ", osVersion, file=sys.stderr)
             
