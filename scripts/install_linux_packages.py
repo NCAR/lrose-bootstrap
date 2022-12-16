@@ -108,8 +108,12 @@ def main():
          installPackagesDebian()
     elif (osType == "ubuntu"):
         if (osVersion == 22.04):
+            print("==================================================", file=sys.stderr)
+            print("Running installPackagesUbuntu22()", file=sys.stderr)
             installPackagesUbuntu22()
         else:
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=sys.stderr)
+            print("Running installPackagesDebian()", file=sys.stderr)
             installPackagesDebian()
     elif (osType == "suse"):
          installPackagesSuse()
