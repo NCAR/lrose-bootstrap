@@ -105,6 +105,10 @@ else
         cat Dockerfile.centos8.build >> ${DockerfilePath}
     elif [ "$os_type" = fedora ] ; then
         cat Dockerfile.fedora.build >> ${DockerfilePath}
+    elif [ "$os_type" = almalinux -a "$os_version" = 8 ] ; then
+        cat Dockerfile.rhel.build >> ${DockerfilePath}
+    elif [ "$os_type" = rockylinux -a "$os_version" = 8 ] ; then
+        cat Dockerfile.rhel.build >> ${DockerfilePath}
     elif [ "$os_type" = almalinux -a "$os_version" = 9 ] ; then
         cat Dockerfile.rhel9.build >> ${DockerfilePath}
     elif [ "$os_type" = rockylinux -a "$os_version" = 9 ] ; then
