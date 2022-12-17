@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #===========================================================================
 #
@@ -137,6 +137,10 @@ def main():
                       dest='noApps', default=False,
                       action="store_true",
                       help='Do not build the lrose core apps')
+    parser.add_option('--noRpath',
+                      dest='noRpath', default=False,
+                      action="store_true",
+                      help='Do not set a run path at link time - use this for building rpm packages.')
     parser.add_option('--withJasper',
                       dest='withJasper', default=False,
                       action="store_true",
@@ -657,10 +661,11 @@ def buildPackage():
             ":" + prefixLibDir + \
             ":" + prefixLibDir + "'"
     else:
-        os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
-            "-Wl,--enable-new-dtags," + \
-            "-rpath," + \
-            "'" + prefixLibDir + "'"
+        if (not options.noRpath):
+            os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
+                "-Wl,--enable-new-dtags," + \
+                "-rpath," + \
+                "'" + prefixLibDir + "'"
 
     if (sys.platform == "darwin"):
         os.environ["PKG_CONFIG_PATH"] = "/usr/local/opt/qt/lib/pkgconfig"

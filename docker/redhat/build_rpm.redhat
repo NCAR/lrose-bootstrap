@@ -135,6 +135,7 @@ cat rpm.spec
 
 # build the rpm
 
+export QA_RPATHS=0x0002
 echo "==>> building the rpm:"
 cd /root/rpmbuild
 rpmbuild -v -bb ./SPECS/rpm.spec
