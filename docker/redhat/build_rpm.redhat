@@ -133,9 +133,12 @@ fi
 echo "==>> spec file contents:"
 cat rpm.spec
 
-# build the rpm
+# suppress errors on invalid RPATHs - only issue warnings
 
 export QA_RPATHS=0x0002
+
+# build the rpm
+
 echo "==>> building the rpm:"
 cd /root/rpmbuild
 rpmbuild -v -bb ./SPECS/rpm.spec
