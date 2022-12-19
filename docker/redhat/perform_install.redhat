@@ -79,24 +79,47 @@ then
   echo "    log_name: ${log_name}"
 fi
 
-# for centos, install epel release
+# check OS version
 
-is_centos=`grep CentOS /etc/redhat-release`
-is_centos_8=`grep VERSION_ID /etc/os-release | grep 8`
-if [ -n "$is_centos_8" ]; then
-# for centos 8, perform extra actions
+is_centos=`grep NAME /etc/os-release  | grep -v PRETTY | grep -i CentOS`
+is_alma=`grep NAME /etc/os-release  | grep -v PRETTY | grep -i Alma`
+is_rocky=`grep NAME /etc/os-release  | grep -v PRETTY | grep -i Rocky`
+is_fedora=`grep NAME /etc/os-release  | grep -v PRETTY | grep -i Fedora`
+
+if [ -n "$is_centos" ] || [ -n "$is_alma" ] || [ -n "$is_rocky" ]; then
+    is_rh7=`grep VERSION_ID /etc/os-release | grep 7`
+    is_rh8=`grep VERSION_ID /etc/os-release | grep 8.`
+    is_rh9=`grep VERSION_ID /etc/os-release | grep 9.`
+fi
+
+echo "is_centos: $is_centos"
+echo "is_fedora: $is_fedora"
+echo "is_alma: $is_alma"
+echo "is_rocky: $is_rocky"
+echo "is_rh7: $is_rh7"
+echo "is_rh8: $is_rh8"
+echo "is_rh9: $is_rh9"
+
+if [ -n "$is_rh8" ]; then
+# for RHEL 8, perform extra actions
+    echo "==>> extra actions for rh8 <<=="
     dnf -y update --nogpgcheck
     dnf install -y epel-release
     dnf install -y 'dnf-command(config-manager)'
     dnf config-manager --set-enabled powertools
     dnf install -y python2 python3
     alternatives --set python /usr/bin/python3
-elif [ -n "$is_centos" ]; then
+elif [ -n "$is_rh9" ]; then
+    dnf -y update --nogpgcheck
+    echo "==>> install epel-release for rh9<<=="
+    dnf install -y epel-release
+elif [ -n "$is_fedora" ]; then
+    echo "==>> no epel-release in fedora <<=="
+    yum -y update --nogpgcheck
+else
     yum -y update --nogpgcheck
     echo "==>> install epel-release <<=="
     yum install -y epel-release
-else
-    yum -y update --nogpgcheck
 fi
 
 # get the rpm
@@ -109,6 +132,14 @@ echo "  ==>>> logPath: $logPath"
 # install the rpm
 
 yum install --nogpgcheck -y ${rpmPath}
+
+# echo the os release
+
+echo ""
+echo "============== os-release ==============="
+cat /etc/os-release
+echo "============== os-release ==============="
+echo ""
 
 # check that RadxPrint runs
 
