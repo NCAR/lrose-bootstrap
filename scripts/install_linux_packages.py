@@ -85,23 +85,23 @@ def main():
 
     if (osType == "centos"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion == 6):
+        if (int(osVersion) == 6):
             installPackagesCentos6()
-        elif (osVersion == 7):
+        elif (int(osVersion) == 7):
             installPackagesCentos7()
-        elif (osVersion == 8):
+        elif (int(osVersion) == 8):
             installPackagesRh8()
         else:
             installPackagesRh9()
     elif (osType == "almalinux"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion == 8):
+        if (int(osVersion) == 8):
             installPackagesRh8()
         else:
             installPackagesRh9()
     elif (osType == "rockylinux"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion == 8):
+        if (int(osVersion) == 8):
             installPackagesRh8()
         else:
             installPackagesRh9()

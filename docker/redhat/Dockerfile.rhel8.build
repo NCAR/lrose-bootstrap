@@ -11,12 +11,14 @@ RUN \
 # run the checkout and build script
 
 RUN \
-    cd; cd git/lrose-bootstrap/scripts; git pull --ff-only;
+    cd; cd git/lrose-bootstrap/scripts; git pull --ff-only
 
 RUN \
     cd; cd git/lrose-bootstrap/scripts; \
     echo "111111111111111111"; \
-    ./do_build_all_cmake.py \
+    cat /etc/os-release; \
+    echo "111111111111111111"; \
+    ~/git/lrose-bootstrap/scripts/do_build_all_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
