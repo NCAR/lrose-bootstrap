@@ -634,7 +634,7 @@ def getOsType():
             osType = "centos"
           elif (nameline.find("almalinux") >= 0):
             osType = "almalinux"
-          elif (nameline.find("rockylinux") >= 0):
+          elif (nameline.find("rocky") >= 0):
             osType = "rockylinux"
           elif (nameline.find("fedora") >= 0):
             osType = "fedora"
