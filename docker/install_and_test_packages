@@ -52,16 +52,18 @@ done
 # perform the install and test
 
 ./redhat/install_pkg_and_test.redhat -t centos -v 7  -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t centos -v 8  -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t centos -v latest  -p ${lrose_pkg}
+#./redhat/install_pkg_and_test.redhat -t centos -v 8  -p ${lrose_pkg}
+#./redhat/install_pkg_and_test.redhat -t centos -v latest  -p ${lrose_pkg}
 
 #./redhat/install_pkg_and_test.redhat -t fedora -v 31 -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t fedora -v 32 -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t fedora -v 33 -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t fedora -v 34 -p ${lrose_pkg}
+#./redhat/install_pkg_and_test.redhat -t fedora -v 32 -p ${lrose_pkg}
+#./redhat/install_pkg_and_test.redhat -t fedora -v 33 -p ${lrose_pkg}
+#./redhat/install_pkg_and_test.redhat -t fedora -v 34 -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t fedora -v 36 -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t fedora -v 37 -p ${lrose_pkg}
 
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 8  -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t almalinux -v latest  -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t almalinux -v 9  -p ${lrose_pkg}
 
 ./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
@@ -70,9 +72,10 @@ done
 ./debian/install_pkg_and_test.debian -t ubuntu -v 16.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 18.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 20.04  -p ${lrose_pkg}
+./debian/install_pkg_and_test.debian -t ubuntu -v 22.04  -p ${lrose_pkg}
 
-./suse/install_pkg_and_test.suse -t opensuse -v leap     -p ${lrose_pkg}
-./suse/install_pkg_and_test.suse -t opensuse -v latest   -p ${lrose_pkg}
+#./suse/install_pkg_and_test.suse -t opensuse -v leap     -p ${lrose_pkg}
+#./suse/install_pkg_and_test.suse -t opensuse -v latest   -p ${lrose_pkg}
 
 #./oracle/install_pkg_and_test.oracle -t oraclelinux -v 8 -p ${lrose_pkg}
 

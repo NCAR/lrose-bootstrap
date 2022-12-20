@@ -15,14 +15,16 @@
 #./redhat/make_custom_image.redhat -t fedora -v 30 >& /tmp/make_custom_image.fedora.30.log &
 #./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
 #./redhat/make_custom_image.redhat -t fedora -v 32 >& /tmp/make_custom_image.fedora.32.log &
-./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
-./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
+#./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
+#./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
 #./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
+./redhat/make_custom_image.redhat -t fedora -v 36 >& /tmp/make_custom_image.fedora.36.log &
+./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
 
 # ALMA LINUX
 
 ./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
-./redhat/make_custom_image.redhat -t almalinux -v latest >& /tmp/make_custom_image.almalinux.latest.log &
+./redhat/make_custom_image.redhat -t almalinux -v 9 >& /tmp/make_custom_image.almalinux.9.log &
 
 # DEBIAN
 
@@ -35,12 +37,13 @@
 ./debian/make_custom_image.debian -t ubuntu -v 16.04 >& /tmp/make_custom_image.ubuntu.16.04.log &
 ./debian/make_custom_image.debian -t ubuntu -v 18.04 >& /tmp/make_custom_image.ubuntu.18.04.log &
 ./debian/make_custom_image.debian -t ubuntu -v 20.04 >& /tmp/make_custom_image.ubuntu.20.04.log &
+./debian/make_custom_image.debian -t ubuntu -v 22.04 >& /tmp/make_custom_image.ubuntu.22.04.log &
 
 # SUSE
 
-./suse/make_custom_image.suse -t opensuse -v leap >& /tmp/make_custom_image.opensuse.leap.log &
-./suse/make_custom_image.suse -t opensuse -v latest >& /tmp/make_custom_image.opensuse.latest.log &
+#./suse/make_custom_image.suse -t opensuse -v leap >& /tmp/make_custom_image.opensuse.leap.log &
+#./suse/make_custom_image.suse -t opensuse -v latest >& /tmp/make_custom_image.opensuse.latest.log &
 
 # ORACLE
 
-./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
+#./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
