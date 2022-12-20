@@ -309,8 +309,8 @@ def main():
 
     # create the CMakeLists files
 
-    logPath = prepareLogFile("create-CMakeLists-files");
-    createCMakeLists()
+    # logPath = prepareLogFile("create-CMakeLists-files");
+    # createCMakeLists()
 
     # create the release information file
     
