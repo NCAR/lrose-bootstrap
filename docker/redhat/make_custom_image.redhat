@@ -85,7 +85,7 @@ echo "#" >> $DockerfilePath
 
 if [ "$os_type" = fedora ]
 then
-    echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
+    echo "RUN yum -y update; yum install -y python3 git" >> $DockerfilePath
 elif [ "$os_type" = almalinux ] || [ "$os_type" = rockylinux ] 
 then
     if [ "$os_version" = 8 ] ; then
@@ -100,7 +100,7 @@ else
     elif [ "$os_version" = 7 ] ; then
         echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     elif [ "$os_version" = latest ] ; then
-        echo "RUN dnf -y update; dnf install -y python git" >> $DockerfilePath
+        echo "RUN dnf -y update; dnf install -y python3 git" >> $DockerfilePath
     else
         echo "RUN dnf -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled powertools; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
     fi

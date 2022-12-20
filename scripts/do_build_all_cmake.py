@@ -64,8 +64,6 @@ def main():
     global logPath
     global logFp
 
-    print("AAAAAAAAAAAAAAAAAAAAAA", file=sys.stderr)
-
     # parse the command line
 
     usage = "usage: " + thisScriptName + " [options]"
