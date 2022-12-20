@@ -106,32 +106,41 @@ echo "%define release ${release}" >> rpm.spec
 
 if [ "$lrose_pkg" = "cidd" ]
 then
-  echo "NOTE - using rpm.spec.body.cidd"
+  echo "==>> using rpm.spec.body.cidd"
   cat /scripts/rpm.spec.body.cidd >> rpm.spec
 else
- if [[ "$os_type" = centos ]] && [[ "$os_version" = 8 ]]
- then
-   echo "NOTE - centos 8 using rpm.spec.body.centos8"
-   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- elif [[ "$os_type" = centos ]] && [[ "$os_version" = latest ]]
- then
-   echo "NOTE - centos latest using rpm.spec.body.centos8"
-   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- elif [[ "$os_type" = fedora ]]
- then
-   echo "NOTE - fedora using rpm.spec.body.fedora"
-   cat /scripts/rpm.spec.body.fedora >> rpm.spec
- elif [[ "$os_type" = almalinux ]] && [[ "$os_version" = 8 ]]
- then
-   echo "NOTE - almalinux using rpm.spec.body.centos8"
-   cat /scripts/rpm.spec.body.centos8 >> rpm.spec
- elif [[ "$os_type" = almalinux ]] && [[ "$os_version" = 9 ]]
- then
-   echo "NOTE - almalinux using rpm.spec.body.fedora"
-   cat /scripts/rpm.spec.body.fedora >> rpm.spec
- else
-   cat /scripts/rpm.spec.body >> rpm.spec
- fi
+    # switch based on OS version
+    if [ "$os_type" = centos -a "$os_version" = 6 ] ; then
+        echo "==>> using rpm.spec.body"
+        cat /scripts/rpm.spec.body >> rpm.spec
+    elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
+        echo "==>> using rpm.spec.body"
+        cat /scripts/rpm.spec.body >> rpm.spec
+    elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
+        echo "==>> using rpm.spec.body.rh8"
+        cat /scripts/rpm.spec.body.rh8 >> rpm.spec
+    elif [ "$os_type" = centos -a "$os_version" = 9 ] ; then
+        echo "==>> using rpm.spec.body.rh9"
+        cat /scripts/rpm.spec.body.rh9 >> rpm.spec
+    elif [ "$os_type" = almalinux -a "$os_version" = 8 ] ; then
+        echo "==>> using rpm.spec.body.rh8"
+        cat /scripts/rpm.spec.body.rh8 >> rpm.spec
+    elif [ "$os_type" = almalinux -a "$os_version" = 9 ] ; then
+        echo "==>> using rpm.spec.body.rh9"
+        cat /scripts/rpm.spec.body.rh9 >> rpm.spec
+    elif [ "$os_type" = rockylinux -a "$os_version" = 8 ] ; then
+        echo "==>> using rpm.spec.body.rh8"
+        cat /scripts/rpm.spec.body.rh8 >> rpm.spec
+    elif [ "$os_type" = rocklinux -a "$os_version" = 9 ] ; then
+        echo "==>> using rpm.spec.body.rh9"
+        cat /scripts/rpm.spec.body.rh9 >> rpm.spec
+    elif [ "$os_type" = fedora ] ; then
+        echo "==>> using rpm.spec.body.fedora"
+        cat /scripts/rpm.spec.body.fedora >> rpm.spec
+    else
+        echo "==>> using rpm.spec.body"
+        cat /scripts/rpm.spec.body >> rpm.spec
+    fi
 fi
 
 echo "==>> spec file contents:"

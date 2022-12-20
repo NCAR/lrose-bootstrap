@@ -37,47 +37,6 @@ Requires: xorg-x11-xauth
 Requires: rpm-devel
 Requires: zlib-devel
 
-#Requires: armadillo 
-#Requires: bzip2
-#Requires: eigen3-devel
-#Requires: expat
-#Requires: fftw3 
-#Requires: flex
-#Requires: hdf5
-#Requires: libX11
-#Requires: libXext 
-#Requires: libcurl
-#Requires: libpng
-#Requires: libtiff
-#Requires: libzip 
-#Requires: netcdf 
-#Requires: openmpi 
-#Requires: qt5-qtbase
-#Requires: qt5-qtdeclarative 
-#Requires: rpm
-#Requires: zlib
-#Requires: xorg-x11-xauth
-#Requires: luit 
-#Requires: oclock
-#Requires: x11perf 
-#Requires: xbiff
-#Requires: xclock 
-#Requires: xclipboard
-#Requires: xconsole 
-#Requires: xcursorgen
-#Requires: xeyes 
-#Requires: xfd
-#Requires: xfontsel 
-#Requires: xload
-#Requires: xlogo 
-#Requires: xmag
-#Requires: xmessage 
-#Requires: xpr
-#Requires: xvidtune 
-#Requires: xwd
-#Requires: xwud 
-#Requires: xterm
-
 %description
 LROSE - Lidar Radar Open Software Environment
 
