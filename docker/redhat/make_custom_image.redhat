@@ -99,6 +99,8 @@ else
         echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
     elif [ "$os_version" = 7 ] ; then
         echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
+    elif [ "$os_version" = latest ] ; then
+        echo "RUN dnf -y update; dnf install -y python git" >> $DockerfilePath
     else
         echo "RUN dnf -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled powertools; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
     fi

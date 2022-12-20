@@ -131,7 +131,7 @@ else
     elif [ "$os_type" = rockylinux -a "$os_version" = 8 ] ; then
         echo "==>> using rpm.spec.body.rh8"
         cat /scripts/rpm.spec.body.rh8 >> rpm.spec
-    elif [ "$os_type" = rocklinux -a "$os_version" = 9 ] ; then
+    elif [ "$os_type" = rockylinux -a "$os_version" = 9 ] ; then
         echo "==>> using rpm.spec.body.rh9"
         cat /scripts/rpm.spec.body.rh9 >> rpm.spec
     elif [ "$os_type" = fedora ] ; then
