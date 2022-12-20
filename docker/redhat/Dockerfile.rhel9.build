@@ -12,13 +12,16 @@ RUN \
 
 RUN \
     cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
+    echo "111111111111111111"; \
+    cat /etc/os-release; \
+    echo "111111111111111111"; \
     ./do_build_all_cmake.py \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --samurai
+    --vortrac --samurai
 
 # clean up
 
