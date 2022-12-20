@@ -88,11 +88,10 @@ then
     echo "RUN yum -y update; yum install -y python git" >> $DockerfilePath
 elif [ "$os_type" = almalinux ] || [ "$os_type" = rockylinux ] 
 then
-    echo "RUN dnf -y update; dnf install -y python3 git" >> $DockerfilePath
     if [ "$os_version" = 8 ] ; then
         echo "RUN dnf -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled powertools; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
     elif [ "$os_version" = 9 ] ; then
-        echo "RUN dnf -y update; yum install -y python git" >> $DockerfilePath
+        echo "RUN dnf -y update; dnf install -y python3 git" >> $DockerfilePath
     fi
 else
     # various versions of centos or almalinux
