@@ -92,7 +92,14 @@ echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstr
 
 # add install packages by calling python script
 
-echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
+if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
+then
+    # python 3
+    echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
+else
+    echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/install_linux_packages.py2" >> $
+fi
+
 
 # append the body of the Dockerfile
 # cat Dockerfile.debian.custom >> ${DockerfilePath}
