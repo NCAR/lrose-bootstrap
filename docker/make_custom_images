@@ -6,8 +6,8 @@
 
 #./redhat/make_custom_image.redhat -t centos -v 6 >& /tmp/make_custom_image.centos.6.log &
 ./redhat/make_custom_image.redhat -t centos -v 7 >& /tmp/make_custom_image.centos.7.log &
-./redhat/make_custom_image.redhat -t centos -v 8 >& /tmp/make_custom_image.centos.8.log &
-./redhat/make_custom_image.redhat -t centos -v latest >& /tmp/make_custom_image.centos.latest.log &
+#./redhat/make_custom_image.redhat -t centos -v 8 >& /tmp/make_custom_image.centos.8.log &
+#./redhat/make_custom_image.redhat -t centos -v latest >& /tmp/make_custom_image.centos.latest.log &
 
 # FEDORA
 
@@ -25,6 +25,11 @@
 
 ./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
 ./redhat/make_custom_image.redhat -t almalinux -v 9 >& /tmp/make_custom_image.almalinux.9.log &
+
+# ROCKY LINUX
+
+./redhat/make_custom_image.redhat -t rockylinux -v 8 >& /tmp/make_custom_image.rockylinux.8.log &
+./redhat/make_custom_image.redhat -t rockylinux -v 9 >& /tmp/make_custom_image.rockylinux.9.log &
 
 # DEBIAN
 
