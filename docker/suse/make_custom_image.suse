@@ -62,7 +62,7 @@ fi
 
 # go to scripts dir
 
-cd ~/git/lrose-core/build/packages/suse
+cd ~/git/lrose-bootstrap/docker/suse
 
 # compute Dockerfile path
 
