@@ -63,6 +63,7 @@ fi
 # go to scripts dir
 
 cd ~/git/lrose-bootstrap/docker/redhat
+git pull --no-ff
 
 # compute Dockerfile path
 
