@@ -1,5 +1,10 @@
 #! /bin/bash
 
+# go to script dir
+
+echo "cd ~/git/lrose-bootstrap/scripts"
+cd ~/git/lrose-bootstrap/scripts
+
 ###########################################################
 # determine which python version we have
 
@@ -9,13 +14,13 @@ echo $py_version
 
 if [ "$py_version" = 3 ] ; then
     # we have python 3
-    echo "Running python install_linux_packages.py"
-    python install_linux_packages.py
+    echo "Running python ./install_linux_packages.py"
+    python ./install_linux_packages.py
     exit 0
 elif [ "$py_version" = 2 ] ; then
     # we have python 2
-    echo "Running python install_linux_packages.py"
-    python install_linux_packages.py
+    echo "Running python ./install_linux_packages.py"
+    python ./install_linux_packages.py
     exit 0
 fi
 
@@ -24,8 +29,8 @@ fi
 py_version=`python3 -c 'import sys; print(sys.version_info[0])'`
 if [ "$py_version" = 3 ] ; then
     # we have python 3
-    echo "Running python3 install_linux_packages.py"
-    python3 install_linux_packages.py
+    echo "Running python3 ./install_linux_packages.py"
+    python3 ./install_linux_packages.py
     exit 0
 fi
 
@@ -34,14 +39,14 @@ fi
 py_version=`python2 -c 'import sys; print(sys.version_info[0])'`
 if [ "$py_version" = 2 ] ; then
     # we have python 2
-    echo "Running python2 install_linux_packages.py"
-    python2 install_linux_packages.py
+    echo "Running python2 ./install_linux_packages.py"
+    python2 ./install_linux_packages.py
     exit 0
 fi
 
 # failure
 
-echo "ERROR - run_install_linux_packages"
+echo "ERROR - run_./install_linux_packages"
 echo "  Cannot find python, python2 or python3"
 exit 0
 

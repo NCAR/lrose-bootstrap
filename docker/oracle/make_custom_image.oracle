@@ -91,7 +91,7 @@ echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstr
 
 # add install packages by calling python script
 
-echo "RUN ~/git/lrose-bootstrap/scripts/install_linux_packages.py" >> $DockerfilePath
+echo "RUN ~/git/lrose-bootstrap/scripts/run_install_linux_packages" >> $DockerfilePath
 
 # using the Dockerfile, create the custom image
 
