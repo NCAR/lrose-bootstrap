@@ -526,9 +526,9 @@ def getValueListForKey(path, key):
     try:
         fp = open(path, 'r')
     except IOError as e:
-        if (options.verbose):
-            print("ERROR - ", thisScriptName, file=sys.stderr)
-            print("  Cannot open file:", path, file=sys.stderr)
+        #if (options.verbose):
+        #    print("ERROR - ", thisScriptName, file=sys.stderr)
+        #    print("  Cannot open file:", path, file=sys.stderr)
         return valueList
 
     lines = fp.readlines()
