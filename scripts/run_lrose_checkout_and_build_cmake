@@ -1,0 +1,52 @@
+#! /bin/bash
+
+# go to script dir
+
+echo "cd ~/git/lrose-bootstrap/scripts"
+cd ~/git/lrose-bootstrap/scripts
+
+###########################################################
+# determine which python version we have
+
+py_version=`python -c 'import sys; print(sys.version_info[0])'`
+
+echo $py_version
+
+if [ "$py_version" = 3 ] ; then
+    # we have python 3
+    echo "Running python ./lrose_checkout_and_build_cmake.py"
+    python ./lrose_checkout_and_build_cmake.py
+    exit 0
+elif [ "$py_version" = 2 ] ; then
+    # we have python 2
+    echo "Running python ./lrose_checkout_and_build_cmake.py"
+    python ./lrose_checkout_and_build_cmake.py
+    exit 0
+fi
+
+# cannot find python, try python 3
+
+py_version=`python3 -c 'import sys; print(sys.version_info[0])'`
+if [ "$py_version" = 3 ] ; then
+    # we have python 3
+    echo "Running python3 ./lrose_checkout_and_build_cmake.py"
+    python3 ./lrose_checkout_and_build_cmake.py
+    exit 0
+fi
+
+# cannot find python3, try python 2
+
+py_version=`python2 -c 'import sys; print(sys.version_info[0])'`
+if [ "$py_version" = 2 ] ; then
+    # we have python 2
+    echo "Running python2 ./lrose_checkout_and_build_cmake.py"
+    python2 ./lrose_checkout_and_build_cmake.py
+    exit 0
+fi
+
+# failure
+
+echo "ERROR - run_./install_linux_packages"
+echo "  Cannot find python, python2 or python3"
+exit 0
+
