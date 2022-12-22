@@ -80,10 +80,9 @@ echo "#" >> ${DockerfilePath}
 
 if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
 then
-    # install python 3
     echo "RUN apt-get update; apt-get install -y python3 git; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
 else
-    echo "RUN apt-get update; apt-get install -y python git" >> $DockerfilePath
+    echo "RUN apt-get update; apt-get install -y python python3 git" >> $DockerfilePath
 fi
 
 # get lrose-bootstrap
@@ -92,7 +91,7 @@ echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstr
 
 # add install packages by calling python script
 
-echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/run_install_linux_packages"
+echo "RUN export DEBIAN_FRONTEND=noninteractive; ~/git/lrose-bootstrap/scripts/run_install_linux_packages" >> $DockerfilePath
 
 # append the body of the Dockerfile
 # cat Dockerfile.debian.custom >> ${DockerfilePath}
