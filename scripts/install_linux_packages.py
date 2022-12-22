@@ -206,7 +206,7 @@ def installPackagesCentos7():
 
     shellCmd("yum install -y " +
              "tcsh wget git " +
-             "tkcvs emacs rsync python mlocate " +
+             "tkcvs emacs rsync python python3 mlocate " +
              "m4 make cmake cmake3 libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel " +
              "libX11-devel libXext-devel " +
@@ -238,7 +238,7 @@ def installPackagesCentos7():
     # create link for qtmake
 
     shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
-    
+
 ########################################################################
 # install packages for RH 8
 
@@ -460,7 +460,7 @@ def installPackagesDebian():
     shellCmd("apt-get -y update")
     shellCmd("apt-get install -y " +
              "tcsh git gcc g++ gfortran rsync chrpath " +
-             "automake make cmake mlocate libtool pkg-config python " +
+             "automake make cmake mlocate libtool pkg-config python python3 " +
              "libcurl3-dev curl " +
              "libfl-dev libbz2-dev libx11-dev libpng-dev " +
              "libfftw3-dev libexpat1-dev " +
@@ -474,8 +474,8 @@ def installPackagesDebian():
 
     shellCmd("cd /usr/bin; " +
              "/bin/rm -f qmake qmake-qt5; " +
-             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
-             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
 
     # install packages for running CIDD
 
@@ -523,8 +523,8 @@ def installPackagesUbuntu22():
     shellCmd("cd /usr/bin; " +
              "/bin/rm -f python; ln -s python3 python; " +
              "/bin/rm -f qmake qmake-qt5; " +
-             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
-             "ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
 
     # install packages for running CIDD
 

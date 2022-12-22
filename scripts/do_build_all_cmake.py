@@ -297,7 +297,7 @@ def main():
     # run lrose build
 
     logPath = prepareLogFile("no-logging");
-    cmd = os.path.join(thisScriptDir, "run_lrose_checkout_and_build_cmake")
+    cmd = os.path.join(thisScriptDir, "lrose_checkout_and_build_cmake.py")
     if (options.clean):
         cmd = cmd + " --clean"
     if (options.debug):
