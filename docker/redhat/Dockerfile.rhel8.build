@@ -18,7 +18,7 @@ RUN \
     echo "================================="; \
     cat /etc/os-release; \
     echo "================================="; \
-    ~/git/lrose-bootstrap/scripts/do_build_all_cmake.py --verbose \
+    ./do_build_all_cmake.py --verbose \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
     --prefix /usr/local/lrose \
