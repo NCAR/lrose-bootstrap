@@ -75,9 +75,14 @@ then
   echo "    release_date: ${release_date}"
 fi
 
+# ensure the release dir exists
+
+releaseDir=${HOME}/releases/${lrose_pkg}
+mkdir -p ${releaseDir}
+
 # create directory that will hold the .deb file
 
-pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+pkgDir=${releaseDir}/pkg.${os_type}_${os_version}.${lrose_pkg}
 /bin/rm -rf $pkgDir
 mkdir -p $pkgDir
 

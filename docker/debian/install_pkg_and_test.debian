@@ -68,9 +68,13 @@ then
   echo "    lrose_pkg: ${lrose_pkg}"
 fi
 
+# get the release dir
+
+releaseDir=${HOME}/releases/${lrose_pkg}
+
 # go to pkgs dir
 
-pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+pkgDir=${releaseDir}/pkg.${os_type}_${os_version}.${lrose_pkg}
 cd $pkgDir
 
 # get path to deb file and log file
