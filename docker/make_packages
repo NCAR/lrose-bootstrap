@@ -65,6 +65,9 @@ done
 ./redhat/make_package.redhat -t almalinux -v 8  -p ${lrose_pkg} -r ${release_date}
 ./redhat/make_package.redhat -t almalinux -v 9  -p ${lrose_pkg} -r ${release_date}
 
+./redhat/make_package.redhat -t rockylinux -v 8  -p ${lrose_pkg} -r ${release_date}
+./redhat/make_package.redhat -t rockylinux -v 9  -p ${lrose_pkg} -r ${release_date}
+
 ./debian/make_package.debian -t debian -v 9      -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t debian -v 10     -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t debian -v 11     -p ${lrose_pkg} -r ${release_date}

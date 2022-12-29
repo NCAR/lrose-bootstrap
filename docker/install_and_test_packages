@@ -65,6 +65,9 @@ done
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 8  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 9  -p ${lrose_pkg}
 
+./redhat/install_pkg_and_test.redhat -t rockylinux -v 8  -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t rockylinux -v 9  -p ${lrose_pkg}
+
 ./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
