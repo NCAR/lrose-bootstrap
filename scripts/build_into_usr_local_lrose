@@ -1,0 +1,70 @@
+#! /bin/bash
+
+#--------------------------------------------------------------------
+# usage function
+#
+
+function usage() {
+    echo
+    echo "Perform lrose build into /usr/local/lrose"
+    echo "Usage:"
+    echo "  $scriptName [options below]"
+    echo "  -h   :  help"
+    echo "  -p ? :  set lrose_pkg"
+    echo "          e.g. lrose-core, lrose-radx, lrose-cidd"
+    echo "  -r ? :  set release_date"
+    echo "          e.g. latest, 20190105"
+}
+
+scriptName=$(basename $0)
+
+os_type=centos
+os_version=8
+lrose_pkg=lrose-core
+release_date=latest
+
+# Parse command line options.
+while getopts hp:r: OPT; do
+    case "$OPT" in
+        h)
+            usage
+            exit 0
+            ;;
+        p)
+            lrose_pkg=$OPTARG
+            ;;
+        r)
+            release_date=$OPTARG
+            ;;
+        \?)
+            # getopts issues an error message
+            echo "Problems with command line usage"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+echo "Running $scriptName"
+echo "  performing lrose build in docker container"
+echo "    lrose_pkg: ${lrose_pkg}"
+echo "    release_date: ${release_date}"
+
+# go to scripts dir
+
+cd ~/git/lrose-bootstrap/scripts
+git pull --ff-only
+
+# build lrose and install in /usr/local/lrose
+
+./do_build_all_cmake.py \
+    --package ${lrose_pkg} \
+    --releaseDate ${release_date} \
+    --prefix /usr/local/lrose \
+    --buildDir /tmp/lrose-build \
+    --logDir /tmp/build-logs \
+    --fractl --vortrac --samurai
+
+# clean up
+
+/bin/rm -rf /tmp/lrose-build
