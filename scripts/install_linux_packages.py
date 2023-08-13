@@ -371,7 +371,7 @@ def installPackagesFedora():
 
     shellCmd("yum install -y " +
              "tcsh wget git " +
-             "tkcvs emacs rsync python mlocate " +
+             "emacs rsync python mlocate " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel " +
              "libX11-devel libXext-devel " +
