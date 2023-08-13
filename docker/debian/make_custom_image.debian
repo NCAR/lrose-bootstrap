@@ -80,9 +80,12 @@ echo "#" >> ${DockerfilePath}
 
 if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
 then
-    echo "RUN apt-get update; apt-get install -y python3 git; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+    echo "RUN apt-get update; apt-get install -y git python2 python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+elif [ "$os_type" = debian ] &&  [ "$os_version" = 12 ]
+then
+    echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
 else
-    echo "RUN apt-get update; apt-get install -y python python3 git" >> $DockerfilePath
+    echo "RUN apt-get update; apt-get install -y git python python3" >> $DockerfilePath
 fi
 
 # get lrose-bootstrap

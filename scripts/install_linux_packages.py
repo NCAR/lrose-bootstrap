@@ -110,11 +110,14 @@ def main():
         installPackagesFedora()
     elif (osType == "debian"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        installPackagesDebian()
+        if (osVersion >= 12):
+            installPackagesDebian12Plus()
+        else:
+            installPackagesDebian()
     elif (osType == "ubuntu"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion == 22.04):
-            installPackagesUbuntu22()
+        if (osVersion >= 22):
+            installPackagesDebian12Plus()
         else:
             installPackagesDebian()
     elif (osType == "suse"):
@@ -493,11 +496,11 @@ def installPackagesDebian():
                  "libzip-dev:i386")
 
 ########################################################################
-# install packages for Debian
+# install packages for Debian 12 plus
 
-def installPackagesUbuntu22():
+def installPackagesDebian12Plus():
 
-    print("====>> running installPackagesUbuntu22()", file=sys.stderr)
+    print("====>> running installPackagesDebian12Plus()", file=sys.stderr)
 
     # set the environment
 
