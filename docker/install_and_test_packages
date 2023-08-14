@@ -61,6 +61,7 @@ done
 #./redhat/install_pkg_and_test.redhat -t fedora -v 34 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 36 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 37 -p ${lrose_pkg}
+./redhat/install_pkg_and_test.redhat -t fedora -v 38 -p ${lrose_pkg}
 
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 8  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 9  -p ${lrose_pkg}
@@ -68,11 +69,12 @@ done
 ./redhat/install_pkg_and_test.redhat -t rockylinux -v 8  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t rockylinux -v 9  -p ${lrose_pkg}
 
-./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
+#./debian/install_pkg_and_test.debian -t debian -v 9      -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
+./debian/install_pkg_and_test.debian -t debian -v 12     -p ${lrose_pkg}
 
-./debian/install_pkg_and_test.debian -t ubuntu -v 16.04  -p ${lrose_pkg}
+#./debian/install_pkg_and_test.debian -t ubuntu -v 16.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 18.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 20.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 22.04  -p ${lrose_pkg}
