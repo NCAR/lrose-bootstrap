@@ -309,8 +309,9 @@ def main():
 
     # create the CMakeLists files
 
-    # logPath = prepareLogFile("create-CMakeLists-files");
-    # createCMakeLists()
+    if (options.package != "lrose-core"):
+        logPath = prepareLogFile("create-CMakeLists-files");
+        createCMakeLists()
 
     # create the release information file
     
