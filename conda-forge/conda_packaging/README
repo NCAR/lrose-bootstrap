@@ -1,0 +1,27 @@
+
+Install miniconda3 download miniconda3.pkg installer
+
+install conda-build with ...
+(base) brenda@Locals-MacBook-Air ~ % conda install conda-build
+
+
+This version works
+
+$ conda build .
+
+----
+
+move to mamba ...
+
+## prioritize 'conda-forge' channel
+conda config --add channels conda-forge
+
+## update existing packages to use 'conda-forge' channel
+conda update -n base --all
+
+## install 'mamba'
+conda install -n base mamba
+
+NO! mamba does NOT build packages, it only installs them.
+Need conda to build the packages and conda-forge wants a meta.yaml file. 
+Mamba relies on a 3rd/4th party package software called boa.  
