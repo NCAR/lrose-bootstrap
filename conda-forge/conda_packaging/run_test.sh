@@ -1,2 +1,2 @@
 
-/tmp/mytest/bin/hello_world
+/tmp/mylrosetest/bin/RadxPrint -h
