@@ -18,9 +18,10 @@
 #./redhat/make_custom_image.redhat -t fedora -v 33 >& /tmp/make_custom_image.fedora.33.log &
 #./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
 #./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
-./redhat/make_custom_image.redhat -t fedora -v 36 >& /tmp/make_custom_image.fedora.36.log &
+#./redhat/make_custom_image.redhat -t fedora -v 36 >& /tmp/make_custom_image.fedora.36.log &
 ./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
 ./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
+./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.37.log &
 
 # ALMA LINUX
 
@@ -37,7 +38,7 @@
 #./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &
 ./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
 ./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
-./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.11.log &
+./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.12.log &
 
 # UBUNTU
 
