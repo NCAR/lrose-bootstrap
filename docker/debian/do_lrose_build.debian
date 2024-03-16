@@ -111,7 +111,7 @@ docker image rm -f ${tag}
 
 cd /tmp/docker
 
-docker build \
+docker build --no-cache \
     --tag ${tag} \
     --build-arg LROSE_PKG=${lrose_pkg} \
     --build-arg RELEASE_DATE=${release_date} \

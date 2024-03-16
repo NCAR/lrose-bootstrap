@@ -1,0 +1,408 @@
+
+first install conda
+conda install conda-build
+
+trying to package lrose-core now
+
+NOTE: I had to install the C++ compilers as an external step; I wonder if the conda-forge 
+build and deploy system will need the C++ compilers specified in the meta.yaml file?
+
+$ conda build .
+
+
+  environment location: /Users/brenda/miniconda3/conda-bld/my-core2_1694565309776/_build_env
+
+source tree in: /Users/brenda/miniconda3/conda-bld/my-core2_1694565309776/work
+export PREFIX=/Users/brenda/miniconda3/conda-bld/my-core2_1694565309776/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_
+export BUILD_PREFIX=/Users/brenda/miniconda3/conda-bld/my-core2_1694565309776/_build_env
+export      SRC_DIR=/Users/brenda/miniconda3/conda-bld/my-core2_1694565309776/work
+
+Error: cannot find Qt5-Config.cmake
+conda build installs these packages
+    qt:               5.15.8-h93fa01e_0         conda-forge
+    qt-main:          5.15.8-hc03889f_16        conda-forge
+    qt-webengine:     5.15.8-h66b1b81_1         conda-forge
+
+Qt is installed here ...
+(base) brenda@Locals-MacBook-Air ~ % ls /Users/brenda/miniconda3/pkgs/qt*
+/Users/brenda/miniconda3/pkgs/qt-5.15.8-h93fa01e_0.conda
+/Users/brenda/miniconda3/pkgs/qt-5.15.9-hecd8cb5_0.conda
+/Users/brenda/miniconda3/pkgs/qt-main-5.15.2-hf83fbd5_10.conda
+/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16.conda
+/Users/brenda/miniconda3/pkgs/qt-webengine-5.15.8-h66b1b81_1.conda
+/Users/brenda/miniconda3/pkgs/qt-webengine-5.15.9-h90a370e_7.conda
+
+/Users/brenda/miniconda3/pkgs/qt-5.15.8-h93fa01e_0:
+info
+
+/Users/brenda/miniconda3/pkgs/qt-5.15.9-hecd8cb5_0:
+info
+
+/Users/brenda/miniconda3/pkgs/qt-main-5.15.2-hf83fbd5_10:
+bin		include		lib		phrasebooks	qml		translations
+doc		info		mkspecs		plugins		share
+
+/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16:
+bin		include		lib		phrasebooks	qml		translations
+doc		info		mkspecs		plugins		share
+
+/Users/brenda/miniconda3/pkgs/qt-webengine-5.15.8-h66b1b81_1:
+bin		info		libexec		plugins		resources
+include		lib		mkspecs		qml		translations
+
+/Users/brenda/miniconda3/pkgs/qt-webengine-5.15.9-h90a370e_7:
+bin		info		libexec		plugins		resources
+include		lib		mkspecs		qml		translations
+
+For Qt, we probably want to change the CMAKE script to use something different than Qt5Config.cmake??
+Qt packages are installed, but they are conda-forge packages and do not contain Qt5Config.cmake, etc.
+Not sure how to proceed with the build??
+
+==> I had to use "conda install qt" to install the Qt5Config.cmake files; just like I had to do for gcc, etc.
+
+/Users/brenda/miniconda3 path is ignored in CMAKE scripts, so the Qt installation is never found.
+Removing the IGNORE paths in the CMAKE scripts gets past the Qt5_DIR not found error.
+
+---------------------
+build/cmake/createCMakeLists.py:    # fo.write('set(CMAKE_IGNORE_PREFIX_PATH "$ENV{HOME}/anaconda3;$ENV{HOME}/anaconda2")\n')
+build/cmake/createCMakeLists.py:    # fo.write('message("CMAKE_IGNORE_PREFIX_PATH: ${CMAKE_IGNORE_PREFIX_PATH}")\n')
+----------------------
+
+Even with the Qt5_DIR path fixed, there are problems with the Frameworks needed to build and package qtplot which uses Qt5.
+
+Not sure how to proceed?  
+Maybe just install Qt5, like gcc is installed? into the base computer image?
+
+In order to sumbit the conda-forge recipe to the conda-forge channel, we need to be able to build in a virtual/container environment.  We cannot be packaging on our own special computer environment.  
+
+---------
+
+try conda mambabuild .
+https://boa-build.readthedocs.io/en/latest/mambabuild.html
+
+
+-----------
+
+I'm using the old way of building lrose-core; not the cmake way.
+
+stuck here ...
+In file included from Cf2RadxFile_read.cc:36:
+In file included from ../include/Radx/Cf2RadxFile.hh:52:
+/tmp/mylrosetest/include/Ncxx/Ncxx.hh:66:10: fatal error: 'netcdf.h' file not found
+#include <netcdf.h>
+         ^~~~~~~~~~
+1 error generated.
+In file included from Cf2RadxFile_write.cc:36:
+In file included from ../include/Radx/Cf2RadxFile.hh:52:
+/tmp/mylrosetest/include/Ncxx/Ncxx.hh:66:10: fatal error: 'netcdf.h' file not found
+#include <netcdf.h>
+         ^~~~~~~~~~
+
+The problem is, netcdf is installed within the sandbox/build environment that conda build
+sets up.  For conda-forge to use this recipe, we need to reference netcdf in the sandbox,
+NOT on the system.  How to modify the -I path from the make command?
+
+I think we need to add a variable to the make files so that we can set the path
+to the include files for 3rd party software that is "expected" to be on the system, 
+and is installed in the conda-forge sandbox.  Then, we can send a variable value
+for the path to the sandbox on the commandline to the 'make install' command
+inside the build.sh script.
+
+10/6/2023 
+Talked with Mike about adding or resetting a make variable to add the conda build 
+sandbox into the -I or -L compile line.  Mike suggested modifying the top
+level CMakeFileList files to add the conda build sandbox path.  I think the
+path changes for each build, so I should probably use the SRC_DIR environment
+variable that conda build supplies.
+
+---- 
+
+getting this error:
+
+CMake Error: AUTOUIC for target qtplot: Test run of "uic" executable "/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/uic" failed.
+/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/uic -h
+
+dyld[50975]: Library not loaded: '@rpath/libicui18n.73.dylib'
+  Referenced from: '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/libQt5Core.5.15.8.dylib'
+  Reason: tried: '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/usr/local/lib/libicui18n.73.dylib' (no such file), '/usr/lib/libicui18n.73.dylib' (no such file)
+Subprocess aborted
+
+
+try no Qt, and package Radx only, no visualizations.
+
+Need to remove all apps that use Qt from the CMakeLists.txt files: HawkEdit, HawkEye, IpsEye, Sprite
+Need to remova qtplot from libs CMakeLists.txt file.
+
+In the createCMakefile script remove the ANACONDA ignore path.
+or set a flag to ignore this.
+
+now getting this error:
+
+[ 16%] Building CXX object apps/titan/src/AcPosnAscii2Spdb/CMakeFiles/AcPosnAscii2Spdb.dir/Filter.cc.o
+[ 16%] Building CXX object apps/titan/src/AcPosnAscii2Spdb/CMakeFiles/AcPosnAscii2Spdb.dir/Main.cc.o
+[ 16%] Linking CXX executable AcPosnAscii2Spdb
+ld: warning: directory not found for option '-L/tmp/mylrosetest/bin/lib'
+ld: warning: directory not found for option '-L/tmp/mylrosetest/bin/lib'
+ld: library not found for -lnetcdf
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[2]: *** [apps/titan/src/AcPosnAscii2Spdb/AcPosnAscii2Spdb] Error 1
+make[1]: *** [apps/titan/src/AcPosnAscii2Spdb/CMakeFiles/AcPosnAscii2Spdb.dir/all] Error 2
+make: *** [all] Error 2
+
+monkey with this ... netCDF_INSTALL_PREFIX in the createCMakeLists.py
+
+Try setting this as an environment variable ...
+NETCDF4_LDFLAGS
+didn't work
+
+Try the -D on the command line
+ cmake  --debug-output -DnetCDF_INSTALL_PREFIX=/Users/brenda/...
+didn't work
+
+
+10/9/2023
+remove cidd from libs/CMakeLists.txt 
+       rapplot
+**** warnings: sprinf is deprecated; use snprintf
+
+10/11/2023
+Just work through the cmake files to add the path.
+cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+netCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112
+
+    fo.write("if (DEFINED netCDF_INSTALL_PREFIX)\n")
+    fo.write("  include_directories (${netCDF_INSTALL_PREFIX}/include)\n")
+
+
+----
+
+from /Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work/codebase/build/apps/Radx/src/RadxConvert/CMakeFiles/RadxConvert.dir
+/link.txt 
+/Library/Developer/CommandLineTools/usr/bin/c++
+  -fPIC -std=c++11  -DNO_JASPER_LIB  
+  -isysroot 
+  /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -mmacosx-version-min=10.9 -Wl,-search_paths_first -Wl,-headerpad_max_install_names 
+-L/tmp/mylrosetest/lib CMakeFiles/RadxConvert.dir/Params.cc.o CMakeFiles/RadxConvert.dir/Args.cc.o CMakeFiles/RadxConvert.dir/Main.cc.o CMakeFiles/RadxConvert.dir/RadxConvert.cc.o CMakeFiles/RadxConvert.dir/VarTransform.cc.o -o RadxConvert   
+-L/tmp/mylrosetest/lib  
+-L/usr/local/lib  
+-Wl,-rpath,/tmp/mylrosetest/lib 
+-Wl,-rpath,/usr/local/lib 
+../../../../libs/dsdata/src/libdsdata.a
+ ../../../../libs/radar/src/libradar.a
+ ../../../../libs/Mdv/src/libMdv.a
+ ../../../../libs/Spdb/src/libSpdb.a
+ ../../../../libs/Fmq/src/libFmq.a
+ ../../../../libs/rapformats/src/librapformats.a
+ ../../../../libs/dsserver/src/libdsserver.a
+ ../../../../libs/didss/src/libdidss.a
+ ../../../../libs/euclid/src/libeuclid.a
+ ../../../../libs/rapmath/src/librapmath.a
+ ../../../../libs/toolsa/src/libtoolsa.a
+ ../../../../libs/dataport/src/libdataport.a
+ ../../../../libs/tdrp/src/libtdrp.a
+ ../../../../libs/Radx/src/libRadx.a
+ ../../../../libs/Ncxx/src/libNcxx.a
+ ../../../../libs/physics/src/libphysics.a 
+ -lnetcdf -lhdf5_hl -lhdf5 -lz -lbz2 -lfftw3 -lbz2 -lz -lpthread -lfftw3 -lpthread 
+
+
+from the offending titan/Ac...
+/Library/Developer/CommandLineTools/usr/bin/c++  
+-fPIC 
+-std=c++11  
+-DNO_JASPER_LIB  
+-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk 
+-mmacosx-version-min=10.9 
+-Wl,-search_paths_first 
+-Wl,-headerpad_max_install_names 
+-L/tmp/mylrosetest/lib CMakeFiles/AcPosnAscii2Spdb.dir/Params.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/AcPosnAscii2Spdb.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Args.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Filter.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Main.cc.o 
+-o AcPosnAscii2Spdb   
+-L/tmp/mylrosetest/lib  
+-L/usr/local/lib  
+-Wl,-rpath,/tmp/mylrosetest/lib 
+-Wl,-rpath,/usr/local/lib ../../../../libs/Spdb/src/libSpdb.a ../../../../libs/rapformats/src/librapformats.a ../../../../libs/dsserver/src/libdsserver.a ../../../../libs/didss/src/libdidss.a ../../../../libs/euclid/src/libeuclid.a ../../../../libs/rapmath/src/librapmath.a ../../../../libs/toolsa/src/libtoolsa.a ../../../../libs/dataport/src/libdataport.a ../../../../libs/tdrp/src/libtdrp.a ../../../../libs/physics/src/libphysics.a 
+-lpthread 
+-lnetcdf 
+-lNETCDF_LIBRARY-NOTFOUND 
+-lhdf5_hl 
+-lhdf5 
+-lz 
+-lbz2 
+-lbz2 
+-lz 
+-lm 
+
+
+
+10/18/2023
+Use the cmake command
+find_package(netCDF) # this will use the libnetCDF???.cmake file to set some variables like LDFLAGS, etc.
+
+These are named like this <pkg>Config.cmake
+	netCDFConfig.cmake
+        Qt5Config.cmake
+
+
+OK, where is the link command?! 
+/Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work/codebase/build/apps/titan/src/AcPosnAscii2Spdb/CMakeFiles/AcPosnAscii2Spdb.dir/link.txt
+
+But, link.txt has not changed, even though I changed the  build/cmake/createCMakeLists.py file to find_package (netCDF) and not IGNORE miniconda3
+
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+NETCDF_LIBRARY
+    linked by target "AcPosnAscii2Spdb" in directory /Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work/codebase/apps/titan/src/AcPosnAscii2Spdb
+I removed the line that was generating the NETCDF_LIBRARY NOTFOUND error
+
+Now, link.txt is updated.
+
+--- 10/20/2023
+focus on the target_link_library command in cmake.
+
+adding this to createCMakeLists.py
+    fo.write("# libraries \n")
+    fo.write("\n")
+    fo.write("target_link_libraries (%s /Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib/libnetcdf.dylib )\n" % appName)
+    fo.write("\n")
+
+instead try for this ... since netcdf supplies a .cmake configuration file.
+/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib/cmake/netCDF/netCDFConfig.cmake
+
+
+    fo.write('find_package (netCDF REQUIRED CONFIG PATHS /Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib/cmake/netCDF /Users/brenda/miniconda3/pkgs)\n')
+
+find_package (netCDF REQUIRED PATHS)
+include_directores ($(netCDF_INCLUDE_DIR))
+add_executable (myexe generated.c)
+target_link_libraries (myexe netCDF) # link to imported library
+
+I'm not seeing a change in the link.txt file for titan/AcPosn...
+
+-- Build files have been written to: /Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work/codebase/build
+
+X11_LIB_DIR: 
+HDF5_INSTALL_PREFIX: /tmp/mylrosetest
+HDF5_C_INCLUDE_DIR: /tmp/mylrosetest/include
+CMAKE_INSTALL_PREFIX is /tmp/mylrosetest
+
+
+Now, link.txt is ...
+
+(base) brenda@Locals-MacBook-Air AcPosnAscii2Spdb.dir % cat link.txt
+/Library/Developer/CommandLineTools/usr/bin/c++  -fPIC -std=c++11  -DNO_JASPER_LIB  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -mmacosx-version-min=10.9 -Wl,-search_paths_first -Wl,-headerpad_max_install_names 
+-L/tmp/mylrosetest/lib CMakeFiles/AcPosnAscii2Spdb.dir/Params.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/AcPosnAscii2Spdb.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Args.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Filter.cc.o CMakeFiles/AcPosnAscii2Spdb.dir/Main.cc.o -o AcPosnAscii2Spdb   
+-L/tmp/mylrosetest/lib  
+-L/Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_/lib  
+-L/usr/local/lib  -Wl,-rpath,/tmp/mylrosetest/lib -Wl,-rpath,/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib -Wl,-rpath,/Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_/lib -Wl,-rpath,/usr/local/lib ../../../../libs/Spdb/src/libSpdb.a ../../../../libs/rapformats/src/librapformats.a ../../../../libs/dsserver/src/libdsserver.a ../../../../libs/didss/src/libdidss.a ../../../../libs/euclid/src/libeuclid.a ../../../../libs/rapmath/src/librapmath.a ../../../../libs/toolsa/src/libtoolsa.a ../../../../libs/dataport/src/libdataport.a ../../../../libs/tdrp/src/libtdrp.a ../../../../libs/physics/src/libphysics.a -lpthread -lnetcdf -lhdf5_hl -lhdf5 -lz -lbz2 -lbz2 -lz -lm /Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib/libnetcdf.dylib -lnetCDF 
+
+This looks promising!!
+
+==> Yes, it seems to be working.  I have had to comment a lot of the apps, and libs
+HawkEye, HawkEdit, Sprite, IpsEye, cidd, titan, qtplot.
+qtplot, cidd, ???
+
+Do something similar for Qt and for X11.  Use the .cmake files to get the info for the LDLIB_FLAGS, etc.
+
+Create a branch in the lrose-bootstrap project and include the changes needed for conda-forge packaging.
+
+
+----
+
+Doing something similar for Qt5, works but gets caught with this ...
+dyld[5727]: Library not loaded: '@rpath/libicui18n.73.dylib'
+  Referenced from: '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/libQt5Core.5.15.8.dylib'
+  Reason: tried: '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../Frameworks/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/../lib/libicui18n.73.dylib' (no such file), '/usr/local/lib/libicui18n.73.dylib' (no such file), '/usr/lib/libicui18n.73.dylib' (no such file)
+zsh: abort      /Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/bin/uic -h
+
+The library is in the work/build area, NOT in the pkg area:
+ehold_placehold_placehold_placehold_placehold_) brenda@Locals-MacBook-Air work % find /Users/brenda/miniconda3 -name libicui18n.73.dylib
+/Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_/lib/libicui18n.73.dylib
+
+This is an International Components for Unicode (ICU) set of cross-platform Unicode-based gloablization libraries
+
+find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+
+Do I change the RPATH? Currently RPATH is set to CMAKE_INSTALL_PREFIX/lib.  Can I just add to that path?
+or should I mess with the AUTOUIC settings in the cmake files?
+
+looking for Qt5Config.cmake 
+
+
+This script works ...
+
+if [ -z ${CONDA_BUILD+x} ]; then
+    source /Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work/build_env_setup.sh
+fi
+#!/bin/bash                                                                                                                                                                                                        
+
+# These are the shell variables that are send by build_env_setup.sh
+# export SRC_DIR="/Users/brenda/miniconda3/conda-bld/my-core2_1695166913185/work"
+# export ROOT="/Users/brenda/miniconda3"
+#
+echo "PWD = " $(PWD)
+echo "SRC_DIR = " $SRC_DIR
+LROSE_CORE=${SRC_DIR}
+echo "LROSE_CORE = " ${LROSE_CORE}
+echo "shell is " ${SHELL}
+
+export MY_PKG_DIR=/Users/brenda/miniconda3/pkgs
+## change to source dir                                                                                                                                                                                            
+# cd ${SRC_DIR}/code
+
+## compile                                                                                                                                                                                                         
+# ${CXX} -c hello_world.cc
+
+## link                                                                                                                                                                                                            
+# ${CXX} *.o -o hello_world
+
+# g++ hello_world.cc -o hello_world
+
+## install                                                                                                                                                                                                         
+ # mkdir -p /tmp/mytest/bin
+ # cp hello_world  /tmp/mytest/bin/.
+
+# CONDA_PKG_DIR=/Users/brenda/miniconda3/pkgs
+# QT_PATH=${CONDA_PKG_DIR}/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
+Qt5_DIR=/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
+echo "Qt5_DIR=" ${Qt5_DIR}
+ls ${Qt5_DIR}
+echo "**********"
+#
+# cd build/scripts; ./installPackageMakefiles.py --package=lrose-radx
+#
+
+export netCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/*netcdf*/lib;
+#
+# this regenerates the CMakeFileList.txt files, so if you run this command
+# then edit and comment for qtplot, Hawk*, IpEye, and Sprite
+#
+# cd build/cmake; ./createCMakeLists.py --prefix=/tmp/mylrosetest2
+# after running the above line (createCMakeLists.py) comment the CMakeFileList.txt files
+
+cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+
+#  --debug-output -DnetCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112  doesn't work
+#  -DCMAKE_PREFIX_PATH=/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake  doesn't work.
+#
+
+# export MY_NETCDF4_LDFLAGS=-L/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112/lib
+
+cd ${SRC_DIR}/codebase/build/libs; make install
+cd ${SRC_DIR}/codebase/build/apps/tdrp/src/tdrp_gen; make install
+cd ${SRC_DIR}/codebase/build/apps; make install
+
+--------  end of script that works --------
+
+comment libs/rapplot
+	libs/cidd
+        apps/cidd
+        apps/titan
+TODO:
+need to resolve X11 library; cidd and titan use this.
+find a way to pass $SRC_DIR and other env variables to the CreateMakeList.txt for inclusion into the find_package cmake command.
+
+actually, we need this path ...
+find_package (Qt5 COMPONENTS Core Gui Widgets Network Qml REQUIRED PATHS /usr /Users/brenda/miniconda3/pkgs
+
+maybe conda_build.sh   CreateCMakeLists --conda_src_dir=${SRC_DIR}  
+then in CreateCMakeLists.py ... if (DEFINE CONDA_SRC_DIR) ...
