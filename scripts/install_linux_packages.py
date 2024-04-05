@@ -525,9 +525,9 @@ def installPackagesDebian12Plus():
 
     shellCmd("cd /usr/bin; " +
              "/bin/rm -f python; ln -s python3 python; " +
-             "/bin/rm -f qmake qmake-qt6; " +
-             "ln -f -s /usr/lib/x86_64-linux-gnu/qt6/bin/qmake qmake; " +
-             "ln -f -s /usr/lib/x86_64-linux-gnu/qt6/bin/qmake qmake-qt6")
+             "/bin/rm -f qmake qmake-qt5; " +
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
+             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
 
     # install packages for running CIDD
 
