@@ -50,7 +50,7 @@ while getopts hdp:r: OPT; do
 done
 
 #./redhat/do_lrose_build.redhat -t centos -v 6  -p ${lrose_pkg} -r ${release_date}
-./redhat/do_lrose_build.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
+#./redhat/do_lrose_build.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
 #./redhat/do_lrose_build.redhat -t centos -v 8  -p ${lrose_pkg} -r ${release_date}
 #./redhat/do_lrose_build.redhat -t centos -v latest  -p ${lrose_pkg} -r ${release_date}
 
@@ -73,12 +73,12 @@ done
 ./redhat/do_lrose_build.redhat -t rockylinux -v 9  -p ${lrose_pkg} -r ${release_date}
 
 #./debian/do_lrose_build.debian -t debian -v 9 -p ${lrose_pkg} -r ${release_date}
-./debian/do_lrose_build.debian -t debian -v 10 -p ${lrose_pkg} -r ${release_date}
+#./debian/do_lrose_build.debian -t debian -v 10 -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t debian -v 11 -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t debian -v 12 -p ${lrose_pkg} -r ${release_date}
 
 #./debian/do_lrose_build.debian -t ubuntu -v 16.04  -p ${lrose_pkg} -r ${release_date}
-./debian/do_lrose_build.debian -t ubuntu -v 18.04  -p ${lrose_pkg} -r ${release_date}
+#./debian/do_lrose_build.debian -t ubuntu -v 18.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t ubuntu -v 20.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/do_lrose_build.debian -t ubuntu -v 22.04  -p ${lrose_pkg} -r ${release_date}
 
