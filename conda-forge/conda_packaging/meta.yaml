@@ -6,8 +6,12 @@ package:
   version: {{ version }}
 
 source:
-  # path: ../src_test
-  url: https://github.com/NCAR/lrose-core/releases/download/lrose-core-{{ version }}/lrose-core-{{ version }}.src.mac_osx.tgz
+  path: lrose-core 
+  # url for Mac OSX
+  # url: https://github.com/NCAR/lrose-core/releases/download/lrose-core-{{ version }}/lrose-core-{{ version }}.src.mac_osx.tgz
+  
+  # url for linux
+  # url: https://github.com/NCAR/lrose-core/releases/download/lrose-core-{{ version }}/lrose-core-{{ version }}.src.tgz
   #sha256: f3832918bc3c66617f92e35f5d70729187676313caa60c187eb0f28b8fe5e3b5
 
 build:
@@ -16,13 +20,24 @@ build:
   #script: g++  hello_world.cc -o hello_world
   # script: build.sh
 
+
 requirements:
   build:
+    - gcc_linux-64
+    - gxx_linux-64
+    - gfortran_linux-64
+    - make
     - cmake
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ cdt('mesa-libgl-devel') }} 
+  host:
     - eigen
     - fftw
     - flex
     - qt
+    # - mesa-libgl-devel-cos7-aarch64
+    #- libglvnd-opengl-cos7-x86_64
     - libnetcdf
 #    - szip
     - pkg-config
@@ -39,17 +54,17 @@ requirements:
   #run:
   #  - python
 
-test:
+#test:
   #imports:
     #- imagesize
 
 #about:
-  #home: https://github.com/shibukawa/imagesize_py
-  #license: MIT
-  #summary: 'Getting image size from png/jpeg/jpeg2000/gif file'
+  #home: http://lrose.net/
+  #license: LROSE BSD 
+  #summary: 'LROSE: Lidar Radar Open Software Environment'
   #description: |
-    #This module analyzes jpeg/jpeg2000/png/gif image header and
-    #return image size.
-  #dev_url: https://github.com/shibukawa/imagesize_py
-  #doc_url: https://pypi.python.org/pypi/imagesize
-  #doc_source_url: https://github.com/shibukawa/imagesize_py/blob/master/README.rst
+    # LROSE: Lidar Radar Open Software Environment
+    # LROSE is suppoted by the  National Science Foundation (NSF) for the Lidar, Radar, and Profiler community.
+  #dev_url: https://github.com/NCAR/lrose-core
+  #doc_url: http://wiki.lrose.net/index.php/Main_Page
+  #doc_source_url: http://wiki.lrose.net/index.php/Main_Page

@@ -1,0 +1,96 @@
+# run in docker because I need root permission to install packages.
+#FROM python:3
+# FROM alpine:latest # alpine does not seem to be sufficient
+# Ensure that basic utilities are installed. We need curl and tar with support for bzip2. Also you need a glibc based system like Ubuntu, Fedora or Centos (Alpine Linux does not work natively).
+# Rocky Linux is centos
+FROM conda-forge-pkg:rocky89v2
+
+
+# install conda / micromamba
+# run interactively, because there are prompts ...
+
+# Linux Intel (x86_64):
+# RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+# export MAMBA_ROOT_PREFIX=/some/prefix  # optional, defaults to ~/micromamba
+# RUN eval "$(./bin/micromamba shell hook -s posix)"
+
+# Linux/bash:
+# RUN ./bin/micromamba shell init -s bash -p ~/micromamba  # this writes to your .bashrc file
+# sourcing the bashrc file incorporates the changes into the running session.
+# better yet, restart your terminal!
+# RUN source ~/.bashrc
+
+# create a working environment and add the packages ...
+# ==> RUN micromamba activate base   # this activates the base environment
+# ==> RUN ./bin/micromamba install -y python=3.6 jupyter -c conda-forge
+
+# -----
+
+# 
+# using mamba ...
+#
+RUN wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+
+RUN bash Miniforge3.sh -b -p "${HOME}/conda"
+
+RUN source "${HOME}/conda/etc/profile.d/conda.sh"
+# For mamba support also run the following command
+RUN source "${HOME}/conda/etc/profile.d/mamba.sh"
+
+    # 2  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+    # 3  eval "$(./bin/micromamba shell hook -s posix)"
+    # 4  ls
+    # 5  ls bin
+    # 6  ./bin/micromamba shell init -s bash -p ~/micromamba
+    # 7  source ~/.bashrc
+    # 8  micromamba activate base
+    # 9  micromamba install -y python=3.6 jupyter -c conda-forge
+   # 10  micromamba activate base
+
+# ---------
+
+# or
+# micromamba create -n env_name xtensor -c conda-forge
+# micromamba activate env_name
+
+# An exclusive conda-forge setup can be configured with:
+# ==> RUN ./bin/micromamba config append channels conda-forge; micromamba config set channel_priority strict
+
+
+# install the conda build environment
+#
+# micromamba install -y  conda-build
+# micromamba install -y boa
+
+# install the C++ compilers
+
+#
+# conda install qt
+
+# bring in the conda-forge files
+COPY meta.yaml .
+COPY build.sh .
+COPY run_test.sh .
+COPY lrose-core-20230814.src /home/gucci/lrose-core 
+#
+# micromamba install conda-build
+# micromamba install mambabuild # this did not work; error mambabuild does not exist??
+#
+# conda build .  # <<== using this command 3/25/2024
+#
+# or 
+#
+# conda mambabuild .
+
+#
+# use the old way of building lrose-core; not the cmake way.
+
+# If conda forge build, then 
+# add the the conda build sandbox into the -I or -L compile line
+# at the top level CMakeFileList files. 
+# use the SRC_DIR environment variable that conda build supplies.
+#
+
+# RUN micromamba activate base
+
+# should I be using miniconda3 ???

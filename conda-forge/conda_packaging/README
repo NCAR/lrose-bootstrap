@@ -406,3 +406,582 @@ find_package (Qt5 COMPONENTS Core Gui Widgets Network Qml REQUIRED PATHS /usr /U
 
 maybe conda_build.sh   CreateCMakeLists --conda_src_dir=${SRC_DIR}  
 then in CreateCMakeLists.py ... if (DEFINE CONDA_SRC_DIR) ...
+
+
+
+---------
+
+3/5/2024 try to recreate package using alpine docker image ...
+
+
+"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+
+# need to install curl and python 
+
+# Install python/pip
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
+
+RUN apk add curl
+
+----
+moving to rockylinux because alpine is not sufficient.
+
+trying to use micromamba, instead of miniconda
+
+Need to modify build.sh 
+	HOST_OS
+	CONDA_PKG_DIR
+	QT_PATH ???
+        Qt5_DIR
+
+Need to modify meta.yaml
+	???
+
+Need to modify the CMAKE files somehow...
+
+then run conda build .
+
+
+  environment location: /home/gucci/micromamba/conda-bld/my-core2_1711410090118/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl
+
+
+Source cache directory is: /home/gucci/micromamba/conda-bld/src_cache
+WARNING: No hash (md5, sha1, sha256) provided for lrose-core-20230814.src.tgz.  Source download forced.  Add hash to recipe to use source cache.
+Downloading source to cache: lrose-core-20230814.src.tgz
+Downloading https://github.com/NCAR/lrose-core/releases/download/lrose-core-20230814/lrose-core-20230814.src.tgz
+Success
+Extracting download
+source tree in: /home/gucci/micromamba/conda-bld/my-core2_1711410090118/work
+export PREFIX=/home/gucci/micromamba/conda-bld/my-core2_1711410090118/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl
+export SRC_DIR=/home/gucci/micromamba/conda-bld/my-core2_1711410090118/work
+/home/gucci/micromamba/conda-bld/my-core2_1711410090118/work/conda_build.sh: line 5: PWD: command not found
+PWD = 
+SRC_DIR =  $SRC_DIR
+LROSE_CORE =  $SRC_DIR
+=============================================
+Running createCMakeLists.py      :
+  coreDir       :  /home/gucci/micromamba/conda-bld/my-core2_1711410090118/work
+  codebaseDir   :  /home/gucci/micromamba/conda-bld/my-core2_1711410090118/work/codebase
+  dependDirs    :  []
+  libs dir      :  /home/gucci/micromamba/conda-bld/my-core2_1711410090118/work/codebase/libs
+  apps dir      :  /home/gucci/micromamba/conda-bld/my-core2_1711410090118/work/codebase/apps
+  install prefix dir:  /tmp/mylrosetest/bin
+  static        :  False
+  m32           :  False
+  verboseMake   :  False
+  withJasper    :  False
+
+
+failed; probably need to comment the apps and libs that don't build; modify the CMAKE files?
+
+
+3/26/2024
+
+try again just building lrose-radx ...
+
+modify the build.sh file to this ...
+Qt5_DIR=$HOME/micromamba/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
+cd build/scripts; ./installPackageMakefiles.py --package=lrose-radx           
+cd build/cmake; ./createCMakeLists.py --silent  --prefix /tmp/mylrosetest/bin
+cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+
+(base) [gucci@d32d7b735ddd package_area]$ conda build .
+
+Extracting download
+source tree in: /home/gucci/micromamba/conda-bld/my-core2_1711464251636/work
+export PREFIX=/home/gucci/micromamba/conda-bld/my-core2_1711464251636/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl
+export SRC_DIR=/home/gucci/micromamba/conda-bld/my-core2_1711464251636/work
+/home/gucci/micromamba/conda-bld/my-core2_1711464251636/work/conda_build.sh: line 5: PWD: command not found
+PWD = 
+SRC_DIR =  $SRC_DIR
+LROSE_CORE =  $SRC_DIR
+Running installPackageMakefiles.py:
+  package: lrose-radx
+  osx:  False
+  codebaseDir: /home/gucci/micromamba/conda-bld/my-core2_1711464251636/work/codebase
+Searching for makefiles:  makefile.lrose-radx
+/home/gucci/micromamba/conda-bld/my-core2_1711464251636/work/conda_build.sh: line 55: cd: build/cmake: No such file or directory
+
+# >>>>>>>>>>>>>>>>>>>>>> ERROR REPORT <<<<<<<<<<<<<<<<<<<<<<
+
+    Traceback (most recent call last):
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda/exception_handler.py", line 17, in __call__
+        return func(*args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda/cli/main.py", line 83, in main_subshell
+        exit_code = do_call(args, parser)
+                    ^^^^^^^^^^^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda/cli/conda_argparse.py", line 172, in do_call
+        result = plugin_subcommand.action(getattr(args, "_args", args))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/plugin.py", line 17, in build
+        return execute(args)
+               ^^^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/cli/main_build.py", line 581, in execute
+        api.build(
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/api.py", line 250, in build
+        return build_tree(
+               ^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/build.py", line 3762, in build_tree
+        packages_from_this = build(
+                             ^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/build.py", line 2634, in build
+        utils.check_call_env(
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/utils.py", line 408, in check_call_env
+        return _func_defaulting_env_to_os_environ("call", *popenargs, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/home/gucci/micromamba/lib/python3.11/site-packages/conda_build/utils.py", line 384, in _func_defaulting_env_to_os_environ
+        raise subprocess.CalledProcessError(proc.returncode, _args)
+    subprocess.CalledProcessError: Command '['/bin/bash', '-o', 'errexit', '/home/gucci/micromamba/conda-bld/my-core2_1711464251636/work/conda_build.sh']' returned non-zero exit status 1.
+
+`$ /home/gucci/micromamba/bin/conda build .`
+
+  environment variables:
+                 CIO_TEST=<not set>
+    CONDA_ALLOW_SOFTLINKS=false
+        CONDA_DEFAULT_ENV=base
+             CONDA_PREFIX=/home/gucci/micromamba
+    CONDA_PROMPT_MODIFIER=(base)
+               CONDA_ROOT=/home/gucci/micromamba
+              CONDA_SHLVL=1
+           CURL_CA_BUNDLE=<not set>
+               LD_PRELOAD=<not set>
+                     PATH=/home/gucci/micromamba/bin:/condabin:/home/gucci/.local/bin:/home/gucc
+                          i/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+       REQUESTS_CA_BUNDLE=<not set>
+            SSL_CERT_FILE=<not set>
+
+     active environment : base
+    active env location : /home/gucci/micromamba
+            shell level : 1
+       user config file : /home/gucci/.condarc
+ populated config files : /home/gucci/.condarc
+          conda version : 24.1.2
+    conda-build version : 24.3.0
+         python version : 3.11.8.final.0
+                 solver : libmamba (default)
+       virtual packages : __archspec=1=x86_64_v4
+                          __conda=24.1.2=0
+                          __glibc=2.28=0
+                          __linux=6.6.16=0
+                          __unix=0=0
+       base environment : /home/gucci/micromamba  (writable)
+      conda av data dir : /home/gucci/micromamba/etc/conda
+  conda av metadata url : None
+           channel URLs : https://conda.anaconda.org/conda-forge/linux-64
+                          https://conda.anaconda.org/conda-forge/noarch
+          package cache : /home/gucci/micromamba/pkgs
+                          /home/gucci/.conda/pkgs
+       envs directories : /home/gucci/micromamba/envs
+                          /home/gucci/.conda/envs
+               platform : linux-64
+             user-agent : conda/24.1.2 requests/2.31.0 CPython/3.11.8 Linux/6.6.16-linuxkit rocky/8.9 glibc/2.28 solver/libmamba conda-libmamba-solver/24.1.0 libmambapy/1.5.8
+                UID:GID : 1000:1000
+             netrc file : None
+           offline mode : False
+
+
+
+FIX: 
+ 55 # trouble with this line ... cd: build/cmake: No such file or directory
+ 56 cd build/cmake; ./createCMakeLists.py --prefix /tmp/mylrosetest/bin
+
+SRC_DIR is like ... $HOME/micromamba/conda-bld/my-core2_1694565309776/work
+
+so, do this ...
+
+cd $SRC_DIR/build/cmake
+
+The build.sh script gets moved into $SRC_DIR/conda_build.sh
+
+
+errors:
+CMake Error: CMake was unable to find a build program corresponding to "Unix Makefiles".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
+CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
+CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
+
+Do I need to install the g++ compiler??
+https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
+
+I added g++ to the meta.yaml
+Also, the SRC_DIR environment variable not sure how to access it in the script? ${SRC_DIR} or just $SRC_DIR
+Also, does this variable conflict with the expected LROSE environment variables?
+
+conda-build has problems with CMAKE because of the SYSROOT variable that CMAKE insists on using.
+TRY: using the non CMAKE steps.
+
+Try using mambabuild from boa
+https://boa-build.readthedocs.io/en/latest/getting_started.html
+
+$ conda mambabuild ...
+$ boa bhild ...
+
+
+still same CMAKE error ...
+try ...
+cmake -DCMAKE_CXX_COMPILER=/pathto/g++ -DCMAKE_C_COMPILER=/pathto/gcc /pathto/source
+
+That removed the CMAKE_CXX_COMPILER errors.
+
+Next error is  ...
+
+CMake Error: CMake was unable to find a build program corresponding to "Unix Makefiles".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
+
+I added make to the meta.yaml dependencies.
+
+└─ c++_linux-64 does not exist (perhaps a typo or a missing channel).
+
+I added the jinji directives and removed the CMAKE -D and now we have ...
+
+
+-- The C compiler identification is GNU 13.2.0
+-- The CXX compiler identification is GNU 13.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: $BUILD_PREFIX/bin/x86_64-conda-linux-gnu-cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: $BUILD_PREFIX/bin/x86_64-conda-linux-gnu-c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMAKE_IGNORE_PREFIX_PATH: /home/gucci/anaconda3;/home/gucci/anaconda2
+-- Found PkgConfig: $PREFIX/bin/pkg-config (found version "0.29.2")
+-- Found X11: $PREFIX/include
+-- Looking for XOpenDisplay in $PREFIX/lib/libX11.so;$PREFIX/lib/libXext.so
+-- Looking for XOpenDisplay in $PREFIX/lib/libX11.so;$PREFIX/lib/libXext.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Looking for IceConnectionNumber in ICE
+-- Looking for IceConnectionNumber in ICE - found
+
+which looks promising!
+
+now getting this error for Qt5 ...
+
+CMAKE_INSTALL_PREFIX is /tmp/mylrosetest/bin
+CMake Error at libs/qtplot/src/CMakeLists.txt:20 (find_package):
+  Could not find a package configuration file provided by "Qt5" with any of
+  the following names:
+
+    Qt5Config.cmake
+    qt5-config.cmake
+
+  Add the installation prefix of "Qt5" to CMAKE_PREFIX_PATH or set "Qt5_DIR"
+  to a directory containing one of the above files.  If "Qt5" provides a
+  separate development package or SDK, be sure it has been installed.
+
+Need to change the search paths in the CMAKE files to look for the .cmake config files for Qt5 and for netcdf; see 10/20/2023
+
+FIX: update the Qt5_DIR variable in the build.sh file
+Did not work!!!
+
+3/27/2024
+Take a step back.  How do we want this to work?
+The build.sh script is moved to $SRC_DIR/work/conda_build.sh
+Then conda/mambabuild runs the conda_build.sh script.
+
+We want the meta.yaml url to pull the release https://github.com/NCAR/lrose-core/releases/download ... lrose-core-version.src.tgz
+Unzip, untar,
+then run the conda_build.sh script.
+The build.sh script has the steps to run cmake, create the make files, and cmake the software.
+The problem is with the find package cmake directives, and the paths to Qt and netcdf.  
+Conda/mambabuild will install the dependent packages (specified in the meta.yaml file) 
+  in the $HOME/micromamba/pkg directory  AND this is where mambabuild wants to find the
+*.cmake files for Qt and netcdf.
+
+So, we need to modify the createCMakeFiles.py script somehow.  But, these changes need to be in a 
+tarred release for download? or can we just pull from the head of the lrose-core repository?
+I will need to pull from a branch, if I change the createCMakeFiles.py script. 
+
+Ideally, it would be nice to pull from the repo, then we can do intermediate releases 
+with patches.  *******
+
+The source can be a git repo, shallow=1, or a local path.
+Hmm, maybe I could try a local path in the container, to work out the CMake paths??
+
+This fixes the issue with Qt5Config.cmake ...
+in createCMakeLists.py
+
+fo.write{'find_package (Qt5 COMPONENTS Core Gui Widgets Network Qml REQUIRED PATHS /usr ${SYS_PREFIX}/pkgs NO_DEFAULT_PATH)\n')
+
+Do the same for netcdf, add the reference to ${SYS_PREFIX}/pkgs
+------
+
+3/29/2024
+Branch lrose-core and work there.
+Actually, I cloned the lrose-core repo and then -v to bring the lrose-core directory into 
+the docker container at /tmp/lrose/core.
+Then, just edit the CMake files in that directory structure, and use "src" for the
+location of the source in meta.yaml.
+----
+
+docker run -it --rm conda-forge-pkg:rocky89 
+
+
+# /home/gucci/micromamba/pkgs
+# don't use the -DCMAKE stuff, instead add these to the requirements: build:
+
+requirements:
+  build:
+    - gcc_linux-64
+    - gxx_linux-64
+    - gfortran_linux-64
+    - make
+    - cmake
+    - {{ compiler('c') }}     <<=====
+    - {{ compiler('cxx') }}     <<=====
+  host:
+    - eigen
+    - fftw
+    - flex
+    - qt
+    - libnetcdf
+#    - szip
+    - pkg-config
+#    - geographiclib
+#    - armadillo
+#    - libomp
+#    - libzip
+#    - rsync
+#    - xquartz
+#    - {{ compiler('cxx') }}
+  #host:
+  #  - python
+  #  - pip
+  #run:
+  #  - python
+
+
+4/1/2024
+
+  File "/home/gucci/micromamba/conda-bld/my-core2_1711988893438/work/build/cmake/./createCMakeLists.py", line 571
+    fo.write{'find_package (Qt5 COMPONENTS Core Gui Widgets Network Qml REQUIRED PATHS /usr ${SYS_PREFIX}/pkgs NO_DEFAULT_PATH)\n'}
+            ^
+SyntaxError: invalid syntax
+
+switch to mambabuild and find which variables are defined.  Is SYS_PREFIX even defined?
+
+here are the environment variables available inside conda-build ...
+https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html
+
+
+I think the package built, but the test failed?
+
+CMAKE_IGNORE_PREFIX_PATH: /home/gucci/anaconda3;/home/gucci/anaconda2
+HDF5_INSTALL_PREFIX: /tmp/mylrosetest/bin
+HDF5_C_INCLUDE_DIR: /tmp/mylrosetest/bin/include
+CMAKE_INSTALL_PREFIX is /tmp/mylrosetest/bin
+-- Configuring done (1.4s)
+-- Generating done (1.6s)
+-- Build files have been written to: $SRC_DIR/codebase/build
+after cmake ..
+
+Resource usage statistics from building my-core2:
+   Process count: 3
+   CPU time: Sys=0:00:00.8, User=0:00:00.8
+   Memory: 36.4M
+   Disk usage: 585.9K
+   Time elapsed: 0:00:08.1
+
+
+Packaging my-core2
+INFO:conda_build.build:Packaging my-core2
+INFO conda_build.build:build(2274): Packaging my-core2
+Packaging my-core2-20230814-h3fd9d12_0
+INFO:conda_build.build:Packaging my-core2-20230814-h3fd9d12_0
+INFO conda_build.build:bundle_conda(1514): Packaging my-core2-20230814-h3fd9d12_0
+No files or script found for output my-core2
+WARNING:conda_build.build:No files or script found for output my-core2
+WARNING conda_build.build:bundle_conda(1613): No files or script found for output my-core2
+number of files: 0
+Fixing permissions
+path /home/gucci/micromamba/pkgs/gcc_impl_linux-64-13.2.0-h338b0a0_5/x86_64-conda-linux-gnu/lib/libtsan.so.2 is a broken symlink - ignoring copy
+
+TEST START: /home/gucci/micromamba/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+Traceback (most recent call last):
+  File "/home/gucci/micromamba/lib/python3.6/site-packages/conda_package_handling/tarball.py", line 146, in extract
+    _tar_xf(fn, dest_dir)
+  File "/home/gucci/micromamba/lib/python3.6/site-packages/conda_package_handling/tarball.py", line 98, in _tar_xf
+    archive_utils.extract_file(tarball)
+  File "/home/gucci/micromamba/lib/python3.6/site-packages/conda_package_handling/archive_utils.py", line 15, in extract_file
+    raise InvalidArchiveError(tarball, error_str.decode('utf-8'))
+conda_package_handling.exceptions.InvalidArchiveError: Error with archive /home/gucci/micromamba/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2.  You probably need to delete and re-download or re-create this file.  Message from libarchive was:
+
+------
+– copy the file from a running container: docker cp imageid:/path/to/file localpath
+
+the tar.bzip file is 5GB!!! it includes ALL the source files!
+
+
+----
+
+need this in the createCMakeFiles.py
+
+        fo.write('find_package (Qt5 COMPONENTS Core Gui Widgets Network Qml REQUIRED PATHS /usr ${SYS_PREFIX}/pkgs NO_DEFAULT_PATH)\n')
+
+are all of these packages supplied by conda-forge qt?
+I cannot see where they are supplied.  
+
+Next plan:
+1. download and untar the 20230814 release.  
+2. Change the createCMakefile.py script to include the required find_package line.
+3. Bring this directory into the docker container,
+$ docker run -v  /Users/brenda/git/lrose-core:/tmp/lrose-core --rm -it  conda-forge-pkg:rocky89 
+4. set the src to 'path' in the meta.yaml file
+5.  Does it build the package?
+6. How big is the package?  < 5GB?
+
+
+---
+
+
+$ micromamba install boa -c conda-forge
+$ micromamba activate base
+$ conda mambabuild .  # this didn't work, says mambabuild is not found
+
+$ micromamba install -y conda-build
+
+$ conda build .
+
+
+worked until here ...
+
+CMake Error at /home/gucci/micromamba/conda-bld/my-core2_1712173321958/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:9 (message):
+  Failed to find "GL/gl.h" in
+  "/home/gucci/micromamba/conda-bld/my-core2_1712173321958/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/include;/usr/include/libdrm".
+Call Stack (most recent call first):
+  /home/gucci/micromamba/conda-bld/my-core2_1712173321958/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:233 (include)
+  /home/gucci/micromamba/conda-bld/my-core2_1712173321958/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5/Qt5Config.cmake:28 (find_package)
+  CMakeLists.txt:46 (find_package)
+
+FIX: removed cidd, qtplot, raplot, titan from libs/CMakeFiles.txt
+
+add this to the meta.yaml file:
+
+mesa-libgl-devel-cos7-aarch64 
+before libnetcdf
+Didn't work; same GL/gl.h error
+
+Try using qt6  <== unknown package
+
+    2  micromamba activate base
+    # 3  micromamba install -y python=3.6 jupyter -c conda-forge # WHY jupyter???
+    3  micromamba install -y python=3.6  -c conda-forge
+    4  micromamba config append channels conda-forge; micromamba config set channel_priority strict
+    5  micromamba activate base
+    6 micromamba install -y  conda-build
+    7 micromamba activate base
+
+$ conda build --dirty  .
+
+
+4/4/2024
+
+getting this error ...
+
+CMake Deprecation Warning at CMakeLists.txt:11 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+==> the version is set here:
+build/cmake/createCMakeLists.py:    fo.write('cmake_minimum_required(VERSION 3.0)\n')
+build/cmake/createCMakeLists.py:    fo.write('if(${CMAKE_VERSION} VERSION_GREATER "3.17.0")\n')
+build/cmake/createCMakeLists.py:    fo.write('if(${CMAKE_VERSION} VERSION_GREATER "3.10.0")\n')
+build/cmake/createCMakeLists.py:    fo.write('if(${CMAKE_VERSION} VERSION_GREATER "3.13.0")\n')
+---->
+
+
+
+CMAKE_IGNORE_PREFIX_PATH: /home/gucci/anaconda3;/home/gucci/anaconda2
+CMake Error at /home/gucci/micromamba/conda-bld/my-core2_1712186339259/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:9 (message):
+  Failed to find "GL/gl.h" in
+  "/home/gucci/micromamba/conda-bld/my-core2_1712186339259/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/include;/usr/include/libdrm".
+Call Stack (most recent call first):
+  /home/gucci/micromamba/conda-bld/my-core2_1712186339259/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:233 (include)
+  /home/gucci/micromamba/conda-bld/my-core2_1712186339259/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/lib/cmake/Qt5/Qt5Config.cmake:28 (find_package)
+  CMakeLists.txt:46 (find_package)
+
+------ end of GL/gl.h error message
+
+cannot get past the GL/gl.h error
+
+So, try using mamba ...
+==> https://github.com/conda-forge/miniforge
+
+==> Then install boa
+
+and use mambabuild ...
+==> $ conda mambabuild
+
+==> change createCMakeFiles.py to use cmake minimum version 3.7
+
+(base) [gucci@7f03fdc9be35 ~]$ conda search openGL
+Loading channels: done
+No match found for: opengl. Search: *opengl*
+# Name                       Version           Build  Channel             
+libglvnd-opengl-cos7-aarch64           1.0.1    h9b0a68f_105  conda-forge         
+libglvnd-opengl-cos7-aarch64           1.0.1   h9b0a68f_1105  conda-forge         
+libglvnd-opengl-cos7-aarch64           1.0.1    h9d98e8f_104  conda-forge         
+libglvnd-opengl-cos7-aarch64           1.0.1   h9d98e8f_1104  conda-forge         
+libglvnd-opengl-cos7-ppc64le           1.0.1    h9b0a68f_105  conda-forge         
+libglvnd-opengl-cos7-ppc64le           1.0.1   h9b0a68f_1105  conda-forge         
+libglvnd-opengl-cos7-ppc64le           1.0.1    h9d98e8f_104  conda-forge         
+libglvnd-opengl-cos7-ppc64le           1.0.1   h9d98e8f_1104  conda-forge         
+libglvnd-opengl-cos7-x86_64           1.0.1   h9b0a68f_1105  conda-forge         
+libglvnd-opengl-cos7-x86_64           1.0.1   h9d98e8f_1104  conda-forge         
+openglider                     0.0.7    pyhd8ed1ab_0  conda-forge         
+openglider                   0.0.7.1    pyhd8ed1ab_0  conda-forge         
+pyopengl                       3.1.0          py27_0  conda-forge         
+pyopengl                       3.1.0          py34_0  conda-forge         
+pyopengl                       3.1.0          py35_0  conda-forge         
+pyopengl                       3.1.0          py36_0  conda-forge         
+pyopengl                     3.1.1a1          py27_0  conda-forge         
+pyopengl                     3.1.1a1          py35_0  conda-forge         
+pyopengl                     3.1.1a1          py36_0  conda-forge         
+pyopengl                     3.1.1a1            py_1  conda-forge         
+pyopengl                     3.1.3b2            py_0  conda-forge         
+pyopengl                     3.1.3b2            py_1  conda-forge         
+pyopengl                       3.1.5            py_0  conda-forge         
+pyopengl                       3.1.6    pyh6c4a22f_0  conda-forge         
+pyopengl                       3.1.6    pyhd8ed1ab_1  conda-forge  
+
+this was all useless.  The right answer was here ...
+https://conda-forge.org/docs/maintainer/knowledge_base/#libgl
+
+
+4/8/2024
+The conda package (*.tar.bz2) contains all the build artifacts!  So, I need to put this somewhere else
+3 2024-04-05 23:28 info/recipe/conda/conda-bld/my-core2_1712356673858/work/codebase/build/apps/physics/src/CalcHumidity/CMakeFiles/progress.mark
+
+
+What is taking all that space in the conda package?
+324 M for lrose-core ...
+
+Knpwn bug, if the source is a path, conda build will copy all the source along with any symlinks.
+To avoid this, use a url for the source.
+
+So, I need to download the 20230814.tar.gz, apply the pactches, then tar and zip, upload to the lrosoe-testrelease repo, then use this as the url for conda build.
+
+The patches are:
+CMAKE min version 3.7
+find_package(Qt ...)
+Then, rebuild the container, without the source code copied in.
+install mamba, boa, etc.
+run conda mambabuild ....
+
+Do a clean and strip after the build to remove the object files.
+
