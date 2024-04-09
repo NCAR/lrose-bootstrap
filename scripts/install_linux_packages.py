@@ -359,7 +359,10 @@ def installPackagesRh9():
 
     # create link for qtmake
 
-    shellCmd("cd /usr/bin; ln -f -s qmake-qt6 qmake")
+    if (os.path.exists("/usr/bin/qmake-qt6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake-qt6 qmake")
+    elif (os.path.exists("/usr/bin/qmake6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake6 qmake")
     
 ########################################################################
 # install packages for FEDORA

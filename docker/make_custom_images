@@ -5,7 +5,7 @@
 # CENTOS
 
 #./redhat/make_custom_image.redhat -t centos -v 6 >& /tmp/make_custom_image.centos.6.log &
-./redhat/make_custom_image.redhat -t centos -v 7 >& /tmp/make_custom_image.centos.7.log &
+#./redhat/make_custom_image.redhat -t centos -v 7 >& /tmp/make_custom_image.centos.7.log &
 #./redhat/make_custom_image.redhat -t centos -v 8 >& /tmp/make_custom_image.centos.8.log &
 #./redhat/make_custom_image.redhat -t centos -v latest >& /tmp/make_custom_image.centos.latest.log &
 
