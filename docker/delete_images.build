@@ -46,7 +46,7 @@ done
 # delete build images
 
 #docker image rm -f build.${lrose_pkg}/centos:6
-docker image rm -f build.${lrose_pkg}/centos:7
+#docker image rm -f build.${lrose_pkg}/centos:7
 #docker image rm -f build.${lrose_pkg}/centos:8
 #docker image rm -f build.${lrose_pkg}/centos:latest
 
@@ -56,9 +56,10 @@ docker image rm -f build.${lrose_pkg}/centos:7
 #docker image rm -f build.${lrose_pkg}/fedora:32
 #docker image rm -f build.${lrose_pkg}/fedora:33
 #docker image rm -f build.${lrose_pkg}/fedora:34
-docker image rm -f build.${lrose_pkg}/fedora:36
+#docker image rm -f build.${lrose_pkg}/fedora:36
 docker image rm -f build.${lrose_pkg}/fedora:37
 docker image rm -f build.${lrose_pkg}/fedora:38
+docker image rm -f build.${lrose_pkg}/fedora:39
 
 docker image rm -f build.${lrose_pkg}/almalinux:8
 docker image rm -f build.${lrose_pkg}/almalinux:9

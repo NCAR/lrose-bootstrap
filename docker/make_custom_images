@@ -2,6 +2,16 @@
 
 # make custom images for the OSs
 
+# ALMA LINUX
+
+./redhat/make_custom_image.redhat -t almalinux -v 9 >& /tmp/make_custom_image.almalinux.9.log &
+./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
+
+# ROCKY LINUX
+
+./redhat/make_custom_image.redhat -t rockylinux -v 9 >& /tmp/make_custom_image.rockylinux.9.log &
+./redhat/make_custom_image.redhat -t rockylinux -v 8 >& /tmp/make_custom_image.rockylinux.8.log &
+
 # CENTOS
 
 #./redhat/make_custom_image.redhat -t centos -v 6 >& /tmp/make_custom_image.centos.6.log &
@@ -11,6 +21,10 @@
 
 # FEDORA
 
+./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.37.log &
+./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
+./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
+
 #./redhat/make_custom_image.redhat -t fedora -v 29 >& /tmp/make_custom_image.fedora.29.log &
 #./redhat/make_custom_image.redhat -t fedora -v 30 >& /tmp/make_custom_image.fedora.30.log &
 #./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
@@ -19,33 +33,20 @@
 #./redhat/make_custom_image.redhat -t fedora -v 34 >& /tmp/make_custom_image.fedora.34.log &
 #./redhat/make_custom_image.redhat -t fedora -v 35 >& /tmp/make_custom_image.fedora.35.log &
 #./redhat/make_custom_image.redhat -t fedora -v 36 >& /tmp/make_custom_image.fedora.36.log &
-./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
-./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
-./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.37.log &
-
-# ALMA LINUX
-
-./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
-./redhat/make_custom_image.redhat -t almalinux -v 9 >& /tmp/make_custom_image.almalinux.9.log &
-
-# ROCKY LINUX
-
-./redhat/make_custom_image.redhat -t rockylinux -v 8 >& /tmp/make_custom_image.rockylinux.8.log &
-./redhat/make_custom_image.redhat -t rockylinux -v 9 >& /tmp/make_custom_image.rockylinux.9.log &
 
 # DEBIAN
 
-#./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &
-./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
-./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
 ./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.12.log &
+./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
+./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
+#./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &
 
 # UBUNTU
 
-#./debian/make_custom_image.debian -t ubuntu -v 16.04 >& /tmp/make_custom_image.ubuntu.16.04.log &
-./debian/make_custom_image.debian -t ubuntu -v 18.04 >& /tmp/make_custom_image.ubuntu.18.04.log &
-./debian/make_custom_image.debian -t ubuntu -v 20.04 >& /tmp/make_custom_image.ubuntu.20.04.log &
 ./debian/make_custom_image.debian -t ubuntu -v 22.04 >& /tmp/make_custom_image.ubuntu.22.04.log &
+./debian/make_custom_image.debian -t ubuntu -v 20.04 >& /tmp/make_custom_image.ubuntu.20.04.log &
+./debian/make_custom_image.debian -t ubuntu -v 18.04 >& /tmp/make_custom_image.ubuntu.18.04.log &
+#./debian/make_custom_image.debian -t ubuntu -v 16.04 >& /tmp/make_custom_image.ubuntu.16.04.log &
 
 # SUSE
 
