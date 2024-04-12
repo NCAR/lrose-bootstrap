@@ -3,12 +3,13 @@
 # delete custom images
 
 #docker image rm -f custom/centos:6
-docker image rm -f custom/centos:7
+#docker image rm -f custom/centos:7
 #docker image rm -f custom/centos:8
 #docker image rm -f custom/centos:latest
 
 docker image rm -f custom/almalinux:8
 docker image rm -f custom/almalinux:9
+
 docker image rm -f custom/rockylinux:8
 docker image rm -f custom/rockylinux:9
 
@@ -18,6 +19,7 @@ docker image rm -f custom/rockylinux:9
 #docker image rm -f custom/fedora:32
 #docker image rm -f custom/fedora:33
 #docker image rm -f custom/fedora:34
+
 docker image rm -f custom/fedora:37
 docker image rm -f custom/fedora:38
 docker image rm -f custom/fedora:39
