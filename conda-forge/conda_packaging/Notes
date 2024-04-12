@@ -1400,3 +1400,27 @@ I am going to trim down the *.tar.gz that is posted on the url.
 make a Radx package
 make a GUI apps package
 make a FRACTL and SAMURAI package
+
+4/12/2024
+The trimmed down Radx only conda-forge package builds and the RadxPrint -h test runs successfully.  There is now an error when conda build works with the variants for tzdata.  The error is there is no "find" command in the container.  Hmmm.
+
+I could try rebuilding the container and install findutils
+yum install -y findutils
+Then rebuild the conda-forge package???
+
+-----
+
+To copy the conda-forge package from the running container ...
+
+$ docker ps  # to get the CONTAINER ID
+(base) eol-antigua:conda_packaging brenda$ docker cp <container-id>:/home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2  .
+
+
+Follow the steps here https://conda-forge.org/docs/maintainer/adding_pkgs/
+to submit the package to conda-forge.
+
+Is there a way to test it in the ERAD notebook by installing it as a file?
+
+change the name of the package to lrose-core-radx-20240410 and then use the latest release? or
+just use the 20240813 trimmed down release?
+
