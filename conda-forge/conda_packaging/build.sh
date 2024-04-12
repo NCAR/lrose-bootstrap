@@ -1,7 +1,7 @@
 #!/bin/bash                                                                                                                                                                                                                                   
 # echo "SRC_DIR = " $SRC_DIR
-LROSE_CORE=${SRC_DIR}
-echo "LROSE_CORE = " ${LROSE_CORE}
+#LROSE_CORE=${SRC_DIR}
+#echo "LROSE_CORE = " ${LROSE_CORE}
 ## change to source dir                                                                                                                                                                                                                       
 
 # SRC_DIR is like ... $HOME/miniconda3/conda-bld/my-core2_1694565309776/work
@@ -26,15 +26,15 @@ echo "LROSE_CORE = " ${LROSE_CORE}
 export CONDA_MAMBA=micromamba
 
 # export HOST_OS=OSX_LROSE
-export HOST_OS=LINUX_LROSE
-export LROSE_INSTALL_DIR=/tmp/mylrosetest
+#export HOST_OS=LINUX_LROSE
+#export LROSE_INSTALL_DIR=/tmp/mylrosetest
 # $HOME/lrose
-export LROSE_CORE_DIR=${LROSE_CORE}
+#export LROSE_CORE_DIR=${LROSE_CORE}
 #  $HOME/git/lrose-core
 
 # Qt path
-export CONDA_PKG_DIR=$HOME/$CONDA_MAMBA/pkgs
-export QT_PATH=${CONDA_PKG_DIR}/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
+#export CONDA_PKG_DIR=$HOME/$CONDA_MAMBA/pkgs
+#export QT_PATH=${CONDA_PKG_DIR}/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
 # export PKG_CONFIG_PATH="/usr/local/opt/qt/lib/pkgconfig"
 
 
@@ -50,12 +50,27 @@ export QT_PATH=${CONDA_PKG_DIR}/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
 # this is the cmake way ...
 # CONDA_PKG_DIR=$HOME/$CONDA_MAMBA/pkgs
 # QT_PATH=${CONDA_PKG_DIR}/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
-Qt5_DIR=$HOME/$CONDA_MAMBA/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
-cd $SRC_DIR/build/scripts; ./installPackageMakefiles.py --package=lrose-radx
+#Qt5_DIR=$HOME/$CONDA_MAMBA/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
+#cd $SRC_DIR/build/scripts; ./installPackageMakefiles.py --package=lrose-radx
 # trouble with this line ... cd: build/cmake: No such file or directory
-cd $SRC_DIR/build/cmake; ./createCMakeLists.py --silent --prefix /tmp/mylrosetest/bin 
-cd ${SRC_DIR}/codebase; mkdir -p build;  cd build;  cmake ..
+#cd $SRC_DIR/build/cmake; ./createCMakeLists.py --silent --prefix /tmp/mylrosetest/bin 
+#cd ${SRC_DIR}/codebase; mkdir -p build;  cd build;  cmake ..
+
+${BUILD_PREFIX}/bin/cmake \
+	-H${SRC_DIR} \
+	-Bmybuild \
+	-DCMAKE_INSTALL_PREFIX=${PREFIX} \
+	codebase
+
+cd mybuild
+make
+make install
+
+
 echo "after make ..."
+
+rm -rf mybuild
+rm -rf work/codebase
 #ls /tmp/mylrosetest/bin
 
 echo "last line of build.sh"

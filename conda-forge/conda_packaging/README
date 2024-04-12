@@ -41,7 +41,15 @@ docker build -t conda-forge-pkg-mamba:rocky89v2 -f DockerfileWithMamba .
 3. Run the last container
 docker run --rm -it  conda-forge-pkg-mamba:rocky89v2
 
-conda mambabuild [--dirty]
+further activate and install the mamba stuff ...
+
+    8  source "${HOME}/conda/etc/profile.d/conda.sh"
+    9  source "${HOME}/conda/etc/profile.d/mamba.sh"
+   10  mamba activate base
+   13  mamba install boa -c conda-forge
+
+
+conda mambabuild [--dirty] .
 
 If successful, there will be a mycore2-...tar.bz2 file.  This is the conda-forge package.
 

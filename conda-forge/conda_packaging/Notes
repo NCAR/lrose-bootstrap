@@ -995,3 +995,408 @@ Then, run createCMake.py
 the install_linux_packages.py is called from the Dockerfiles.
 
 eigen is only needed for FRACTL; and then it is not needed at all anymore. post 2024/04/08
+
+4/9/2024
+These variables are in the conda/conda-bld/my-core2_1712674099355/work/build_env_setup.sh file
+export BUILD_PREFIX="/home/gucci/conda/conda-bld/my-core2_1712674099355/_build_env"
+export SYS_PREFIX="/home/gucci/conda"
+export SYS_PYTHON="/home/gucci/conda/bin/python3.10"
+export SUBDIR="linux-64"
+export build_platform="linux-64"
+export SRC_DIR="/home/gucci/conda/conda-bld/my-core2_1712674099355/work"
+export ROOT="/home/gucci/conda"
+
+Maybe use BUILD_PREFIX as the install location for lrose??
+
+CMAKE_IGNORE_PREFIX_PATH: /home/gucci/anaconda3;/home/gucci/anaconda2
+X11_X11_INCLUDE_PATH: /home/gucci/conda/conda-bld/my-core2_1712674099355/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/include
+X11_LIB_DIR: /home/gucci/conda/conda-bld/my-core2_1712674099355/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/lib
+HDF5_INSTALL_PREFIX: /tmp/mylrosetest/bin
+HDF5_C_INCLUDE_DIR: /tmp/mylrosetest/bin/include
+CMAKE_INSTALL_PREFIX is /home/gucci/conda/conda-bld/my-core2_1712674099355/_build_env
+-- Configuring done (1.4s)
+-- Generating done (5.3s)
+-- Build files have been written to: $SRC_DIR/codebase/build
+after make ...
+last line of build.sh
+
+Resource usage statistics from building my-core2:
+   Process count: 3
+   CPU time: Sys=0:00:03.1, User=0:00:03.4
+   Memory: 247.1M
+   Disk usage: 324.0K
+   Time elapsed: 0:00:13.0
+
+
+Packaging my-core2
+Packaging my-core2-20230814-h3fd9d12_0
+WARNING: No files or script found for output my-core2
+
+
+
+----
+
+build.sh ...
+
+cd $SRC_DIR/build/scripts; ./installPackageMakefiles.py --package=lrose-radx
+# trouble with this line ... cd: build/cmake: No such file or directory
+cd $SRC_DIR/build/cmake; ./createCMakeLists.py  --prefix $BUILD_PREFIX 
+cmake ${SRC_DIR}/codebase
+
+
+
+ Generating $SRC_DIR/build/cmake/apps/Radx/src/RadxPartRain
+
+trying to debug this ...
+
+cd $SRC_DIR/build/scripts; ./installPackageMakefiles.py --package=lrose-radx
+# trouble with this line ... cd: build/cmake: No such file or directory
+cd $SRC_DIR/build/cmake; ./createCMakeLists.py  --prefix $BUILD_PREFIX/junk
+bash ${SRC_DIR}/build_env_setup.sh; cd ${SRC_DIR}/codebase/libs/Radx; make install
+#   cmake  ${SRC_DIR}/codebase
+#cd ${SRC_DIR}/codebase; mkdir -p build;  cd build;  cmake ..
+
+The error is ...
+make[6]: Entering directory '$SRC_DIR/codebase/libs/Radx/src/Bufr'
+g++  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/my-core2-20230814 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix -DLINUX_LROSE -D_BSD_TYPES -DF_UNDERSCORE2  -fPIC  -std=c++11 -fPIC -O2 -c -I../include  -I/opt/netcdf4/include -I/usr/local/netcdf4/include -I/usr/local/include  -I/opt/hdf5/include -I/usr/local/hdf5/include -I/usr/include/hdf5/serial  -I/opt/szip/include -I/usr/local/szip/include  -I/opt/zlib/include -I/usr/local/zlib/include  -I/opt/zlib/include -I/usr/local/zlib/include -I/tmp/mylrosetest/include   BufrFile.cc
+make[6]: g++: No such file or directory
+
+
+CMAKE_INSTALL_PREFIX is /home/gucci/conda/conda-bld/my-core2_1712674099355/_build_env/junk
+-- Configuring done (1.0s)
+-- Generating done (4.0s)
+-- Build files have been written to: $SRC_DIR/build/cmake
+after make ...
+
+
+4/10/2024
+
+I changed the build.sh file ...
+
+----- build.sh -----
+
+${BUILD_PREFIX}/bin/cmake \
+	-H${SRC_DIR} \
+	-Bmybuild \
+	-DCMAKE_INSTALL_PREFIX=${PREFIX} \
+	codebase
+
+cd mybuild
+make
+make install
+
+------ end of build.sh -----
+
+Now I am getting the cmake progress information ...
+
+[ 38%] Built target procmap
+[ 38%] Building C object apps/procmap/src/procmap_register/CMakeFiles/procmap_register.dir/parse_args.c.o
+[ 38%] Building C object apps/procmap/src/procmap_register/CMakeFiles/procmap_register.dir/procmap_register.c.o
+[ 38%] Linking C executable procmap_register
+/home/gucci/conda/conda-bld/my-core2_1712770415193/_build_env/bin/../lib/gcc/x86_64-conda-linux-gnu/13.2.0/../../../../x86_64-conda-linux-gnu/bin/ld: warning: libstdc++.so.6, needed by ../../../../libs/toolsa/src/libtoolsa.so, not found (try using -rpath or -rpath-link)
+/home/gucci/conda/conda-bld/my-core2_1712770415193/_build_env/bin/../lib/gcc/x86_64-conda-linux-gnu/13.2.0/../../../../x86_64-conda-linux-gnu/bin/ld: ../../../../libs/toolsa/src/libtoolsa.so: undefined reference to `std::runtime_error::~runtime_error()@GLIBCXX_3.4'
+
+FIX: remove procmap from the apps list ...
+and other erring apps by editing this file ...
+/home/gucci/conda/conda-bld/my-core2_1712775540678/work/codebase/apps/CMakeLists.txt 
+then run 
+conda mambabuild --dirty .
+
+
+The tar.bz2 file contains a bunch of junk ...
+-rw-r--r-- 0/0              70 2023-08-14 01:53 info/recipe/conda/conda-bld/my-core2_1712775540678/work/codebase/apps/titan/src/verify_day/.cvsignore
+
+keep this ... The executables are here ...
+_h_env_place... placeho/bin/RadxPrint
+
+
+Try this ...
+echo "after make ..."
+
+rm -rf mybuild
+rm -rf work/codebase
+to clean up and reduce the 5GB tar file.
+
+---
+
+The local source tree that I can change with using --dirty option.
+(base) [gucci@7faef489db3c ~]$ ls conda/conda-bld/my-core2_1712775540678/work/codebase/apps
+then connect these changes to the tar.gz that is uploaded to url
+
+SUB_DIRS = \
+        tdrp \
+        scripts \
+        didss \
+        ingest \
+        dsserver \
+        mdv_utils \
+        physics \
+        spdb_utils \
+        filters \
+        hydro \
+        interp \
+        radar \
+        Radx 
+ 
+
+OSError: Failed to copy /home/gucci/conda/conda-bld/my-core2_1712775540678/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho
+  /share/qt/3rd_party_licenses/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/eslint-plugin-import/node_modules/debug/LICENSE to 
+
+/home/gucci/conda/conda-bld/my-core2_1712775540678/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/info/recipe/conda/conda-bld/my-core2_1712775540678/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/share/qt/3rd_party_licenses/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/eslint-plugin-import/node_modules/debug/LICENSE.  
+
+Error was: Command 'cp -a 
+/home/gucci/conda/conda-bld/my-core2_1712775540678/
+	_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho
+	/share
+	
+	
+	
+	
+	/qt
+	
+	
+	/3rd_party_licenses
+	/qtwebengine
+	/src
+	/3rdparty
+	/chromium
+	/third_party
+	/devtools-frontend
+	/src
+	/node_modules
+	/eslint-plugin-import
+	/node_modules
+	/debug
+	/LICENSE 
+
+		/home
+	/gucci
+	/conda
+	/conda-bld
+	/my-core2_1712775540678
+	/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho
+	/info
+	/recipe
+	/conda
+	/conda-bld
+	/my-core2_1712775540678
+	/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho
+	/share
+	/qt
+	/3rd_party_licenses
+	/qtwebengine
+	/src
+	/3rdparty
+	/chromium
+	/third_party
+	/devtools-frontend
+	/src
+	/node_modules
+	/eslint-plugin-import
+	/node_modules
+	/debug
+	/LICENSE' returned non-zero exit status 1.
+
+
+FIX: remove radar from the apps to build ...
+
+(base) [gucci@7faef489db3c ~]$ vi conda/conda-bld/my-core2_1712775540678/work/codebase/apps/CMakeLists.txt
+
+# subdirectories
+
+add_subdirectory (tdrp)
+add_subdirectory (scripts)
+#add_subdirectory (procmap)
+# add_subdirectory (titan)
+# add_subdirectory (trec)
+# add_subdirectory (didss)
+# add_subdirectory (ingest)
+# add_subdirectory (dsserver)
+# add_subdirectory (mdv_utils)
+add_subdirectory (physics)
+# add_subdirectory (satApps)
+# add_subdirectory (spdb_utils)
+# add_subdirectory (filters)
+# add_subdirectory (awc)
+# add_subdirectory (hydro)
+# add_subdirectory (interp)
+# add_subdirectory (radar)
+# add_subdirectory (refractt)
+add_subdirectory (Radx)
+# add_subdirectory (cidd)
+# add_subdirectory (spol)
+# add_subdirectory (xpol) 
+
+AND remove qt from the dependencies in the meta.yaml
+
+
+Here is the build.sh
+
+${BUILD_PREFIX}/bin/cmake \
+	-H${SRC_DIR} \
+	-Bmybuild \
+	-DCMAKE_INSTALL_PREFIX=${PREFIX} \
+	codebase
+
+cd mybuild
+make
+make install
+
+
+echo "after make ..."
+
+rm -rf mybuild
+rm -rf work/codebase
+#ls /tmp/mylrosetest/bin
+
+echo "last line of build.sh"
+
+-----
+
+here is the meta.yaml ...
+
+ipackage:
+  name: my-core2
+  # name: lrose-core
+  version: {{ version }}
+
+source:
+  # path: lrose-core  # DON"T USE PATH!! It generates a 5GB package
+  # url for Mac OSX
+  # url: https://github.com/NCAR/lrose-core/releases/download/lrose-core-{{ version }}/lrose-core-{{ version }}.src.mac_osx.tgz
+
+  # url for linux
+  # url: https://github.com/NCAR/lrose-core/releases/download/lrose-core-{{ version }}/lrose-core-{{ version }}.src.tgz
+  # test url for linux
+  url: https://github.com/NCAR/lrose-release-test/releases/download/lrose-core-20230814-test/lrose-core-20230814-test.tar.gz
+  #sha256: f3832918bc3c66617f92e35f5d70729187676313caa60c187eb0f28b8fe5e3b5
+
+build:
+#  noarch: python
+  number: 0
+  #script: g++  hello_world.cc -o hello_world
+  # script: build.sh
+
+
+requirements:
+  build:
+    - gcc_linux-64
+    - gxx_linux-64
+    - gfortran_linux-64
+    - make
+    - cmake
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ cdt('mesa-libgl-devel') }}
+  host:
+    - eigen
+    - fftw
+    - flex
+    - qt
+    # - mesa-libgl-devel-cos7-aarch64
+    #- libglvnd-opengl-cos7-x86_64
+    - libnetcdf
+#    - szip
+    - pkg-config
+#    - geographiclib
+#    - armadillo
+#    - libomp
+#    - libzip
+#    - rsync
+#    - xquartz
+#    - {{ compiler('cxx') }}
+  #host:
+  #  - python
+  #  - pip
+  #run:
+  #  - python
+
+#test:
+  #imports:
+    #- imagesize
+
+#about:
+  #home: http://lrose.net/
+  #license: LROSE BSD
+  #summary: 'LROSE: Lidar Radar Open Software Environment'
+  #description: |
+    # LROSE: Lidar Radar Open Software Environment
+    # LROSE is suppoted by the  National Science Foundation (NSF) for the Lidar, Radar, and Profiler community.
+  #dev_url: https://github.com/NCAR/lrose-core
+  #doc_url: http://wiki.lrose.net/index.php/Main_Page
+  #doc_source_url: http://wiki.lrose.net/index.php/Main_Page
+
+
+------
+
+Now, I find this about libGL ...
+
+libGL
+In addition to the required compilers {{ compiler('c') }} and/or {{ compiler('cxx') }}, the following CDT packages are required for linking against libGL:
+
+requirements:
+  build:
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
+    - {{ cdt('mesa-dri-drivers') }}  # [linux]
+    - {{ cdt('libselinux') }}  # [linux]
+    - {{ cdt('libxdamage') }}  # [linux]
+    - {{ cdt('libxxf86vm') }}  # [linux]
+    - {{ cdt('libxext') }}     # [linux]
+  host:
+    - xorg-libxfixes  # [linux]
+
+So, now meta.yaml is ...
+
+requirements:
+  build:
+    - gcc_linux-64
+    - gxx_linux-64
+    - gfortran_linux-64
+    - make
+    - cmake
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ cdt('mesa-libgl-devel') }}
+    - {{ cdt('mesa-dri-drivers') }}  # [linux]
+    - {{ cdt('libselinux') }}  # [linux]
+    - {{ cdt('libxdamage') }}  # [linux]
+    - {{ cdt('libxxf86vm') }}  # [linux]
+    - {{ cdt('libxext') }}     # [linux]
+  host:
+    #- eigen
+    - fftw
+    - flex
+    #- qt
+    - xorg-libxfixes  # [linux]
+    # - mesa-libgl-devel-cos7-aarch64
+    #- libglvnd-opengl-cos7-x86_64
+    - libnetcdf
+#    - szip
+    - pkg-config
+#    - geographiclib
+
+
+NOTE: the package (.tar.bz2) file contains ...
+conda/conda-bld/my-core2_xxx/work_moved_my-core2...
+
+info/recipe/conda/conda-bld/my-core2_1712775540678/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/bin/RadxPrint IMPORTANT!
+
+
+the conda/conda-bld/my-core2... contains ...
+work_moved_my-core2...  X 
+_build_env              ==> fine
+work/mybuild            X 
+work/docs		X
+work/build		X
+work/codebase		X
+
+
+I deleted  ..
+rm -rf mybuild
+rm -rf work/codebase
+
+Alright.  I am getting tired of this. 
+I am going to trim down the *.tar.gz that is posted on the url.
+make a Radx package
+make a GUI apps package
+make a FRACTL and SAMURAI package

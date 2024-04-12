@@ -71,7 +71,6 @@ RUN source "${HOME}/conda/etc/profile.d/mamba.sh"
 COPY meta.yaml .
 COPY build.sh .
 COPY run_test.sh .
-COPY lrose-core-20230814.src /home/gucci/lrose-core 
 #
 # micromamba install conda-build
 # micromamba install mambabuild # this did not work; error mambabuild does not exist??
