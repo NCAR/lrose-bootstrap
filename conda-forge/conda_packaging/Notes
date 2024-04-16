@@ -1424,3 +1424,134 @@ Is there a way to test it in the ERAD notebook by installing it as a file?
 change the name of the package to lrose-core-radx-20240410 and then use the latest release? or
 just use the 20240813 trimmed down release?
 
+We  need the 20240410 release for SAMURAI, to fix the memory leak and the debug message.
+
+4/15/2024
+try a test install of the radx conda package.
+1. open clean docker image with mamba only install (docker run --rm -it  conda-forge-pkg-mamba:rocky89v2)
+2. download the tar.bz2 package from the lrose-release-test site
+	a. install mamba
+        b. mamba activate base
+           mamba install libnetcdf
+           mamba install fftw
+	c. wget https://github.com/NCAR/lrose-release-test/releases/download/lrose-core-20230814-test/my-core2-20230814-h3fd9d12_0.tar.bz2
+3. mamba install  <*.tar.bz2)
+4. mamba activate base
+5. RadxPrint -h
+then this works. YEAH?!
+
+Here are the steps 
+(base) eol-antigua:conda_packaging brenda$ docker run --rm -it  conda-forge-pkg-mamba:rocky89v2
+(base) [gucci@d6e49c0ab4f7 ~]$ history
+    1  source "${HOME}/conda/etc/profile.d/conda.sh"
+    2  source "${HOME}/conda/etc/profile.d/mamba.sh"
+    3  mamba activate base
+    4  mamba install libnetcdf
+    5  wget https://github.com/NCAR/lrose-release-test/releases/download/lrose-core-20230814-test/my-core2-20230814-h3fd9d12_0.tar.bz2
+    6  mamba activate base
+    8  mamba install  my-core2-20230814-h3fd9d12_0.tar.bz2 
+    9  RadxPrint -h
+   11  mamba install fftw
+   12  mamba activate base
+   13  RadxPrint -h
+   14  history
+
+
+(base) [gucci@582cb07ba87c ~]$ mamba install --offline --verbose  my-core2-20230814-h3fd9d12_0.tar.bz2 
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+(base) [gucci@582cb07ba87c ~]$ mamba activate base
+(base) [gucci@582cb07ba87c ~]$ RadxPrint -h
+RadxPrint: error while loading shared libraries: libnetcdf.so.19: cannot open shared object file: No such file or directory
+(base) [gucci@582cb07ba87c ~]$
+
+the Radx* binaries are installed, as well as the libRadx*,
+but not libnetcdf ...
+
+maybe build lrose with static lib objects?? With static libraries, there is no need
+to find external libraries; if this can build, which it did earlier, then the
+netcdf lib that lrose needs should be part of the executables.
+
+  Usage: createCMakeLists.py [options]
+--static              Create static lib objects. Default is shared
+
+  cd ~/git/lrose-core/build/cmake
+  ./createCMakeLists.py --static
+
+
+----
+cd build/cmake; ./createCMakeLists.py --static
+
+--->> Writing CMakeLists.txt for app:  RadxVolTimingStats
+      /home/gucci/conda/conda-bld/my-core2_1713276641136/work/codebase/apps/Radx/src/RadxVolTimingStats/CMakeLists.txt
+=============================================
+==>> CMakeLists.txt files created
+==>>   nRecurse:  35
+==>>   nLibs   :  26
+==>>   nApps   :  52
+==>>   nOther  :  1
+==>>   nTotal  :  114
+CMake Warning:
+  Ignoring extra path from command line:
+
+   "codebase"
+
+
+CMake Error: The source directory "/home/gucci/conda/conda-bld/my-core2_1713276641136/work" does not appear to contain CMakeLists.txt.
+
+------
+
+(base) [gucci@582cb07ba87c ~]$ ls
+Miniforge3.sh  build.sh  conda	meta.yaml  my-core2-20230814-h3fd9d12_0.tar.bz2  run_test.sh
+(base) [gucci@582cb07ba87c ~]$ ls conda
+LICENSE.txt	 conda-meta  include  pkgs   ssl
+_conda		 condabin    lib      sbin   x86_64-conda-linux-gnu
+bin		 envs	     libexec  share  x86_64-conda_cos6-linux-gnu
+compiler_compat  etc	     man      shell
+(base) [gucci@582cb07ba87c ~]$ ls conda/bin/Radx*
+conda/bin/Radx2Dsr	 conda/bin/RadxDiffFields    conda/bin/RadxMon
+conda/bin/Radx2Grid	 conda/bin/RadxDiffVol	     conda/bin/RadxPartRain
+conda/bin/RadxBeamBlock  conda/bin/RadxDwellCombine  conda/bin/RadxPid
+conda/bin/RadxBufr	 conda/bin/RadxEvad	     conda/bin/RadxPrint
+conda/bin/RadxCalUpdate  conda/bin/RadxFilter	     conda/bin/RadxQc
+conda/bin/RadxCheck	 conda/bin/RadxHca	     conda/bin/RadxQpe
+conda/bin/RadxClutMon	 conda/bin/RadxKdp	     conda/bin/RadxRate
+conda/bin/RadxClutter	 conda/bin/RadxMergeFields   conda/bin/RadxStats
+conda/bin/RadxConvert	 conda/bin/RadxMergeVols     conda/bin/RadxSunMon
+conda/bin/RadxCov2Mom	 conda/bin/RadxMesoCyclone   conda/bin/RadxTimeStats
+conda/bin/RadxCreateVol  conda/bin/RadxModelQc	     conda/bin/RadxVolTimingStats
+(base) [gucci@582cb07ba87c ~]$ ls conda/lib/*netcdf*
+ls: cannot access 'conda/lib/*netcdf*': No such file or directory
+(base) [gucci@582cb07ba87c ~]$ ls conda/lib/*Radx*
+conda/lib/libRadx.so
+(base) [gucci@582cb07ba87c ~]$ 
+
+What is this?
+info/recipe/conda/conda-bld/my-core2_1712952229407/work/lrose-netcdf/README.md
+
+
+NOTE:
+*** interesting information on the shared libraries and the missing libnetcdf.so.19 !!!
+   INFO (my-core2,bin/RadxFilter): lib/libNcxx.so found in this package
+   INFO (my-core2,bin/RadxFilter): lib/libphysics.so found in this package
+   INFO (my-core2,bin/RadxFilter): Needed DSO lib/libnetcdf.so.19 found in conda-forge/linux-64::libnetcdf==4.9.2=nompi_h9612171_113
+WARNING (my-core2,bin/RadxFilter): Needed DSO lib/libhdf5_hl.so.310 found in ['conda-forge/linux-64::hdf5==1.14.3=nompi_h4f84152_100']
+WARNING (my-core2,bin/RadxFilter): .. but ['conda-forge/linux-64::hdf5==1.14.3=nompi_h4f84152_100'] not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely)
+WARNING (my-core2,bin/RadxFilter): Needed DSO lib/libhdf5.so.310 found in ['conda-forge/linux-64::hdf5==1.14.3=nompi_h4f84152_100']
+WARNING (my-core2,bin/RadxFilter): .. but ['conda-forge/linux-64::hdf5==1.14.3=nompi_h4f84152_100']
+***  not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely) **
+
+WARNING (my-core2,bin/RadxFilter): Needed DSO lib/libz.so.1 found in ['conda-forge/linux-64::libzlib==1.2.13=hd590300_5']
+WARNING (my-core2,bin/RadxFilter): .. but ['conda-forge/linux-64::libzlib==1.2.13=hd590300_5'] not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely)
+WARNING (my-core2,bin/RadxFilter): Needed DSO lib/libbz2.so.1.0 found in ['conda-forge/linux-64::bzip2==1.0.8=hd590300_5']
+WARNING (my-core2,bin/RadxFilter): .. but ['conda-forge/linux-64::bzip2==1.0.8=hd590300_5'] not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely)
+   INFO (my-core2,bin/RadxFilter): Needed DSO lib/libfftw3.so.3 found in conda-forge/linux-64::fftw==3.3.10=nompi_hc118613_108
+   INFO (my-core2,bin/RadxFilter): Needed DSO x86_64-conda-linux-gnu/sysroot/lib64/libpthread.so.0 found in CDT/compiler package conda-forge/noarch::sysroot_linux-64==2.12=he073ed8_17
+   INFO (my-core2,bin/RadxFilter): Needed DSO lib/libstdc++.so.6 found in conda-forge/linux-64::libstdcxx-ng==13.2.0=h7e041cc_5
+   INFO (my-core2,bin/RadxFilter): Needed DSO x86_64-conda-linux-gnu/sysroot/lib64/libm.so.6 found in CDT/compiler package conda-forge/noarch::sysroot_linux-64==2.12=he073ed8_17
+   INFO (my-core2,bin/RadxFilter): Needed DSO lib/libgcc_s.so.1 found in conda-forge/linux-64::libgcc-ng==13.2.0=h807b86a_5
+   INFO (my-core2,bin/RadxFilter): Needed DSO x86_64-conda-linux-gnu/sysroot/lib64/libc.so.6 found in CDT/compiler package conda-forge/noarch::sysroot_linux-64==2.12=he073ed8_17
+Fixing permissions
+WARNING: path /home/gucci/conda/pkgs/gcc_impl_linux-64-13.2.0-h338b0a0_5/x86_64-conda-linux-gnu/lib/libatomic.so.1.2.0 is a broken symlink - ignoring copy
+

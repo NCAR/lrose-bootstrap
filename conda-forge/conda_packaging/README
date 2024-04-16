@@ -54,4 +54,20 @@ conda mambabuild [--dirty] .
 If successful, there will be a mycore2-...tar.bz2 file.  This is the conda-forge package.
 
 
+To test the package in a clean environment ...
+
+Here are the steps 
+(base) eol-antigua:conda_packaging brenda$ docker run --rm -it  conda-forge-pkg-mamba:rocky89v2
+(base) [gucci@d6e49c0ab4f7 ~]$ history
+    1  source "${HOME}/conda/etc/profile.d/conda.sh"
+    2  source "${HOME}/conda/etc/profile.d/mamba.sh"
+    3  mamba activate base
+    4  mamba install libnetcdf
+    5  wget https://github.com/NCAR/lrose-release-test/releases/download/lrose-core-20230814-test/my-core2-20230814-h3fd9d12_0.tar.bz2
+    6  mamba activate base
+    8  mamba install  my-core2-20230814-h3fd9d12_0.tar.bz2
+    9  RadxPrint -h
+   11  mamba install fftw
+   12  mamba activate base
+   13  RadxPrint -h
 
