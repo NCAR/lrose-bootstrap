@@ -47,12 +47,16 @@ further activate and install the mamba stuff ...
     9  source "${HOME}/conda/etc/profile.d/mamba.sh"
    10  mamba activate base
    13  mamba install boa -c conda-forge
+       mamba install findutils # OR add findutils to the requirements/build <===
+       mamba activate base
 
 
 conda mambabuild [--dirty] .
 
 If successful, there will be a mycore2-...tar.bz2 file.  This is the conda-forge package.
 
+docker ps  # to get the image name
+docker cp d55e3201e47b:/home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2  <newfilename>.
 
 To test the package in a clean environment ...
 
@@ -65,7 +69,7 @@ Here are the steps
     4  mamba install libnetcdf
     5  wget https://github.com/NCAR/lrose-release-test/releases/download/lrose-core-20230814-test/my-core2-20230814-h3fd9d12_0.tar.bz2
     6  mamba activate base
-    8  mamba install  my-core2-20230814-h3fd9d12_0.tar.bz2
+    8  mamba install  my-core2-20230814-h3fd9d12_0.tar.bz2  # --use-local?
     9  RadxPrint -h
    11  mamba install fftw
    12  mamba activate base

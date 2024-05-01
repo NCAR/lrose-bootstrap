@@ -1555,3 +1555,89 @@ WARNING (my-core2,bin/RadxFilter): .. but ['conda-forge/linux-64::bzip2==1.0.8=h
 Fixing permissions
 WARNING: path /home/gucci/conda/pkgs/gcc_impl_linux-64-13.2.0-h338b0a0_5/x86_64-conda-linux-gnu/lib/libatomic.so.1.2.0 is a broken symlink - ignoring copy
 
+
+Just need to install libnetcdf and fftw in the running environment before running Radx* apps.
+
+
+Typically, these should be in host dependency, not build. Build is for tools like make and compilers. Host is for stuff that is linked against. Run is for what the end-user needs. Also, most compiled libraries have run_exports, which means if one lists it in host, it will automatically get added to run (i.e., one shouldn't manually list them in run). Conda-build will use the version used in the host environment to define a constraint on compatible versions in the run.
+
+-----
+
+Now, consider samurai.  It does NOT need qt, AND ERAD needs samurai, so, I could try to build a package with the 20240410 release, use Radx, and samurai in a package.
+
+What Linux flavor does the ERAD platform want?
+Debian
+
+
+I need to pare down the 20240410 release and upload it to the test-release Github repo
+for samurai ...
+
+grab samurai and fractl from the release page
+cd samurai
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/lrose .
+make install
+
+for fractl, need ...
+
+4/17/2024
+
+WAIT!  Bundle samurai and fractl as separate conda-forge packages. Have them depend on specific version of lrose-core.
+
+I guess it is time to submit lrose-core to conda-forge, but first, clean up the package labeling
+ - package name
+ - package version
+ - build with *pared down* 20240410 release of LROSE
+ - retest in clean container
+
+
+TEST END: /home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+Renaming work directory '/home/gucci/conda/conda-bld/my-core2_1713378621977/work' to '/home/gucci/conda/conda-bld/my-core2_1713378621977/work_moved_my-core2-20230814-h3fd9d12_0_linux-64_main_build_loop'
+shutil.move(work)=/home/gucci/conda/conda-bld/my-core2_1713378621977/work, dest=/home/gucci/conda/conda-bld/my-core2_1713378621977/work_moved_my-core2-20230814-h3fd9d12_0_linux-64_main_build_loop)
+Adding in variants from /home/gucci/conda/pkgs/tzdata-2024a-h0c530f3_0/info/recipe/conda_build_config.yaml
+BUILD START: ['tzdata-2024a-h0c530f3_0.tar.bz2']
+
+Why is there the tzdata-2024a-h0c530f3_0.tar.bz2 test failed??? Why is this being built and tested?
+maybe remove python from the requirements/run list? No.  
+
+Does libnetcdf and ?? in the requirements/run list remove the need to install these packages in the test environment? No. 
+
+The Radx* apps are installed here: $HOME/conda/bin
+my-core* is installed in $HOME/conda/pkgs
+
+-rwxrwxr-x 0/0         1856544 2023-12-10 17:26 info/recipe/conda/conda-bld/my-core2_1713468236032/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho/lib/libnetcdf.so.19 
+So, why is the library not found when running RadxPrint -h ???
+
+AND look! the source code is present in the tar.bz2 ...
+-rw-r--r-- 0/0           14813 2023-08-14 01:53 info/recipe/conda/conda-bld/my-core2_1713468236032/work/codebase/apps/Radx/src/RadxPrint/RadxPrint.cc
+
+Try to remove the codebase in the build.sh script?  with the source, the tar.bz2 is 1.7GB
+
+The object files are NOT in the tar.bz2 file.  This is good!
+
+4/24/2024
+Q: Are the source files gone from the tarball?
+No, the source files are still there!!!
+
+Q: Is the findutils error gone?  (added findutils to the requirements/build list)
+No.
+/home/gucci/conda/conda-bld/tzdata_1713987008968/test_tmp/run_test.sh: line 16: find: command not found
++ dirs=
+WARNING: Tests failed for tzdata-2024a-h0c530f3_0.tar.bz2 - moving package to /home/gucci/conda/conda-bld/broken
+TESTS FAILED: tzdata-2024a-h0c530f3_0.tar.bz2
+
+4/30/2024
+I wonder if the lrose-core source to be deleted is here ${SRC_DIR}?
+5/1/2024
+try again with 
+rm -rf ${SRC_DIR}/codebase
+
+Yes! this worked! Now there is just this residual ...
+(base) [gucci@0f042cb46034 ~]$ ls /home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+/home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+(base) [gucci@0f042cb46034 ~]$ tar -tvf /home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2 | grep RadxPrint.cc
+-rw-rw-r-- 0/0           26057 2024-05-01 14:42 info/recipe/conda/conda-bld/my-core2_1714572943855/work/mybuild/apps/Radx/src/RadxPrint/CMakeFiles/RadxPrint.dir/RadxPrint.cc.o.d
+-rw-rw-r-- 0/0           46312 2024-05-01 14:42 info/recipe/conda/conda-bld/my-core2_1714572943855/work/mybuild/apps/Radx/src/RadxPrint/CMakeFiles/RadxPrint.dir/RadxPrint.cc.o
+(base) [gucci@0f042cb46034 ~]$ ls -lrt  /home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+-rw-rw-r-- 1 gucci gucci 1801471297 May  1 14:54 /home/gucci/conda/conda-bld/linux-64/my-core2-20230814-h3fd9d12_0.tar.bz2
+
+
