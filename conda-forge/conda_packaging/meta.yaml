@@ -39,7 +39,7 @@ requirements:
     - {{ cdt('libxxf86vm') }}  # [linux]
     - {{ cdt('libxext') }}     # [linux]
   host:
-    #- eigen
+    # - eigen
     - fftw
     - flex
     #- qt
@@ -48,14 +48,16 @@ requirements:
     - libpng
 #    - szip
     - pkg-config
-#    - geographiclib
-#    - armadillo
-#    - libomp
-#    - libzip
+    # - geographiclib
+    # - armadillo
+    # - libgomp
+    # - libzip
 #    - rsync
 #    - xquartz
 #    - python
   run:
+     - libnetcdf 
+     - fftw 
 #    - python
 
 #test:
