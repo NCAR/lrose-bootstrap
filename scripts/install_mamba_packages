@@ -26,5 +26,5 @@ mamba install -y --channel conda-forge libx11-devel libx11-common
 # qt6
 
 mamba install -y --channel conda-forge qt6-main qt6-networkauth
-mamba install -y --channel conda-forge qt6-charts qt6-graphs
+mamba install -y --channel conda-forge qt6-charts qt6-graphs qt6-wayland
 mamba install -y --channel conda-forge qt6-3d qt6-datavis3d
