@@ -16,8 +16,10 @@
 
 # X11
 
-~/mambaforge/bin/mamba install -y --channel conda-forge xorg-libx11 xorg-libxext
-~/mambaforge/bin/mamba install -y --channel conda-forge libx11-devel libx11-common
+~/mambaforge/bin/mamba install -y --channel conda-forge xorg-libx11 xorg-libsm xorg-libxext
+~/mambaforge/bin/mamba install -y --channel conda-forge xorg-font-util xorg-libxpm
+~/mambaforge/bin/mamba install -y --channel conda-forge xorg-libxau xorg-libxaw xorg-xauth
+~/mambaforge/bin/mamba install -y --channel conda-forge xorg-xbitmaps xorg-libxt xorg-xtrans
 
 # qt6
 
