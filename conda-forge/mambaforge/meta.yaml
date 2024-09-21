@@ -9,18 +9,13 @@ source:
 build:
   number: 0
   script: |
+    cd build/cmake
+    ./createCMakeLists.py --mambaBuild
+    cd ../..
     mkdir codebase/build
     cd codebase/build
-    cmake ..
-#    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_PREFIX_PATH=$PREFIX ..
-    cd libs/dataport
-    make
-    cd ../..
-    cd libs/toolsa
-    make
-    cd ../..
-#    make
-#    make install
+    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX ..
+    make -j 8 install
 
 requirements:
   build:
