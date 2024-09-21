@@ -12,8 +12,14 @@ build:
     mkdir codebase/build
     cd codebase/build
     cmake ..
+    cd libs/dataport
     make
-    make install
+    cd ../..
+    cd libs/toolsa
+    make
+    cd ../..
+#    make
+#    make install
 
 requirements:
   build:
@@ -21,8 +27,6 @@ requirements:
     - make
     - gcc_linux-64  # or clangxx_osx-64 if building for macOS
     - gxx_linux-64  # or clangxx_osx-64 if building for macOS
-#    - gcc
-#    - cxx-compiler
   host:
     - cmake
     - libcxx-devel
@@ -61,7 +65,7 @@ requirements:
     - libgl-devel
     - libopengl-devel
   run:
-    - libcxx-devel
+    - libcxx
     - libpng
     - libtiff
     - libzip
@@ -94,8 +98,8 @@ requirements:
     - qt6-quick3d
     - qt6-datavis3d
     - qt6-multimedia
-    - libgl-devel
-    - libopengl-devel
+    - libgl
+    - libopengl
     - libstdcxx-ng  # or other C++ runtime libraries
 
 about:
