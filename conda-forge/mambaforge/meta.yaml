@@ -1,0 +1,111 @@
+package:
+  name: lrose-core
+  version: 20240921
+
+source:
+  url: https://github.com/NCAR/lrose-core/archive/refs/tags/lrose-test-20240921.tar.gz
+  sha256: 21dc653f40899d1bfb61dfd1fdcfc81d8896b5e919e746c0ce9dcef5f7c0896b
+
+build:
+  number: 0
+  script: |
+    mkdir codebase/build
+    cd codebase/build
+    cmake ..
+    make
+    make install
+
+requirements:
+  build:
+    - cmake
+    - make
+    - gcc_linux-64  # or clangxx_osx-64 if building for macOS
+    - gxx_linux-64  # or clangxx_osx-64 if building for macOS
+#    - gcc
+#    - cxx-compiler
+  host:
+    - cmake
+    - libcxx-devel
+    - libpng
+    - libtiff
+    - libzip
+    - zlib
+    - bzip2
+    - expat
+    - libcurl
+    - openmpi
+    - flex
+    - fftw
+    - hdf5
+    - libnetcdf
+    - xorg-libx11
+    - xorg-libsm
+    - xorg-libxext
+    - xorg-font-util
+    - xorg-libxpm
+    - xorg-libxau
+    - xorg-libxaw
+    - xorg-xauth
+    - xorg-xbitmaps
+    - xorg-libxt
+    - xorg-xtrans
+    - qt6-main
+    - qt6-networkauth
+    - qt6-charts
+    - qt6-graphs
+    - qt6-wayland
+    - qt6-3d
+    - qt6-quick3d
+    - qt6-datavis3d
+    - qt6-multimedia
+    - libgl-devel
+    - libopengl-devel
+  run:
+    - libcxx-devel
+    - libpng
+    - libtiff
+    - libzip
+    - zlib
+    - bzip2
+    - expat
+    - libcurl
+    - openmpi
+    - flex
+    - fftw
+    - hdf5
+    - libnetcdf
+    - xorg-libx11
+    - xorg-libsm
+    - xorg-libxext
+    - xorg-font-util
+    - xorg-libxpm
+    - xorg-libxau
+    - xorg-libxaw
+    - xorg-xauth
+    - xorg-xbitmaps
+    - xorg-libxt
+    - xorg-xtrans
+    - qt6-main
+    - qt6-networkauth
+    - qt6-charts
+    - qt6-graphs
+    - qt6-wayland
+    - qt6-3d
+    - qt6-quick3d
+    - qt6-datavis3d
+    - qt6-multimedia
+    - libgl-devel
+    - libopengl-devel
+    - libstdcxx-ng  # or other C++ runtime libraries
+
+about:
+  home: http://lrose.net/
+  license: LROSE BSD 
+  summary: 'LROSE: Lidar Radar Open Software Environment'
+  description: |
+     LROSE: Lidar Radar Open Software Environment
+     LROSE is suppoted by the  National Science Foundation (NSF) for the Lidar, Radar, and Profiler community.
+  dev_url: https://github.com/NCAR/lrose-core
+  doc_url: http://wiki.lrose.net/index.php/Main_Page
+  doc_source_url: http://wiki.lrose.net/index.php/Main_Page
+
