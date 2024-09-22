@@ -98,9 +98,21 @@ requirements:
     - libopengl
     - libstdcxx-ng  # or other C++ runtime libraries
 
+test:
+  # List of commands to run after the build to validate it
+  commands:
+    - RadxPrint -h
+    - RadxConvert -print_params
+    - PrintMdv -h
+
+  # Files that should be present after the build
+  files:
+    - bin/RadxPrint
+    - lib/libtoolsa.so
+
 about:
   home: http://lrose.net/
-  license: LROSE BSD 
+  license: BSD
   summary: 'LROSE: Lidar Radar Open Software Environment'
   description: |
      LROSE: Lidar Radar Open Software Environment
