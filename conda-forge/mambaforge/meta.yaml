@@ -21,8 +21,8 @@ requirements:
   build:
     - cmake
     - make
-    - gcc_linux-64  # or clangxx_osx-64 if building for macOS
-    - gxx_linux-64  # or clangxx_osx-64 if building for macOS
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
     - cmake
     - libcxx-devel
@@ -61,6 +61,7 @@ requirements:
     - libgl-devel
     - libopengl-devel
   run:
+    - numpy 1.26
     - libcxx
     - libpng
     - libtiff
