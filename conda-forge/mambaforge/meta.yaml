@@ -43,26 +43,28 @@ requirements:
     - xorg-libx11
     - xorg-libsm
     - xorg-libxext
-    - xorg-font-util
     - xorg-libxpm
     - xorg-libxau
     - xorg-libxaw
     - xorg-xauth
-    - xorg-xbitmaps
     - xorg-libxt
     - xorg-xtrans
     - qt6-main
-    - qt6-networkauth
     - qt6-charts
     - qt6-graphs
-    - qt6-wayland
     - qt6-3d
     - qt6-quick3d
     - qt6-datavis3d
     - qt6-multimedia
+    {% if linux %}
+    - xorg-font-util
+    - xorg-xbitmaps
+    - qt6-networkauth
+    - qt6-wayland
     - libgl-devel
     - libopengl-devel
-  run:
+    {% endif %}
+run:
     - numpy 1.26
     - libcxx
     - libpng
@@ -80,25 +82,27 @@ requirements:
     - xorg-libx11
     - xorg-libsm
     - xorg-libxext
-    - xorg-font-util
     - xorg-libxpm
     - xorg-libxau
     - xorg-libxaw
     - xorg-xauth
-    - xorg-xbitmaps
     - xorg-libxt
     - xorg-xtrans
     - qt6-main
-    - qt6-networkauth
     - qt6-charts
     - qt6-graphs
-    - qt6-wayland
     - qt6-3d
     - qt6-quick3d
     - qt6-datavis3d
     - qt6-multimedia
-    - libgl
-    - libopengl
+    {% if linux %}
+    - xorg-font-util
+    - xorg-xbitmaps
+    - qt6-networkauth
+    - qt6-wayland
+    - libgl-devel
+    - libopengl-devel
+    {% endif %}
     - libstdcxx-ng  # or other C++ runtime libraries
 
 test:
