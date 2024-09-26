@@ -3,9 +3,11 @@ package:
   version: 20240921
 
 source:
-  url: https://github.com/NCAR/lrose-core/archive/refs/tags/lrose-test-20240921.tar.gz
-  sha256: 21dc653f40899d1bfb61dfd1fdcfc81d8896b5e919e746c0ce9dcef5f7c0896b
-
+#  url: https://github.com/NCAR/lrose-core/archive/refs/tags/lrose-test-20240921.tar.gz
+#  sha256: 21dc653f40899d1bfb61dfd1fdcfc81d8896b5e919e746c0ce9dcef5f7c0896b
+   git_url: https://github.com/NCAR/lrose-core.git
+   git_rev: HEAD
+   git_depth: -1
 build:
   number: 0
   script: |
