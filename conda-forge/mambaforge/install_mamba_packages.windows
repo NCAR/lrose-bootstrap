@@ -2,33 +2,33 @@
 
 # compilers etc.
 
-~/mambaforge/bin/mamba install -y --channel conda-forge cmake gcc cxx-compiler
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge cmake gcc cxx-compiler
 
 # compression, images, xml etc
 
-~/mambaforge/bin/mamba install -y --channel conda-forge libpng libtiff libzip zlib bzip2
-~/mambaforge/bin/mamba install -y --channel conda-forge expat libcurl openmpi
-~/mambaforge/bin/mamba install -y --channel conda-forge winflexbison fftw
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge libpng libtiff libzip zlib bzip2
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge expat libcurl openmpi
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge winflexbison fftw
 
 # netcdf
 
-~/mambaforge/bin/mamba install -y --channel conda-forge hdf5 netcdf4 libnetcdf
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge hdf5 netcdf4 libnetcdf
 
 # X11
 
-~/mambaforge/bin/mamba install -y --channel conda-forge xorg-libx11 xorg-libsm xorg-libxext
-~/mambaforge/bin/mamba install -y --channel conda-forge xorg-font-util xorg-libxpm
-~/mambaforge/bin/mamba install -y --channel conda-forge xorg-libxau xorg-libxaw xorg-xauth
-~/mambaforge/bin/mamba install -y --channel conda-forge xorg-xbitmaps xorg-libxt xorg-xtrans
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge xorg-libx11 xorg-libsm xorg-libxext
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge xorg-font-util xorg-libxpm
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge xorg-libxau xorg-libxaw xorg-xauth
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge xorg-xbitmaps xorg-libxt xorg-xtrans
 
 # qt6
 
-~/mambaforge/bin/mamba install -y --channel conda-forge qt6-main qt6-networkauth
-~/mambaforge/bin/mamba install -y --channel conda-forge qt6-charts qt6-graphs
-~/mambaforge/bin/mamba install -y --channel conda-forge qt6-3d qt6-quick3d qt6-datavis3d
-~/mambaforge/bin/mamba install -y --channel conda-forge qt6-multimedia
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge qt6-main qt6-networkauth
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge qt6-charts qt6-graphs
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge qt6-3d qt6-quick3d qt6-datavis3d
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge qt6-multimedia
 
 # conda build
 
-~/mambaforge/bin/mamba install -y --channel conda-forge conda-build
+~/miniforge3/Scripts/mamba.exe install -y --channel conda-forge conda-build
 
