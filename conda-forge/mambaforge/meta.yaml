@@ -27,7 +27,9 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - cmake
+    {% if linux or osx %}
     - libcxx-devel
+    {% endif %}
     - libpng
     - libtiff
     - libzip
@@ -36,7 +38,11 @@ requirements:
     - expat
     - libcurl
     - openmpi
+    {% if linux or osx %}
     - flex
+    {% elif win %}
+    - winflexbison
+    {% endif %}
     - fftw
     - hdf5
     - libnetcdf
@@ -56,10 +62,12 @@ requirements:
     - qt6-quick3d
     - qt6-datavis3d
     - qt6-multimedia
-    {% if linux %}
+    {% if linux or win %}
     - xorg-font-util
     - xorg-xbitmaps
     - qt6-networkauth
+    {% endif %}
+    {% if linux %}
     - qt6-wayland
     - libgl-devel
     - libopengl-devel
@@ -75,7 +83,11 @@ run:
     - expat
     - libcurl
     - openmpi
+    {% if linux or osx %}
     - flex
+    {% elif win %}
+    - winflexbison
+    {% endif %}
     - fftw
     - hdf5
     - libnetcdf
@@ -95,10 +107,12 @@ run:
     - qt6-quick3d
     - qt6-datavis3d
     - qt6-multimedia
-    {% if linux %}
+    {% if linux or win %}
     - xorg-font-util
     - xorg-xbitmaps
     - qt6-networkauth
+    {% endif %}
+    {% if linux %}
     - qt6-wayland
     - libgl-devel
     - libopengl-devel
