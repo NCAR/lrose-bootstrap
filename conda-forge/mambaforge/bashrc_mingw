@@ -1,0 +1,13 @@
+# .bashrc for mingw and mamba
+
+# User specific aliases and functions
+
+# Source global definitions
+#if [ -f /etc/bashrc ]; then
+#	. /etc/bashrc
+#fi
+
+export mambaDir=${HOME}/miniforge3/
+
+export PATH=${mambaDir}/bin:${mambaDir}/Library/bin:${mambaDir}/Library/usr/bin:${PATH}
+
