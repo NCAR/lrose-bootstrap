@@ -446,7 +446,7 @@ def gitCheckout():
 
 def createCMakeLists():
 
-    os.chdir(codebaseDir)
+    os.chdir(corebaseDir)
 
     staticStr = " "
     if (options.static):
@@ -482,7 +482,7 @@ def createCMakeLists():
     if (options.isfujitsu):
        isfujitsuStr = " --isfujitsu "
             
-    shellCmd("../build/cmake/createCMakeLists.py " +
+    shellCmd("./build/cmake/createCMakeLists.py " +
              debugStr + staticStr + verboseMakeStr +
              withJasperStr + dependDirsStr + m32Str +
              " --prefix " + prefixDir + iscrayStr +
@@ -680,7 +680,7 @@ def buildPackage():
     # run cmake in build dir, as a subdir of codebase
     
     logPath = prepareLogFile("run-cmake");
-    cmakeBuildDir = os.path.join(codebaseDir, "build")
+    cmakeBuildDir = os.path.join(coreDir, "build")
     os.makedirs(cmakeBuildDir)
     os.chdir(cmakeBuildDir)
     cmd = cmakeExec
