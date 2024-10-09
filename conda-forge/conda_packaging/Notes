@@ -171,7 +171,7 @@ remove cidd from libs/CMakeLists.txt
 
 10/11/2023
 Just work through the cmake files to add the path.
-cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+cd ${SRC_DIR}; mkdir build;  cd build;  cmake ..
 netCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112
 
     fo.write("if (DEFINED netCDF_INSTALL_PREFIX)\n")
@@ -383,7 +383,7 @@ export netCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/*netcdf*/lib;
 # cd build/cmake; ./createCMakeLists.py --prefix=/tmp/mylrosetest2
 # after running the above line (createCMakeLists.py) comment the CMakeFileList.txt files
 
-cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+cd ${SRC_DIR}; mkdir build;  cd build;  cmake ..
 
 #  --debug-output -DnetCDF_INSTALL_PREFIX=/Users/brenda/miniconda3/pkgs/libnetcdf-4.9.2-nompi_h6a32802_112  doesn't work
 #  -DCMAKE_PREFIX_PATH=/Users/brenda/miniconda3/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake  doesn't work.
@@ -490,7 +490,7 @@ modify the build.sh file to this ...
 Qt5_DIR=$HOME/micromamba/pkgs/qt-main-5.15.8-hc03889f_16/lib/cmake/Qt5
 cd build/scripts; ./installPackageMakefiles.py --package=lrose-radx           
 cd build/cmake; ./createCMakeLists.py --silent  --prefix /tmp/mylrosetest/bin
-cd ${SRC_DIR}/codebase; mkdir build;  cd build;  cmake ..
+cd ${SRC_DIR}; mkdir build;  cd build;  cmake ..
 
 (base) [gucci@d32d7b735ddd package_area]$ conda build .
 
@@ -1053,8 +1053,8 @@ cd $SRC_DIR/build/scripts; ./installPackageMakefiles.py --package=lrose-radx
 # trouble with this line ... cd: build/cmake: No such file or directory
 cd $SRC_DIR/build/cmake; ./createCMakeLists.py  --prefix $BUILD_PREFIX/junk
 bash ${SRC_DIR}/build_env_setup.sh; cd ${SRC_DIR}/codebase/libs/Radx; make install
-#   cmake  ${SRC_DIR}/codebase
-#cd ${SRC_DIR}/codebase; mkdir -p build;  cd build;  cmake ..
+#   cmake  ${SRC_DIR}
+#cd ${SRC_DIR}; mkdir -p build;  cd build;  cmake ..
 
 The error is ...
 make[6]: Entering directory '$SRC_DIR/codebase/libs/Radx/src/Bufr'

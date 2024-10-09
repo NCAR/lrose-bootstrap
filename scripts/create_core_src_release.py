@@ -576,19 +576,11 @@ class LroseCore < Formula
 
     ENV["PKG_CONFIG_PATH"] = "/usr/local/opt/qt@5/lib/pkgconfig"
     ENV['LROSE_INSTALL_DIR'] = prefix
-    Dir.mkdir("codebase/build")
-    Dir.chdir("codebase/build") do
+    Dir.mkdir("build")
+    Dir.chdir("build") do
       # run cmake to create Makefiles
       system "cmake", "-DCMAKE_INSTALL_PREFIX=#{{prefix}}", ".."
-      # build tdrp lib
-      Dir.chdir("libs/tdrp/src") do
-        system "make -j 8 install"
-      end
-      # build tdrp_gen app - this is a dependency
-      Dir.chdir("apps/tdrp/src/tdrp_gen") do
-        system "make -j 8 install"
-      end
-      # build everything else
+      # build and install
       system "make -j 8 install"
     end
     # install the color scales
