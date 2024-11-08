@@ -2,37 +2,37 @@
 
 # compilers etc.
 
-~/miniforge3/bin/mamba install --channel conda-forge cmake clang cxx-compiler libcxx-devel
+~/miniforge3/bin/mamba install -y --channel conda-forge cmake clang cxx-compiler libcxx-devel
 
 # compression, images, xml etc
 
-~/miniforge3/bin/mamba install  --channel conda-forge libpng libtiff libzip zlib bzip2
-~/miniforge3/bin/mamba install  --channel conda-forge expat libcurl openmpi
-~/miniforge3/bin/mamba install  --channel conda-forge flex fftw
+~/miniforge3/bin/mamba install  -y --channel conda-forge libpng libtiff libzip zlib bzip2
+~/miniforge3/bin/mamba install  -y --channel conda-forge expat libcurl openmpi
+~/miniforge3/bin/mamba install  -y --channel conda-forge flex fftw
 
 # netcdf
 
-~/miniforge3/bin/mamba install  --channel conda-forge hdf5 libnetcdf
+~/miniforge3/bin/mamba install  -y --channel conda-forge hdf5 libnetcdf
 
 # X11
 
-~/miniforge3/bin/mamba install  --channel conda-forge xorg-libx11 xorg-libsm xorg-libxext
-~/miniforge3/bin/mamba install  --channel conda-forge xorg-libxpm
-~/miniforge3/bin/mamba install  --channel conda-forge xorg-libxau xorg-libxaw xorg-xauth
-~/miniforge3/bin/mamba install  --channel conda-forge xorg-libxt xorg-xtrans
+~/miniforge3/bin/mamba install  -y --channel conda-forge xorg-libx11 xorg-libsm xorg-libxext
+~/miniforge3/bin/mamba install  -y --channel conda-forge xorg-libxpm
+~/miniforge3/bin/mamba install  -y --channel conda-forge xorg-libxau xorg-libxaw xorg-xauth
+~/miniforge3/bin/mamba install  -y --channel conda-forge xorg-libxt xorg-xtrans
 
 # qt6
 
-~/miniforge3/bin/mamba install  --channel conda-forge qt6-main
-~/miniforge3/bin/mamba install  --channel conda-forge qt6-charts qt6-graphs
-~/miniforge3/bin/mamba install  --channel conda-forge qt6-3d qt6-quick3d qt6-datavis3d
-~/miniforge3/bin/mamba install  --channel conda-forge qt6-multimedia
+~/miniforge3/bin/mamba install  -y --channel conda-forge qt6-main
+~/miniforge3/bin/mamba install  -y --channel conda-forge qt6-charts qt6-graphs
+~/miniforge3/bin/mamba install  -y --channel conda-forge qt6-3d qt6-quick3d qt6-datavis3d
+~/miniforge3/bin/mamba install  -y --channel conda-forge qt6-multimedia
 
 # gl support for qt6
 
-#~/miniforge3/bin/mamba install  --channel conda-forge libgl-devel libopengl-devel
+#~/miniforge3/bin/mamba install  -y --channel conda-forge libgl-devel libopengl-devel
 
 # conda build
 
-~/miniforge3/bin/mamba install  --channel conda-forge conda-build
+~/miniforge3/bin/mamba install  -y --channel conda-forge conda-build
 
