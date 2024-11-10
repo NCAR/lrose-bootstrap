@@ -9,6 +9,9 @@ source:
 build:
   number: 0
   script: |
+    cd build/cmake
+    ./createCMakeLists.py --mambaBuild
+    cd ../..
     mkdir conda_build
     cd conda_build
     cmake -DCMAKE_INSTALL_PREFIX=$PREFIX ..
@@ -22,6 +25,9 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - cmake
+    {% if linux %}
+    - libgcc
+    {% endif %}
     {% if linux or osx %}
     - libcxx-devel
     {% endif %}
