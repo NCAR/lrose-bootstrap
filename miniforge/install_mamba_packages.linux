@@ -34,5 +34,5 @@
 
 # conda build
 
-~/miniforge3/bin/mamba install -y --channel conda-forge conda-build
+~/miniforge3/bin/mamba install -y --channel conda-forge pkg-config conda-build
 
