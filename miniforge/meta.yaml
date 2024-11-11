@@ -70,6 +70,10 @@ requirements:
     - libgl-devel
     - libopengl-devel
     {% endif %}
+    {% if osx %}
+    - pyopengl
+    - glfw
+    {% endif %}
 run:
     - numpy 1.26
     - libcxx
