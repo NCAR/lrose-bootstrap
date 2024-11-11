@@ -11,6 +11,7 @@ build:
   script: |
     mkdir build_dir
     cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DMAMBA_BUILD=1 -S . -B ./build_dir
+    cd build_dir
     make -j 8 install
 
 requirements:
