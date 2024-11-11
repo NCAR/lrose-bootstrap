@@ -9,12 +9,8 @@ source:
 build:
   number: 0
   script: |
-    cd build/cmake
-    ./createCMakeLists.py --mambaBuild
-    cd ../..
-    mkdir conda_build
-    cd conda_build
-    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX ..
+    mkdir build_dir
+    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DMAMBA_BUILD=1 -S . -B ./build_dir
     make -j 8 install
 
 requirements:
