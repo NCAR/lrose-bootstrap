@@ -1,0 +1,43 @@
+250	3:11	cd miniforge3/conda-bld/lrose-core_1731967780168/
+   251	3:11	ls
+   252	3:11	grep -r -i opengl *
+   253	3:12	grep -r -i opengl * | & less
+   254	3:24	pwd
+   255	3:24	cd ../lrose-core_1731967780168/work/
+   256	3:24	ls
+   257	3:24	cmake .. -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path )
+   258	3:24	xcrun --show-sdk-path
+   259	3:26	cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path ) .
+   260	3:26	xcrun --show-sdk-path
+   261	3:26	cmake .. -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+   262	3:26	cmake .. -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+   263	3:26	cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk .
+   264	3:28	h
+   265	3:31	h
+   266	3:44	man xcrun
+   267	3:44	man xcrun
+   268	3:45	cd
+   269	3:45	cd bootstrap/miniforge/
+   270	3:45	~/miniforge3/bin/conda-build .
+   271	3:46	\rm -rf ~/miniforge3/conda-bld/lrose-core_173*
+   272	3:46	~/miniforge3/bin/conda-build --debug . > & /tmp/conda-build.llog &
+   273	3:46	tail -f /tmp/conda-build.llog
+   274	3:59	pwd
+   275	3:59	cd
+   276	3:59	cd miniforge3/conda-bld/lrose-core_1732013205411/work/
+   277	3:59	ls
+   278	3:59	cmake -DCMAKE_INSTALL_PREFIX=/Users/dixon/miniforge3/conda-bld/lrose-core_1732013205411/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold -DMAMBA_BUILD=1 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -S . -B ./build_dir
+   279	4:00	h
+   280	4:01	cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_INSTALL_PREFIX=/Users/dixon/miniforge3/conda-bld/lrose-core_1732013205411/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold -DMAMBA_BUILD=1 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -S . -B ./build_dir
+   281	4:02	h
+   282	4:02	cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk .
+   283	4:04	h
+   284	4:06	cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -DCMAKE_INSTALL_PREFIX=/Users/dixon/miniforge3/conda-bld/lrose-core_1732013205411/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold .
+   285	4:06	h
+   286	4:09	make -j 8
+   287	4:24	h
+(eol-rose) work 288 % 
+
+
+cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -DCMAKE_INSTALL_PREFIX=/Users/dixon/miniforge3/conda-bld/lrose-core_1732013205411/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold .
+
