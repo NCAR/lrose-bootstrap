@@ -151,7 +151,7 @@ def installPackagesCentos6():
     # install main packages
 
     shellCmd("yum install -y tcsh wget git tkcvs " +
-             "emacs rsync python " +
+             "emacs rsync perl python " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel " +
              "libX11-devel libXext-devel " +
@@ -209,7 +209,7 @@ def installPackagesCentos7():
 
     shellCmd("yum install -y " +
              "tcsh wget git " +
-             "tkcvs emacs rsync python python3 mlocate " +
+             "tkcvs emacs rsync perl python python3 mlocate " +
              "m4 make cmake cmake3 libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel " +
              "libX11-devel libXext-devel " +
@@ -261,7 +261,7 @@ def installPackagesRh8():
 
     shellCmd("dnf install -y --allowerasing " +
              "tcsh wget git " +
-             "emacs rsync python2 python3 mlocate " +
+             "emacs rsync perl python2 python3 mlocate " +
              "python2-devel platform-python-devel " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel")
@@ -318,7 +318,7 @@ def installPackagesRh9():
 
     shellCmd("dnf install -y " +
              "tcsh wget git " +
-             "emacs rsync python mlocate " +
+             "emacs rsync perl python mlocate " +
              "python-devel platform-python-devel " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel")
@@ -376,7 +376,7 @@ def installPackagesFedora():
 
     shellCmd("yum install -y " +
              "tcsh wget git " +
-             "emacs rsync python mlocate " +
+             "emacs rsync perl python mlocate " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel " +
              "libX11-devel libXext-devel " +
@@ -431,7 +431,7 @@ def installPackagesOracle():
 
     shellCmd("dnf install -y --allowerasing " +
              "tcsh wget git " +
-             "emacs rsync python2 python3 mlocate " +
+             "emacs rsync perl python2 python3 mlocate " +
              "python2-devel platform-python-devel " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-gfortran glibc-devel")
@@ -559,7 +559,7 @@ def installPackagesSuse():
     # install main packages
 
     shellCmd("zypper install -y tcsh wget git " +
-             "tkdiff emacs rsync python docker " +
+             "tkdiff emacs rsync perl python docker " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-fortran glibc-devel " +
              "libX11-devel libXext-devel " +
