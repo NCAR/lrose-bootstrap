@@ -275,18 +275,18 @@ def main():
     # initialize logging
 
     if (os.path.isdir(options.logDir) == False):
-        os.makedirs(options.logDir)
+        os.makedirs(options.logDir, exist_ok=True)
     logPath = os.path.join(options.logDir, "initialize");
     logFp = open(logPath, "w+")
     
     # make dirs
 
     try:
-        os.makedirs(prefixDir)
-        os.makedirs(prefixBinDir)
-        os.makedirs(prefixLibDir)
-        os.makedirs(prefixIncludeDir)
-        os.makedirs(options.logDir)
+        os.makedirs(prefixDir, exist_ok=True)
+        os.makedirs(prefixBinDir, exist_ok=True)
+        os.makedirs(prefixLibDir, exist_ok=True)
+        os.makedirs(prefixIncludeDir, exist_ok=True)
+        os.makedirs(options.logDir, exist_ok=True)
     except:
         print("  note - dirs already exist", file=sys.stderr)
 
@@ -411,7 +411,7 @@ def createBuildDir():
     print(("INFO: you are about to create build dir: " + 
           options.buildDir))
     
-    os.makedirs(options.buildDir)
+    os.makedirs(options.buildDir, exist_ok=True)
 
 ########################################################################
 # check out repos from git
@@ -681,7 +681,7 @@ def buildPackage():
     
     logPath = prepareLogFile("run-cmake");
     cmakeBuildDir = os.path.join(coreDir, "build")
-    os.makedirs(cmakeBuildDir)
+    os.makedirs(cmakeBuildDir, exist_ok=True)
     os.chdir(cmakeBuildDir)
     cmd = cmakeExec
     cmd = cmd + " -DCMAKE_INSTALL_PREFIX=" + prefixDir
