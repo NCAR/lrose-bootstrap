@@ -86,7 +86,11 @@ echo "#" >> $DockerfilePath
 
 if [ "$os_type" = fedora ]
 then
-    echo "RUN dnf -y update; dnf install -y git python python2 python3" >> $DockerfilePath
+    if [ "$os_version" = 41 ] ; then
+        echo "RUN yum -y update; yum install -y git python" >> $DockerfilePath
+    else
+        echo "RUN dnf -y update; dnf install -y git python python2 python3" >> $DockerfilePath
+    fi
 elif [ "$os_type" = almalinux ] || [ "$os_type" = rockylinux ] 
 then
     if [ "$os_version" = 8 ] ; then

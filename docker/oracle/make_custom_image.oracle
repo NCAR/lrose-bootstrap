@@ -83,7 +83,12 @@ echo "#" >> $DockerfilePath
 
 # update and add install python and git
 
-echo "RUN dnf -y update; dnf install -y oracle-epel-release-el8; dnf install -y 'dnf-command(config-manager)'; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
+if [ "$os_version" = 8 ] ; then
+    echo "RUN dnf -y update; dnf install -y oracle-epel-release-el8; dnf install -y 'dnf-command(config-manager)'; dnf install -y python2 python3 git; alternatives --set python /usr/bin/python3" >> $DockerfilePath
+else
+    echo "RUN dnf -y update; dnf install -y python git" >> $DockerfilePath
+fi
+
 
 # get lrose-bootstrap
 

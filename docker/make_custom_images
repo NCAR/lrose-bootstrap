@@ -21,10 +21,12 @@
 
 # FEDORA
 
-./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.37.log &
-./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
-./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
+./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.39.log &
+./redhat/make_custom_image.redhat -t fedora -v 40 >& /tmp/make_custom_image.fedora.40.log &
+./redhat/make_custom_image.redhat -t fedora -v 41 >& /tmp/make_custom_image.fedora.41.log &
 
+#./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
+#./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
 #./redhat/make_custom_image.redhat -t fedora -v 29 >& /tmp/make_custom_image.fedora.29.log &
 #./redhat/make_custom_image.redhat -t fedora -v 30 >& /tmp/make_custom_image.fedora.30.log &
 #./redhat/make_custom_image.redhat -t fedora -v 31 >& /tmp/make_custom_image.fedora.31.log &
@@ -38,14 +40,15 @@
 
 ./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.12.log &
 ./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
-./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
+#./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
 #./debian/make_custom_image.debian -t debian -v 9 >& /tmp/make_custom_image.debian.9.log &
 
 # UBUNTU
 
+./debian/make_custom_image.debian -t ubuntu -v 24.04 >& /tmp/make_custom_image.ubuntu.24.04.log &
 ./debian/make_custom_image.debian -t ubuntu -v 22.04 >& /tmp/make_custom_image.ubuntu.22.04.log &
 ./debian/make_custom_image.debian -t ubuntu -v 20.04 >& /tmp/make_custom_image.ubuntu.20.04.log &
-./debian/make_custom_image.debian -t ubuntu -v 18.04 >& /tmp/make_custom_image.ubuntu.18.04.log &
+#./debian/make_custom_image.debian -t ubuntu -v 18.04 >& /tmp/make_custom_image.ubuntu.18.04.log &
 #./debian/make_custom_image.debian -t ubuntu -v 16.04 >& /tmp/make_custom_image.ubuntu.16.04.log &
 
 # SUSE
@@ -55,4 +58,5 @@
 
 # ORACLE
 
-#./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
+./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
+./oracle/make_custom_image.oracle -t oraclelinux -v 9 >& /tmp/make_custom_image.oracle.9.log &
