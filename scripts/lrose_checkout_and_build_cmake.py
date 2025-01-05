@@ -297,10 +297,11 @@ def main():
 
     # install the distribution-specific makefiles
 
-    logPath = prepareLogFile("install-package-makefiles");
-    os.chdir(codebaseDir)
-    scriptPath = "../build/scripts/installPackageMakefiles.py"
-    shellCmd(scriptPath + " --debug --package " + package)
+    if (options.package != "lrose-core"):
+        logPath = prepareLogFile("install-package-makefiles");
+        os.chdir(codebaseDir)
+        scriptPath = "../build/scripts/installPackageMakefiles.py"
+        shellCmd(scriptPath + " --debug --package " + package)
 
     # trim libs and apps to those required by distribution makefiles
 
@@ -692,7 +693,7 @@ def buildPackage():
     # build the libraries
 
     logPath = prepareLogFile("build-libs");
-    os.chdir(os.path.join(cmakeBuildDir, "libs"))
+    os.chdir(os.path.join(cmakeBuildDir, "codebase/libs"))
     cmd = "make -j 8"
     if (options.verboseMake):
         cmd = cmd + " VERBOSE=1"
@@ -712,7 +713,7 @@ def buildPackage():
         # build and install tdrp_gen
 
         logPath = prepareLogFile("build-tdrp-gen");
-        os.chdir(os.path.join(cmakeBuildDir, "apps/tdrp/src/tdrp_gen"))
+        os.chdir(os.path.join(cmakeBuildDir, "codebase/apps/tdrp/src/tdrp_gen"))
         cmd = "make install/strip"
         if (options.verboseMake):
             cmd = cmd + " VERBOSE=1"
@@ -721,7 +722,7 @@ def buildPackage():
         # build the apps
 
         logPath = prepareLogFile("build-apps");
-        os.chdir(os.path.join(cmakeBuildDir, "apps"))
+        os.chdir(os.path.join(cmakeBuildDir, "codebase/apps"))
         cmd = "make -j 8"
         if (options.verboseMake):
             cmd = cmd + " VERBOSE=1"
