@@ -57,31 +57,39 @@ done
 ./redhat/make_package.redhat -t rockylinux -v 9  -p ${lrose_pkg} -r ${release_date}
 ./redhat/make_package.redhat -t rockylinux -v 8  -p ${lrose_pkg} -r ${release_date}
 
-./redhat/make_package.redhat -t fedora -v 39 -p ${lrose_pkg} -r ${release_date}
-./redhat/make_package.redhat -t fedora -v 38 -p ${lrose_pkg} -r ${release_date}
-./redhat/make_package.redhat -t fedora -v 37 -p ${lrose_pkg} -r ${release_date}
-
-#./redhat/make_package.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
-#./redhat/make_package.redhat -t centos -v 8  -p ${lrose_pkg} -r ${release_date}
 #./redhat/make_package.redhat -t centos -v latest  -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t centos -v 8  -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t centos -v 7  -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t centos -v 6  -p ${lrose_pkg} -r ${release_date}
 
-#./redhat/make_package.redhat -t fedora -v 31 -p ${lrose_pkg} -r ${release_date}
-#./redhat/make_package.redhat -t fedora -v 32 -p ${lrose_pkg} -r ${release_date}
-#./redhat/make_package.redhat -t fedora -v 33 -p ${lrose_pkg} -r ${release_date}
+./redhat/make_package.redhat -t fedora -v 41 -p ${lrose_pkg} -r ${release_date}
+./redhat/make_package.redhat -t fedora -v 40 -p ${lrose_pkg} -r ${release_date}
+./redhat/make_package.redhat -t fedora -v 39 -p ${lrose_pkg} -r ${release_date}
+
+#./redhat/make_package.redhat -t fedora -v 38 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 37 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 35 -p ${lrose_pkg} -r ${release_date}
 #./redhat/make_package.redhat -t fedora -v 34 -p ${lrose_pkg} -r ${release_date}
-
+#./redhat/make_package.redhat -t fedora -v 33 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 32 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 31 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 30 -p ${lrose_pkg} -r ${release_date}
+#./redhat/make_package.redhat -t fedora -v 29 -p ${lrose_pkg} -r ${release_date}
 
 ./debian/make_package.debian -t debian -v 12     -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t debian -v 11     -p ${lrose_pkg} -r ${release_date}
-./debian/make_package.debian -t debian -v 10     -p ${lrose_pkg} -r ${release_date}
+#./debian/make_package.debian -t debian -v 10     -p ${lrose_pkg} -r ${release_date}
 #./debian/make_package.debian -t debian -v 9      -p ${lrose_pkg} -r ${release_date}
 
+./debian/make_package.debian -t ubuntu -v 24.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t ubuntu -v 22.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t ubuntu -v 20.04  -p ${lrose_pkg} -r ${release_date}
-./debian/make_package.debian -t ubuntu -v 18.04  -p ${lrose_pkg} -r ${release_date}
+#./debian/make_package.debian -t ubuntu -v 18.04  -p ${lrose_pkg} -r ${release_date}
 #./debian/make_package.debian -t ubuntu -v 16.04  -p ${lrose_pkg} -r ${release_date}
+
+./oracle/make_package.oracle -t oraclelinux -v 9 -p ${lrose_pkg} -r ${release_date}
+#./oracle/make_package.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
 
 #./suse/make_package.suse -t opensuse -v leap     -p ${lrose_pkg} -r ${release_date}
 #./suse/make_package.suse -t opensuse -v latest   -p ${lrose_pkg} -r ${release_date}
 
-#./oracle/make_package.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
