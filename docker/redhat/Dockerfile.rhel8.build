@@ -18,6 +18,7 @@ RUN \
     echo "================================="; \
     cat /etc/os-release; \
     echo "================================="; \
+    ./run_install_linux_packages; \
     ./do_build_all_cmake.py --verbose \
     --package ${LROSE_PKG} \
     --releaseDate ${RELEASE_DATE} \
