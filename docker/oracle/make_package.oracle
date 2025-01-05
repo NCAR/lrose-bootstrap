@@ -29,7 +29,7 @@ function usage() {
 scriptName=$(basename $0)
 
 os_type=oraclelinux
-os_version=8
+os_version=9
 lrose_pkg=lrose-core
 release_date=latest
 debug=true
@@ -75,9 +75,14 @@ then
   echo "    release_date: ${release_date}"
 fi
 
+# ensure the release dir exists
+
+releaseDir=${HOME}/releases/${lrose_pkg}
+mkdir -p ${releaseDir}
+
 # create directory that will hold the .rpm file
 
-pkgDir=/tmp/pkg.${os_type}_${os_version}.${lrose_pkg}
+pkgDir=${releaseDir}/pkg.${os_type}_${os_version}.${lrose_pkg}
 /bin/rm -rf $pkgDir
 mkdir -p $pkgDir
 
@@ -101,11 +106,6 @@ docker run \
     /scripts/build_rpm.oracle \
     -t ${os_type} -v ${os_version} \
     -p ${lrose_pkg} -r ${release_date}
-
-# ensure the release dir exists
-
-releaseDir=${HOME}/releases/${lrose_pkg}
-mkdir -p ${releaseDir}
 
 # copy the package to the release dir
 

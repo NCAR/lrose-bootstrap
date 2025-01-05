@@ -28,8 +28,8 @@ function usage() {
 
 scriptName=$(basename $0)
 
-os_type=centos
-os_version=7
+os_type=almalinux
+os_version=9
 lrose_pkg=lrose-core
 release_date=latest
 debug=true
