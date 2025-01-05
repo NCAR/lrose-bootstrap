@@ -58,5 +58,5 @@
 
 # ORACLE
 
-./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
+#./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
 ./oracle/make_custom_image.oracle -t oraclelinux -v 9 >& /tmp/make_custom_image.oracle.9.log &
