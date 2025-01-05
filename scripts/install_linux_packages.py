@@ -126,7 +126,7 @@ def main():
     elif (osType == "oracle"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (int(osVersion) == 8):
-            installPackagesRh8()
+            installPackagesOracle8()
         else:
             installPackagesRh9()
     else:
