@@ -25,7 +25,7 @@ Requires: libXext-devel
 Requires: libcurl-devel
 Requires: libpng-devel
 Requires: libtiff-devel
-Requires: libzip-devel 
+Requires: libzip
 Requires: qt5-qtbase-devel
 Requires: qt5-qtdeclarative-devel 
 Requires: xorg-x11-xauth
