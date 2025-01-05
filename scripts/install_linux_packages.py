@@ -520,7 +520,7 @@ def installPackagesDebian12Plus():
     shellCmd("apt-get -y update")
     shellCmd("apt-get install -y " +
              "tcsh git gcc g++ gfortran rsync chrpath " +
-             "automake make cmake mlocate libtool pkg-config python3 " +
+             "automake make cmake libtool pkg-config python3 " +
              "libcurl3-dev curl " +
              "libfl-dev libbz2-dev libx11-dev libpng-dev " +
              "libfftw3-dev libexpat1-dev " +
