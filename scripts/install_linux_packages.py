@@ -125,7 +125,10 @@ def main():
         installPackagesSuse()
     elif (osType == "oracle"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        installPackagesOracle()
+        if (int(osVersion) == 8):
+            installPackagesRh8()
+        else:
+            installPackagesRh9()
     else:
         print("ERROR - unsupported OS type: ", osType, " version: ", osVersion, file=sys.stderr)
             
@@ -416,9 +419,9 @@ def installPackagesFedora():
 ########################################################################
 # install packages for ORACLE 8
 
-def installPackagesOracle():
+def installPackagesOracle8():
 
-    print("====>> running installPackagesOracle()", file=sys.stderr)
+    print("====>> running installPackagesOracle8()", file=sys.stderr)
 
     # install epel
 
