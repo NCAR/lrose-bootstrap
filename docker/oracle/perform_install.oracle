@@ -28,7 +28,7 @@ function usage() {
 scriptName=$(basename $0)
 
 os_type=oraclelinux
-os_version=8
+os_version=9
 lrose_pkg=lrose-core
 debug=true
 rpm_name=unknown
@@ -81,14 +81,10 @@ fi
 
 # for centos, install epel release
 
-is_centos=`grep CentOS /etc/oracle-release`
-is_centos_8=`grep VERSION_ID /etc/os-release | grep 8`
-
 dnf -y update --nogpgcheck
-dnf install -y oracle-epel-release-el8
-dnf install -y 'dnf-command(config-manager)'
-dnf install -y python2 python3
-alternatives --set python /usr/bin/python3
+echo "==>> install epel-release for rh9<<=="
+dnf install -y epel-release
+dnf install -y python
 
 # get the rpm
 
