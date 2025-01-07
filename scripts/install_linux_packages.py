@@ -563,7 +563,7 @@ def installPackagesSuse():
     # install main packages
 
     shellCmd("zypper install -y tcsh wget git " +
-             "tkdiff emacs rsync perl python docker " +
+             "emacs rsync perl python docker " +
              "m4 make cmake libtool autoconf automake " +
              "gcc gcc-c++ gcc-fortran glibc-devel " +
              "libX11-devel libXext-devel " +
