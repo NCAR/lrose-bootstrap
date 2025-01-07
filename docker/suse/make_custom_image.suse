@@ -73,7 +73,8 @@ echo "  Dockerfile path: " $DockerfilePath
 
 mkdir -p /tmp/docker
 echo "####################################################" > ${DockerfilePath}
-echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
+#echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
+echo "FROM registry.suse.com/bci/bci-base:15.6" >> ${DockerfilePath}
 echo "#" >> ${DockerfilePath}
 
 # add install python and git
