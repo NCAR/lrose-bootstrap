@@ -656,7 +656,7 @@ def getOsType():
             osType = "ubuntu"
           elif (nameline.find("suse") >= 0):
             osType = "suse"
-          elif (nameline.find("SLES") >= 0):
+          elif (nameline.find("sles") >= 0):
             osType = "suse"
           elif (nameline.find("oracle") >= 0):
             osType = "oracle"
