@@ -13,7 +13,7 @@ build:
     {% if osx %}
     #  to find package OpenGL, need to specify path to OSX SDK 
       SDK_PATH=`xcrun --show-sdk-path`
-      cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_OSX_SYSROOT=${SDK_PATH} -S . -B ./build_dir
+      cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DMAMBA_BUILD=1 -DCMAKE_OSX_SYSROOT=${SDK_PATH} -S . -B ./build_dir
     {% else %}
       cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DMAMBA_BUILD=1 -S . -B ./build_dir 
     {% endif %}
