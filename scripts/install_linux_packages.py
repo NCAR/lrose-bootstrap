@@ -570,14 +570,20 @@ def installPackagesSuse():
              "libpng-devel libtiff-devel zlib-devel " +
              "libexpat-devel libcurl-devel " +
              "flex fftw3-devel ")
+
     shellCmd("zypper install -y tcsh wget git " +
              "libbz2-devel libzip-devel " +
              "libqt5-qtbase-devel libqt5-qtdeclarative-devel " +
-             "eigen3-devel " +
-             "hdf5-devel netcdf-devel " +
-             "armadillo-devel openmpi-devel " +
-             "xorg-x11-xauth " +
-             "rpm-build rpm-devel rpmdevtools")
+             "openmpi-devel rpm-build rpm-devel")
+
+#    shellCmd("zypper install -y tcsh wget git " +
+#             "libbz2-devel libzip-devel " +
+#             "libqt5-qtbase-devel libqt5-qtdeclarative-devel " +
+#             "eigen3-devel " +
+#             "hdf5-devel netcdf-devel " +
+#             "armadillo-devel openmpi-devel " +
+#             "xorg-x11-xauth " +
+#             "rpm-build rpm-devel rpmdevtools")
 
     # install packages for CIDD
 
@@ -595,6 +601,7 @@ def installPackagesSuse():
     # create link for qtmake
 
     shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
+    shellCmd("cd /usr/bin; ln -f -s python3 python")
     
 ########################################################################
 # get the OS type from the /etc/os-release file in linux
