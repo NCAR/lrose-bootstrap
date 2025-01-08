@@ -29,9 +29,9 @@ Requires: libbz2-devel
 Requires: libzip-devel
 Requires: libqt5-qtbase-devel
 Requires: libqt5-qtdeclarative-devel
-Requires: hdf5-devel
-Requires: netcdf-devel
-Requires: xorg-x11-xauth
+#Requires: hdf5-devel
+#Requires: netcdf-devel
+#Requires: xorg-x11-xauth
 
 %description
 LROSE - Lidar Radar Open Software Environment
