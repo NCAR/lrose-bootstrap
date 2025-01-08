@@ -59,5 +59,6 @@
 # SUSE
 
 #./suse/make_custom_image.suse -t opensuse -v leap >& /tmp/make_custom_image.opensuse.leap.log &
-#./suse/make_custom_image.suse -t opensuse -v latest >& /tmp/make_custom_image.opensuse.latest.log &
+./suse/download_latest_image.suse -t opensuse -v 15.6
+./suse/make_custom_image.suse -t opensuse -v 15.6
 

@@ -89,6 +89,7 @@ done
 #./oracle/do_lrose_build.oracle -t oraclelinux -v 8 -p ${lrose_pkg} -r ${release_date}
 ./oracle/do_lrose_build.oracle -t oraclelinux -v 9 -p ${lrose_pkg} -r ${release_date}
 
+./suse/do_lrose_build.suse -t opensuse -v 15.6 -p ${lrose_pkg} -r ${release_date}
 #./suse/do_lrose_build.suse -t opensuse -v latest -p ${lrose_pkg} -r ${release_date}
 #./suse/do_lrose_build.suse -t opensuse -v leap -p ${lrose_pkg} -r ${release_date}
 
