@@ -210,6 +210,7 @@ def main():
     mocDirs = ["apps/radar/src/HawkEye",
                "apps/radar/src/HawkEdit",
                "apps/radar/src/IpsEye",
+               "apps/radar/src/Lucid",
                "apps/radar/src/Sprite"]
 
     for dir in mocDirs:
@@ -442,7 +443,10 @@ def createTarFile():
 
     # move lrose contents into tar dir
 
-    for fileName in [ "LICENSE.txt", "README.md", releaseInfoName ]:
+    for fileName in [ "LICENSE.txt", "README.md" ]:
+        os.rename(fileName, os.path.join(tarDir, fileName))
+        
+    for fileName in [ "CMakeLists.txt", releaseInfoName ]:
         os.rename(fileName, os.path.join(tarDir, fileName))
         
     for dirName in [ "build", "codebase", "docs", "release_notes" ]:
@@ -557,6 +561,9 @@ class LroseCore < Formula
   sha256 '{2}'
   license 'BSD'
 
+  depends_on "cmake" => :build
+  depends_on "pkg-config" => :build
+
   depends_on 'hdf5'
   depends_on 'netcdf'
   depends_on 'udunits'
@@ -566,27 +573,30 @@ class LroseCore < Formula
   depends_on 'libpng'
   depends_on 'libzip'
   depends_on 'qt6'
-  depends_on 'pkg-config'
-  depends_on 'cmake'
   depends_on 'rsync'
   depends_on 'libx11'
   depends_on 'libxext'
 
   def install
 
-    ENV["PKG_CONFIG_PATH"] = "/usr/local/opt/qt@5/lib/pkgconfig"
-    ENV['LROSE_INSTALL_DIR'] = prefix
-    Dir.mkdir("build")
-    Dir.chdir("build") do
-      # run cmake to create Makefiles
-      system "cmake", "-DCMAKE_INSTALL_PREFIX=#{{prefix}}", ".."
-      # build and install
-      system "make -j 8 install"
-    end
-    # install the color scales
-    system "rsync", "-av", "share", "#{{prefix}}"
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cmake", "--build", "build", "--parallel"
+    system "cmake", "--install", "build"
+    (share).install "share"
 
   end
+
+#    ENV["PKG_CONFIG_PATH"] = "/usr/local/opt/qt@5/lib/pkgconfig"
+#    ENV['LROSE_INSTALL_DIR'] = prefix
+#    Dir.mkdir("build")
+#    Dir.chdir("build") do
+#      # run cmake to create Makefiles
+#      system "cmake", "-DCMAKE_INSTALL_PREFIX=#{{prefix}}", ".."
+#      # build and install
+#      system "make -j 8 install"
+#    end
+#    # install the color scales
+#    system "rsync", "-av", "share", "#{{prefix}}"
 
   def test
     system "#{{bin}}/RadxPrint", "-h"
