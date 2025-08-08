@@ -586,7 +586,7 @@ class LroseCore < Formula
     ]
 
     system "cmake", "-S", ".", "-B", "build", *args, "-Wno-dev"
-    system "cmake", "--build", "build", "--parallel", "--", "-s"
+    system "cmake", "--build", "build"
     system "cmake", "--install", "build"
     (share).install "share"
 
