@@ -579,22 +579,19 @@ class LroseCore < Formula
 
   def install
 
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
-    system "cmake", "--build", "build", "--parallel"
+    args = std_cmake_args + %w[
+       -DCMAKE_VERBOSE_MAKEFILE=OFF
+       -DCMAKE_RULE_MESSAGES=OFF
+       -DCMAKE_MESSAGE_LOG_LEVEL=NOTICE
+    ]
+
+    system "cmake", "-S", ".", "-B", "build", *args, "-Wno-dev"
+    system "cmake", "--build", "build", "--parallel", "--", "-s"
     system "cmake", "--install", "build"
     (share).install "share"
 
   end
 
-#    ENV["PKG_CONFIG_PATH"] = "/usr/local/opt/qt@5/lib/pkgconfig"
-#    ENV['LROSE_INSTALL_DIR'] = prefix
-#    Dir.mkdir("build")
-#    Dir.chdir("build") do
-#      # run cmake to create Makefiles
-#      system "cmake", "-DCMAKE_INSTALL_PREFIX=#{{prefix}}", ".."
-#      # build and install
-#      system "make -j 8 install"
-#    end
 #    # install the color scales
 #    system "rsync", "-av", "share", "#{{prefix}}"
 
