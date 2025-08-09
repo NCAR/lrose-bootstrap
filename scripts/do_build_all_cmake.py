@@ -144,10 +144,6 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake')
-    parser.add_option('--noApps',
-                      dest='noApps', default=False,
-                      action="store_true",
-                      help='Do not build the lrose core apps')
     parser.add_option('--withJasper',
                       dest='withJasper', default=False,
                       action="store_true",
@@ -272,7 +268,6 @@ def main():
         print("  build_fractl: ", options.build_fractl, file=sys.stderr)
         print("  build_vortrac: ", options.build_vortrac, file=sys.stderr)
         print("  build_samurai: ", options.build_samurai, file=sys.stderr)
-        print("  noApps: ", options.noApps, file=sys.stderr)
         print("  iscray: ", options.iscray, file=sys.stderr)
         print("  isfujitsu: ", options.isfujitsu, file=sys.stderr)
         

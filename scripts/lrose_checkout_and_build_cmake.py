@@ -133,10 +133,6 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake')
-    parser.add_option('--noApps',
-                      dest='noApps', default=False,
-                      action="store_true",
-                      help='Do not build the lrose core apps')
     parser.add_option('--noRpath',
                       dest='noRpath', default=False,
                       action="store_true",
@@ -264,7 +260,6 @@ def main():
         print("  verboseMake: ", options.verboseMake, file=sys.stderr)
         print("  use_cmake3: ", options.use_cmake3, file=sys.stderr)
         print("  cmakeExec: ", cmakeExec, file=sys.stderr)
-        print("  noApps: ", options.noApps, file=sys.stderr)
         print("  iscray: ", options.iscray, file=sys.stderr)
         print("  isfujitsu: ", options.isfujitsu, file=sys.stderr)
         
@@ -362,8 +357,8 @@ def main():
 
     # perform the install
 
-    logPath = prepareLogFile("do-final-install");
-    doFinalInstall();
+    logPath = prepareLogFile("do-share-install");
+    doShareInstall();
 
     # check the install
 
@@ -678,70 +673,41 @@ def buildPackage():
     cmd = "env"
     shellCmd(cmd)
 
-    # run cmake in build dir, as a subdir of codebase
+    # create build dir, run cmake there
     
     logPath = prepareLogFile("run-cmake");
     cmakeBuildDir = os.path.join(coreDir, "build")
     os.makedirs(cmakeBuildDir, exist_ok=True)
     os.chdir(cmakeBuildDir)
+
     cmd = cmakeExec
     cmd = cmd + " -DCMAKE_INSTALL_PREFIX=" + prefixDir
     cmd = cmd + " -DLDFLAGS=" + prefixLibDir
     cmd = cmd + " .."
     shellCmd(cmd)
     
-    # build the libraries
+    # perform the build
 
-    logPath = prepareLogFile("build-libs");
-    os.chdir(os.path.join(cmakeBuildDir, "codebase/libs"))
+    logPath = prepareLogFile("do-build");
     cmd = "make -j 8"
     if (options.verboseMake):
         cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
-    # install the libraries
+    # install
 
-    logPath = prepareLogFile("install-libs");
-
+    logPath = prepareLogFile("do-install");
     cmd = "make -j 8 install/strip"
     if (options.verboseMake):
         cmd = cmd + " VERBOSE=1"
     shellCmd(cmd)
 
-    if (options.noApps == False):
-
-        # build and install tdrp_gen
-
-        logPath = prepareLogFile("build-tdrp-gen");
-        os.chdir(os.path.join(cmakeBuildDir, "codebase/apps/tdrp/src/tdrp_gen"))
-        cmd = "make install/strip"
-        if (options.verboseMake):
-            cmd = cmd + " VERBOSE=1"
-        shellCmd(cmd)
-        
-        # build the apps
-
-        logPath = prepareLogFile("build-apps");
-        os.chdir(os.path.join(cmakeBuildDir, "codebase/apps"))
-        cmd = "make -j 8"
-        if (options.verboseMake):
-            cmd = cmd + " VERBOSE=1"
-        shellCmd(cmd)
-        
-        # install the apps
-        
-        logPath = prepareLogFile("install-apps");
-        cmd = "make -j 8 install/strip"
-        if (options.verboseMake):
-            cmd = cmd + " VERBOSE=1"
-        shellCmd(cmd)
-
 ########################################################################
-# perform final install
+# perform share install
 
-def doFinalInstall():
+def doShareInstall():
 
-    # install docs etc
+    # install docs etc<
     
     os.chdir(coreDir)
 
@@ -771,12 +737,11 @@ def checkInstall():
              " --package " + package)
     print("====================================================")
 
-    if (options.noApps == False):
-        print(("============= Checking apps for " + package + " ============="))
-        shellCmd("./build/scripts/checkApps.py" + \
-                 " --prefix " + prefixDir + \
-                 " --package " + package)
-        print("====================================================")
+    print(("============= Checking apps for " + package + " ============="))
+    shellCmd("./build/scripts/checkApps.py" + \
+             " --prefix " + prefixDir + \
+             " --package " + package)
+    print("====================================================")
     
     print("**************************************************")
     print("*** Done building auto release *******************")
