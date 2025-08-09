@@ -121,17 +121,15 @@ echo "Section: base" >> control
 echo "Priority: optional" >> control
 echo "Architecture: ${ARCH}" >> control
 
-#echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, mlocate, automake, make, libtool, pkg-config, python, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qtbase5-dev, qtdeclarative5-dev, libgeographic-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, netcdf-bin, libhdf5-dev, hdf5-tools" >> control
-
 if [ "$os_type" = debian ] &&  [ "$os_version" = 12 ]
 then
-    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qtbase5-dev, qtdeclarative5-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
+    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qt6-base-dev, qt6-declarative-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
 elif [ "$os_type" = ubuntu ] &&  [ "$os_version" = 24.04 ]
 then
-    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qtbase5-dev, qtdeclarative5-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
+    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qt6-base-dev, qt6-declarative-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
 elif [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
 then
-    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, mlocate, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qtbase5-dev, qtdeclarative5-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
+    echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, mlocate, automake, make, libtool, pkg-config, python3, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qt6-base-dev, qt6-declarative-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
 else
     echo "Depends: tcsh, git, gcc, g++, gfortran, make, cmake, rsync, mlocate, automake, make, libtool, pkg-config, python, libcurl3-dev, curl, libfl-dev, libbz2-dev, libx11-dev, libpng-dev, libfftw3-dev, libexpat1-dev, qtbase5-dev, qtdeclarative5-dev, libeigen3-dev, libzip-dev, libarmadillo-dev, libopenmpi-dev, libnetcdf-dev, libhdf5-dev, hdf5-tools" >> control
 fi
