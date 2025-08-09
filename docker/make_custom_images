@@ -4,11 +4,13 @@
 
 # ALMA LINUX
 
+./redhat/make_custom_image.redhat -t almalinux -v 10 >& /tmp/make_custom_image.almalinux.10.log &
 ./redhat/make_custom_image.redhat -t almalinux -v 9 >& /tmp/make_custom_image.almalinux.9.log &
 ./redhat/make_custom_image.redhat -t almalinux -v 8 >& /tmp/make_custom_image.almalinux.8.log &
 
 # ROCKY LINUX
 
+./redhat/make_custom_image.redhat -t rockylinux -v 10 >& /tmp/make_custom_image.rockylinux.10.log &
 ./redhat/make_custom_image.redhat -t rockylinux -v 9 >& /tmp/make_custom_image.rockylinux.9.log &
 ./redhat/make_custom_image.redhat -t rockylinux -v 8 >& /tmp/make_custom_image.rockylinux.8.log &
 
@@ -21,10 +23,11 @@
 
 # FEDORA
 
+./redhat/make_custom_image.redhat -t fedora -v 42 >& /tmp/make_custom_image.fedora.42.log &
 ./redhat/make_custom_image.redhat -t fedora -v 41 >& /tmp/make_custom_image.fedora.41.log &
 ./redhat/make_custom_image.redhat -t fedora -v 40 >& /tmp/make_custom_image.fedora.40.log &
-./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.39.log &
 
+#./redhat/make_custom_image.redhat -t fedora -v 39 >& /tmp/make_custom_image.fedora.39.log &
 #./redhat/make_custom_image.redhat -t fedora -v 38 >& /tmp/make_custom_image.fedora.37.log &
 #./redhat/make_custom_image.redhat -t fedora -v 37 >& /tmp/make_custom_image.fedora.37.log &
 #./redhat/make_custom_image.redhat -t fedora -v 36 >& /tmp/make_custom_image.fedora.36.log &
@@ -38,6 +41,7 @@
 
 # DEBIAN
 
+./debian/make_custom_image.debian -t debian -v 13 >& /tmp/make_custom_image.debian.13.log &
 ./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.12.log &
 ./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
 #./debian/make_custom_image.debian -t debian -v 10 >& /tmp/make_custom_image.debian.10.log &
@@ -53,8 +57,9 @@
 
 # ORACLE
 
-#./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
+./oracle/make_custom_image.oracle -t oraclelinux -v 10 >& /tmp/make_custom_image.oracle.10.log &
 ./oracle/make_custom_image.oracle -t oraclelinux -v 9 >& /tmp/make_custom_image.oracle.9.log &
+#./oracle/make_custom_image.oracle -t oraclelinux -v 8 >& /tmp/make_custom_image.oracle.8.log &
 
 # SUSE
 
