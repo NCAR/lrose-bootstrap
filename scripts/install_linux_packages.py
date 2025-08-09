@@ -524,7 +524,7 @@ def installPackagesDebian12Plus():
              "libcurl3-dev curl " +
              "libfl-dev libbz2-dev libx11-dev libpng-dev " +
              "libfftw3-dev libexpat1-dev " +
-             "qtbase5-dev qtdeclarative5-dev " +
+             "qt6-base-dev qt6-declarative-dev " +
              "libeigen3-dev libzip-dev " +
              "libarmadillo-dev libopenmpi-dev " +
              "libnetcdf-dev libhdf5-dev hdf5-tools " +
@@ -534,9 +534,8 @@ def installPackagesDebian12Plus():
 
     shellCmd("cd /usr/bin; " +
              "/bin/rm -f python; ln -s python3 python; " +
-             "/bin/rm -f qmake qmake-qt5; " +
-             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake; " +
-             "ln -f -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake qmake-qt5")
+             "/bin/rm -f qmake; " +
+             "ln -f -s qmake6 qmake; ")
 
     # install packages for running CIDD
 
