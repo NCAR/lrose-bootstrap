@@ -1,0 +1,31 @@
+#===================================================
+# build lrose without samurai
+
+ARG LROSE_PKG=lrose-core
+ARG RELEASE_DATE=latest
+
+RUN \
+    echo "Building lrose in container without samurai"; \
+    echo "  package is: ${LROSE_PKG}" 
+
+# run the checkout and build script
+
+RUN \
+    cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
+    echo "======================================"; \
+    cat /etc/os-release; \
+    echo "======================================"; \
+    ./run_install_linux_packages; \
+    ./do_build_all_cmake.py --verbose \
+    --package ${LROSE_PKG} \
+    --releaseDate ${RELEASE_DATE} \
+    --prefix /usr/local/lrose \
+    --buildDir /tmp/lrose-build \
+    --logDir /tmp/build-logs \
+    --fractl --vortrac
+
+# clean up
+
+RUN \
+    /bin/rm -rf /tmp/lrose-build
+
