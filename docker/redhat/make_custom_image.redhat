@@ -86,7 +86,7 @@ echo "#" >> $DockerfilePath
 
 if [ "$os_type" = fedora ]
 then
-    if [ "$os_version" = 41 ] ; then
+    if [ "$os_version" -gt 41 ] ; then
         echo "RUN yum -y update; yum install -y git python" >> $DockerfilePath
     else
         echo "RUN dnf -y update; dnf install -y git python python2 python3" >> $DockerfilePath
