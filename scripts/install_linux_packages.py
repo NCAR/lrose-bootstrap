@@ -110,14 +110,16 @@ def main():
         installPackagesFedora()
     elif (osType == "debian"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion >= 12):
-            installPackagesDebian12Plus()
+        if (osVersion = latest):
+            installPackagesDebian13Plus()
+        if (osVersion = 12):
+            installPackagesDebian12()
         else:
             installPackagesDebian()
     elif (osType == "ubuntu"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (osVersion >= 22):
-            installPackagesDebian12Plus()
+            installPackagesDebian12()
         else:
             installPackagesDebian()
     elif (osType == "suse"):
@@ -553,11 +555,11 @@ def installPackagesDebian():
                  "libzip-dev:i386")
 
 ########################################################################
-# install packages for Debian 12 plus
+# install packages for Debian 12
 
-def installPackagesDebian12Plus():
+def installPackagesDebian12():
 
-    print("====>> running installPackagesDebian12Plus()", file=sys.stderr)
+    print("====>> running installPackagesDebian12()", file=sys.stderr)
 
     # set the environment
 
@@ -571,6 +573,54 @@ def installPackagesDebian12Plus():
              "automake make cmake libtool pkg-config python3 " +
              "libcurl3-dev curl " +
              "libfl-dev libbz2-dev libx11-dev libpng-dev " +
+             "libfftw3-dev libexpat1-dev " +
+             "qt6-base-dev qt6-declarative-dev " +
+             "libeigen3-dev libzip-dev " +
+             "libarmadillo-dev libopenmpi-dev " +
+             "libnetcdf-dev libhdf5-dev hdf5-tools " +
+             "libcurl4-openssl-dev")
+
+    # create link for qmake
+
+    shellCmd("cd /usr/bin; " +
+             "/bin/rm -f python; ln -s python3 python; " +
+             "/bin/rm -f qmake; " +
+             "ln -f -s qmake6 qmake; ")
+
+    # install packages for running CIDD
+
+    if (options.cidd32):
+        shellCmd("/usr/bin/dpkg --add-architecture i386")
+        shellCmd("apt-get -y update")
+        shellCmd("apt-get install -y " +
+                 "libx11-dev:i386 " +
+                 "libxext-dev:i386 " +
+                 "libfftw3-dev:i386 " +
+                 "libexpat-dev:i386 " +
+                 "libpng-dev:i386 " +
+                 "libfl-dev:i386 " +
+                 "libbz2-dev:i386 " +
+                 "libzip-dev:i386")
+
+########################################################################
+# install packages for Debian 13 plus
+
+def installPackagesDebian13Plus():
+
+    print("====>> running installPackagesDebian13Plus()", file=sys.stderr)
+
+    # set the environment
+
+    os.environ["DEBIAN_FRONTEND"] = "noninteractive"
+
+    # install main packages
+    
+    shellCmd("apt-get -y update")
+    shellCmd("apt-get install -y " +
+             "tcsh git gcc g++ gfortran rsync chrpath " +
+             "automake make cmake libtool pkg-config python3 " +
+             "libcurl3-dev curl " +
+             "libfl-dev libbz2-dev libx11-dev libxext-dev libpng-dev " +
              "libfftw3-dev libexpat1-dev " +
              "qt6-base-dev qt6-declarative-dev " +
              "libeigen3-dev libzip-dev " +
