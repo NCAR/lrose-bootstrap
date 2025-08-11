@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# run builds
+
+perform_builds
+
+# make packages
+
+make_packages
+
+# install and test
+
+install_and_test_packages
+
