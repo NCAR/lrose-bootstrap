@@ -365,18 +365,27 @@ class LroseFractl < Formula
   version '{1}'
   sha256 '{2}'
 
+  depends_on "cmake" => :build
+  depends_on "pkg-config" => :build
+
   depends_on 'libzip'
-  depends_on 'cmake'
   depends_on 'eigen'
   depends_on 'rsync'
   depends_on 'lrose-core'
 
   def install
 
-    # Build/install fractl
+    args = std_cmake_args + %w[
+       -DCMAKE_VERBOSE_MAKEFILE=OFF
+       -DCMAKE_RULE_MESSAGES=OFF
+       -DCMAKE_MESSAGE_LOG_LEVEL=NOTICE
+    ]
+
     ENV['LROSE_INSTALL_DIR'] = prefix
-    system "cmake", "-DCMAKE_INSTALL_PREFIX=#{{prefix}}", "."
-    system "make install"
+
+    system "cmake", "-S", ".", "-B", "build", *args, "-Wno-dev"
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
   end
 
