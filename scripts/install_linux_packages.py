@@ -87,26 +87,24 @@ def main():
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (int(osVersion) == 6):
             installPackagesCentos6()
-        elif (int(osVersion) == 7):
+        else
             installPackagesCentos7()
-        elif (int(osVersion) == 8):
+    elif (osType == "almalinux"):
+        print("=====>> OS type: ", osType, file=sys.stderr)
+        if (int(osVersion) == 8):
             installPackagesRh8()
         elif (int(osVersion) == 9):
             installPackagesRh9()
         else:
             installPackagesRh10()
-    elif (osType == "almalinux"):
-        print("=====>> OS type: ", osType, file=sys.stderr)
-        if (int(osVersion) == 8):
-            installPackagesRh8()
-        else:
-            installPackagesRh9()
     elif (osType == "rockylinux"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (int(osVersion) == 8):
             installPackagesRh8()
-        else:
+        elif (int(osVersion) == 9):
             installPackagesRh9()
+        else:
+            installPackagesRh10()
     elif (osType == "fedora"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         installPackagesFedora()
