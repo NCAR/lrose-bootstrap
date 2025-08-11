@@ -86,7 +86,9 @@ echo "#" >> $DockerfilePath
 
 if [ "$os_type" = fedora ]
 then
-    if [ "$os_version" -gt 41 ] ; then
+    if [ "$os_version" = 42 ] ; then
+        echo "RUN yum -y update; yum install -y git python" >> $DockerfilePath
+    elif [ "$os_version" = 41 ] ; then
         echo "RUN yum -y update; yum install -y git python" >> $DockerfilePath
     else
         echo "RUN dnf -y update; dnf install -y git python python2 python3" >> $DockerfilePath
@@ -96,6 +98,8 @@ then
     if [ "$os_version" = 8 ] ; then
         echo "RUN dnf -y update; dnf install -y epel-release; dnf install -y 'dnf-command(config-manager)'; dnf config-manager --set-enabled powertools; dnf install -y git python2 python3; alternatives --set python /usr/bin/python3" >> $DockerfilePath
     elif [ "$os_version" = 9 ] ; then
+        echo "RUN dnf -y update; dnf install -y git python3" >> $DockerfilePath
+    elif [ "$os_version" = 10 ] ; then
         echo "RUN dnf -y update; dnf install -y git python3" >> $DockerfilePath
     fi
 else
@@ -113,7 +117,8 @@ fi
 
 # get lrose-bootstrap
 
-echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
+echo "RUN cd; mkdir -p git; cd git; /bin/rm -rf lrose-bootstrap" >> $DockerfilePath
+echo "git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
 
 # add install packages by calling python script
 

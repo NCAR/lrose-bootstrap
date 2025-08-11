@@ -78,14 +78,17 @@ echo "#" >> ${DockerfilePath}
 
 # add install python
 
-if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 24.04 ]
-then
+if [ "$os_type" = ubuntu ] &&  [ "$os_version" = 24.04 ] then
     echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
-elif [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ]
-then
+elif [ "$os_type" = ubuntu ] &&  [ "$os_version" = 22.04 ] then
     echo "RUN apt-get update; apt-get install -y git python2 python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
-elif [ "$os_type" = debian ] &&  [ "$os_version" = 12 ]
-then
+elif [ "$os_type" = ubuntu ] &&  [ "$os_version" = 20.04 ] then
+    echo "RUN apt-get update; apt-get install -y git python2 python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+elif [ "$os_type" = debian ] &&  [ "$os_version" = latest ] then
+    echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+elif [ "$os_type" = debian ] &&  [ "$os_version" = latest ] then
+    echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
+elif [ "$os_type" = debian ] &&  [ "$os_version" = 12 ] then
     echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
 else
     echo "RUN apt-get update; apt-get install -y git python python3" >> $DockerfilePath
@@ -93,7 +96,8 @@ fi
 
 # get lrose-bootstrap
 
-echo "RUN cd; mkdir git; cd git; git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
+echo "RUN cd; mkdir -p git; cd git; /bin/rm -rf lrose-bootstrap" >> $DockerfilePath
+echo "git clone https://github.com/ncar/lrose-bootstrap" >> $DockerfilePath
 
 # add install packages by calling python script
 

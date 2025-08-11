@@ -91,8 +91,10 @@ def main():
             installPackagesCentos7()
         elif (int(osVersion) == 8):
             installPackagesRh8()
-        else:
+        elif (int(osVersion) == 9):
             installPackagesRh9()
+        else:
+            installPackagesRh10()
     elif (osType == "almalinux"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         if (int(osVersion) == 8):
@@ -359,6 +361,52 @@ def installPackagesRh9():
                  "xorg-x11-fonts-100dpi xorg-x11-fonts-ISO8859-1-100dpi " +
                  "xorg-x11-fonts-75dpi xorg-x11-fonts-ISO8859-1-75dpi " +
                  "xorg-x11-fonts-misc")
+
+    # create link for qtmake
+
+    if (os.path.exists("/usr/bin/qmake-qt6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake-qt6 qmake")
+    elif (os.path.exists("/usr/bin/qmake6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake6 qmake")
+    
+########################################################################
+# install packages for RH 10 and above
+
+def installPackagesRh10():
+
+    print("====>> running installPackagesRh10()", file=sys.stderr)
+
+    # install epel
+
+    shellCmd("dnf install -y epel-release python")
+    shellCmd("dnf install -y 'dnf-command(config-manager)'")
+
+    # install main packages
+    # break this up into pieces so it does not crash inside docker
+
+    shellCmd("dnf install -y " +
+             "tcsh wget git " +
+             "emacs rsync perl python " +
+             "python-devel platform-python-devel " +
+             "m4 make cmake libtool autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "libX11-devel libXext-devel libcurl-devel " +
+             "libpng-devel libtiff-devel zlib-devel libzip " +
+             "expat-devel libcurl-devel openmpi-devel " +
+             "flex fftw3-devel ")
+
+    # Add these in later:
+    # "armadillo-devel " +
+    # "eigen3-devel " +
+    
+    shellCmd("dnf install -y --allowerasing " +
+             "bzip2-devel qt6-qtbase-devel qt6-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools")
 
     # create link for qtmake
 
