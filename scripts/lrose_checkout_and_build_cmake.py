@@ -676,7 +676,7 @@ def buildPackage():
     # create build dir, run cmake there
     
     logPath = prepareLogFile("run-cmake");
-    cmakeBuildDir = os.path.join(coreDir, "build")
+    cmakeBuildDir = os.path.join(coreDir, "cmake_build_dir")
     os.makedirs(cmakeBuildDir, exist_ok=True)
     os.chdir(cmakeBuildDir)
 
