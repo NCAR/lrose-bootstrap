@@ -51,6 +51,7 @@ done
 
 # perform the install and test
 
+./redhat/install_pkg_and_test.redhat -t almalinux -v 10  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 9  -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t almalinux -v 8  -p ${lrose_pkg}
 
@@ -61,10 +62,11 @@ done
 #./redhat/install_pkg_and_test.redhat -t centos -v 8  -p ${lrose_pkg}
 #./redhat/install_pkg_and_test.redhat -t centos -v 7  -p ${lrose_pkg}
 
+./redhat/install_pkg_and_test.redhat -t fedora -v 42 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 41 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 40 -p ${lrose_pkg}
-./redhat/install_pkg_and_test.redhat -t fedora -v 39 -p ${lrose_pkg}
 
+#./redhat/install_pkg_and_test.redhat -t fedora -v 39 -p ${lrose_pkg}
 #./redhat/install_pkg_and_test.redhat -t fedora -v 38 -p ${lrose_pkg}
 #./redhat/install_pkg_and_test.redhat -t fedora -v 37 -p ${lrose_pkg}
 #./redhat/install_pkg_and_test.redhat -t fedora -v 36 -p ${lrose_pkg}
@@ -74,6 +76,7 @@ done
 #./redhat/install_pkg_and_test.redhat -t fedora -v 32 -p ${lrose_pkg}
 #./redhat/install_pkg_and_test.redhat -t fedora -v 31 -p ${lrose_pkg}
 
+./debian/install_pkg_and_test.debian -t debian -v latest -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 12     -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
 #./debian/install_pkg_and_test.debian -t debian -v 10     -p ${lrose_pkg}
