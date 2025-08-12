@@ -110,9 +110,9 @@ def main():
         installPackagesFedora()
     elif (osType == "debian"):
         print("=====>> OS type: ", osType, file=sys.stderr)
-        if (osVersion = latest):
+        if (int(osVersion) == 13):
             installPackagesDebian13Plus()
-        if (osVersion = 12):
+        if (int(osVersion) == 12):
             installPackagesDebian12()
         else:
             installPackagesDebian()
