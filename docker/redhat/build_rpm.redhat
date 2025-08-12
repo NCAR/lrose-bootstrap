@@ -116,24 +116,24 @@ else
     elif [ "$os_type" = centos -a "$os_version" = 7 ] ; then
         echo "==>> using rpm.spec.body"
         cat /scripts/rpm.spec.body >> rpm.spec
-    elif [ "$os_type" = centos -a "$os_version" = 8 ] ; then
-        echo "==>> using rpm.spec.body.rh8"
-        cat /scripts/rpm.spec.body.rh8 >> rpm.spec
-    elif [ "$os_type" = centos -a "$os_version" = 9 ] ; then
-        echo "==>> using rpm.spec.body.rh9"
-        cat /scripts/rpm.spec.body.rh9 >> rpm.spec
     elif [ "$os_type" = almalinux -a "$os_version" = 8 ] ; then
         echo "==>> using rpm.spec.body.rh8"
         cat /scripts/rpm.spec.body.rh8 >> rpm.spec
     elif [ "$os_type" = almalinux -a "$os_version" = 9 ] ; then
         echo "==>> using rpm.spec.body.rh9"
         cat /scripts/rpm.spec.body.rh9 >> rpm.spec
+    elif [ "$os_type" = almalinux -a "$os_version" = 10 ] ; then
+        echo "==>> using rpm.spec.body.rh10"
+        cat /scripts/rpm.spec.body.rh10 >> rpm.spec
     elif [ "$os_type" = rockylinux -a "$os_version" = 8 ] ; then
         echo "==>> using rpm.spec.body.rh8"
         cat /scripts/rpm.spec.body.rh8 >> rpm.spec
     elif [ "$os_type" = rockylinux -a "$os_version" = 9 ] ; then
         echo "==>> using rpm.spec.body.rh9"
         cat /scripts/rpm.spec.body.rh9 >> rpm.spec
+    elif [ "$os_type" = rockylinux -a "$os_version" = 10 ] ; then
+        echo "==>> using rpm.spec.body.rh10"
+        cat /scripts/rpm.spec.body.rh10 >> rpm.spec
     elif [ "$os_type" = fedora ] ; then
         echo "==>> using rpm.spec.body.fedora"
         cat /scripts/rpm.spec.body.fedora >> rpm.spec
