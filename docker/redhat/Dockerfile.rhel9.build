@@ -22,7 +22,7 @@ RUN \
     --prefix /usr/local/lrose \
     --buildDir /tmp/lrose-build \
     --logDir /tmp/build-logs \
-    --fractl --vortrac --samurai
+    --fractl --samurai
 
 # clean up
 
