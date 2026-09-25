@@ -1,11 +1,11 @@
 #===================================================
-# build lrose in rhel9 container
+# build lrose in rhel10 container
 
 ARG LROSE_PKG=lrose-core
 ARG RELEASE_DATE=latest
 
 RUN \
-    echo "Building lrose in rhel9 container"; \
+    echo "Building lrose in rhel10 container"; \
     echo "  package is: ${LROSE_PKG}" 
 
 # run the checkout and build script
