@@ -66,7 +66,7 @@ done
 
 ./debian/install_pkg_and_test.debian -t debian -v latest -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t debian -v 12     -p ${lrose_pkg}
-./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
+#./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
 
 ./debian/install_pkg_and_test.debian -t ubuntu -v 26.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 24.04  -p ${lrose_pkg}

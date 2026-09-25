@@ -27,7 +27,7 @@
 
 ./debian/make_custom_image.debian -t debian -v 13 >& /tmp/make_custom_image.debian.13.log &
 ./debian/make_custom_image.debian -t debian -v 12 >& /tmp/make_custom_image.debian.12.log &
-./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
+#./debian/make_custom_image.debian -t debian -v 11 >& /tmp/make_custom_image.debian.11.log &
 
 # UBUNTU
 
