@@ -364,6 +364,7 @@ class LroseSamurai < Formula
   url '{0}'
   version '{1}'
   sha256 '{2}'
+  license 'GPL'
 
   depends_on 'hdf5' => 'enable-cxx'
   depends_on 'netcdf' => 'enable-cxx-compat'

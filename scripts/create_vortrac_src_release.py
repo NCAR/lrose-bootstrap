@@ -364,6 +364,7 @@ class LroseVortrac < Formula
   url '{0}'
   version '{1}'
   sha256 '{2}'
+  license 'Apache'
 
   depends_on 'libx11'
   depends_on 'libxext'

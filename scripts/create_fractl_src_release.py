@@ -364,6 +364,7 @@ class LroseFractl < Formula
   url '{0}'
   version '{1}'
   sha256 '{2}'
+  license 'BSD'
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
