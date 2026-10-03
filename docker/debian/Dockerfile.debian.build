@@ -11,6 +11,7 @@ RUN \
 # run the checkout and build script
 
 RUN \
+    apt-get update; \
     cd; cd git/lrose-bootstrap/scripts; git pull --ff-only; \
     echo "======================================"; \
     cat /etc/os-release; \

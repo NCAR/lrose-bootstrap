@@ -93,7 +93,7 @@ elif [ "$os_type" = debian ] &&  [ "$os_version" = latest ]; then
 elif [ "$os_type" = debian ] &&  [ "$os_version" = 12 ]; then
     echo "RUN apt-get update; apt-get install -y git python3; cd /usr/bin; ln -s python3 python" >> $DockerfilePath
 else
-    echo "RUN apt-get update; apt-get install -y git python python3" >> $DockerfilePath
+    echo "RUN apt-get update; apt-get install -y git python3" >> $DockerfilePath
 fi
 
 # get lrose-bootstrap and install packages

@@ -83,7 +83,7 @@ if [ "$os_type" = "rockylinux" ]
 then
   echo "FROM rockylinux/${os_type}:${os_version}" >> ${DockerfilePath}
 else
-  echo "FROM custom/${os_type}:${os_version}" >> ${DockerfilePath}
+  echo "FROM ${os_type}:${os_version}" >> ${DockerfilePath}
 fi
 echo "#" >> $DockerfilePath
 
