@@ -104,7 +104,7 @@ def main():
         elif (int(osVersion) == 9):
             installPackagesRh9()
         else:
-            installPackagesRh10()
+            installPackagesRocky10()
     elif (osType == "fedora"):
         print("=====>> OS type: ", osType, file=sys.stderr)
         installPackagesFedora()
@@ -398,6 +398,48 @@ def installPackagesRh10():
              "libpng-devel libtiff-devel zlib-devel libzip " +
              "expat-devel libcurl-devel openmpi-devel " +
              "flex fftw3-devel eigen3-devel armadillo-devel ")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "bzip2-devel qt6-qtbase-devel qt6-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools")
+
+    # create link for qtmake
+
+    if (os.path.exists("/usr/bin/qmake-qt6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake-qt6 qmake")
+    elif (os.path.exists("/usr/bin/qmake6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake6 qmake")
+    
+########################################################################
+# install packages for Rocky 10 and above
+
+def installPackagesRocky10():
+
+    print("====>> running installPackagesRocky10()", file=sys.stderr)
+
+    # install epel
+
+    shellCmd("dnf install -y epel-release python")
+    shellCmd("dnf install -y 'dnf-command(config-manager)'")
+
+    # install main packages
+    # break this up into pieces so it does not crash inside docker
+
+    shellCmd("dnf install -y " +
+             "tcsh wget git " +
+             "emacs rsync perl python " +
+             "python-devel platform-python-devel " +
+             "m4 make cmake libtool autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "libX11-devel libXext-devel libcurl-devel " +
+             "libpng-devel libtiff-devel zlib-devel libzip " +
+             "expat-devel libcurl-devel openmpi-devel " +
+             "flex fftw3-devel")
 
     shellCmd("dnf install -y --allowerasing " +
              "bzip2-devel qt6-qtbase-devel qt6-qtdeclarative-devel " +
