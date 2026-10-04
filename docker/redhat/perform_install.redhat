@@ -115,11 +115,11 @@ elif [ -n "$is_rh9" ]; then
     dnf install -y epel-release
 elif [ -n "$is_fedora" ]; then
     echo "==>> no epel-release in fedora <<=="
-    yum -y update --nogpgcheck
+    dnf -y update --nogpgcheck
 else
-    yum -y update --nogpgcheck
+    dnf -y update --nogpgcheck
     echo "==>> install epel-release <<=="
-    yum install -y epel-release
+    dnf install -y epel-release
 fi
 
 # get the rpm
@@ -131,7 +131,7 @@ echo "  ==>>> logPath: $logPath"
 
 # install the rpm
 
-yum install --nogpgcheck -y ${rpmPath}
+dnf install --nogpgcheck -y ${rpmPath}
 
 # echo the os release
 
