@@ -397,12 +397,8 @@ def installPackagesRh10():
              "libX11-devel libXext-devel libcurl-devel " +
              "libpng-devel libtiff-devel zlib-devel libzip " +
              "expat-devel libcurl-devel openmpi-devel " +
-             "flex fftw3-devel ")
+             "flex fftw3-devel eigen3-devel armadillo-devel ")
 
-    # Add these in later:
-    # "armadillo-devel " +
-    # "eigen3-devel " +
-    
     shellCmd("dnf install -y --allowerasing " +
              "bzip2-devel qt6-qtbase-devel qt6-qtdeclarative-devel " +
              "hdf5-devel netcdf-devel " +
