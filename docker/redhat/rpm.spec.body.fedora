@@ -16,7 +16,7 @@ Group:          Scientific Tools
 AutoReqProv:    no
 License:        BSD
  
-Requires: armadillo-devel 
+Requires: armadillo-devel
 Requires: bzip2-devel
 Requires: eigen3-devel
 Requires: expat-devel
