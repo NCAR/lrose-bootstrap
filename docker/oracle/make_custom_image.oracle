@@ -102,6 +102,6 @@ echo "RUN ~/git/lrose-bootstrap/scripts/run_install_linux_packages" >> $Dockerfi
 
 cd /tmp/docker
 
-docker build \
+docker build --no-cache \
     --tag custom/${os_type}:${os_version} \
     --file ${DockerfilePath} .
