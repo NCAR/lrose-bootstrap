@@ -64,15 +64,13 @@ done
 ./redhat/make_package.redhat -t fedora -v 44 -p ${lrose_pkg} -r ${release_date}
 ./redhat/make_package.redhat -t fedora -v 43 -p ${lrose_pkg} -r ${release_date}
 
-./debian/make_package.debian -t debian -v latest     -p ${lrose_pkg} -r ${release_date}
-./debian/make_package.debian -t debian -v 12     -p ${lrose_pkg} -r ${release_date}
-#./debian/make_package.debian -t debian -v 11     -p ${lrose_pkg} -r ${release_date}
+./debian/make_package.debian -t debian -v 13 -p ${lrose_pkg} -r ${release_date}
+./debian/make_package.debian -t debian -v 12 -p ${lrose_pkg} -r ${release_date}
 
 ./debian/make_package.debian -t ubuntu -v 26.04  -p ${lrose_pkg} -r ${release_date}
 ./debian/make_package.debian -t ubuntu -v 24.04  -p ${lrose_pkg} -r ${release_date}
-./debian/make_package.debian -t ubuntu -v 22.04  -p ${lrose_pkg} -r ${release_date}
 
-./suse/make_package.suse -t opensuse -v 15.6    -p ${lrose_pkg} -r ${release_date}
+#./suse/make_package.suse -t opensuse -v 15.6    -p ${lrose_pkg} -r ${release_date}
 #./suse/make_package.suse -t opensuse -v latest   -p ${lrose_pkg} -r ${release_date}
 #./suse/make_package.suse -t opensuse -v leap     -p ${lrose_pkg} -r ${release_date}
 

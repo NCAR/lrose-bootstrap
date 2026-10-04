@@ -45,27 +45,26 @@ done
 
 # delete build images
 
+docker image rm -f build.${lrose_pkg}/almalinux:10
+docker image rm -f build.${lrose_pkg}/almalinux:9
+
+docker image rm -f build.${lrose_pkg}/rockylinux:10
+docker image rm -f build.${lrose_pkg}/rockylinux:9
+
+docker image rm -f build.${lrose_pkg}/oraclelinux:10
+docker image rm -f build.${lrose_pkg}/oraclelinux:9
+
 docker image rm -f build.${lrose_pkg}/fedora:45
 docker image rm -f build.${lrose_pkg}/fedora:44
 docker image rm -f build.${lrose_pkg}/fedora:43
 
-docker image rm -f build.${lrose_pkg}/almalinux:9
-docker image rm -f build.${lrose_pkg}/almalinux:10
-
-docker image rm -f build.${lrose_pkg}/rockylinux:8
-docker image rm -f build.${lrose_pkg}/rockylinux:9
-
-docker image rm -f build.${lrose_pkg}/oraclelinux:9
-docker image rm -f build.${lrose_pkg}/oraclelinux:10
-
-docker image rm -f build.${lrose_pkg}/debian:12
 docker image rm -f build.${lrose_pkg}/debian:latest
+docker image rm -f build.${lrose_pkg}/debian:12
 
-docker image rm -f build.${lrose_pkg}/ubuntu:22.04
-docker image rm -f build.${lrose_pkg}/ubuntu:24.04
 docker image rm -f build.${lrose_pkg}/ubuntu:26.04
+docker image rm -f build.${lrose_pkg}/ubuntu:24.04
 
 #docker image rm -f build.${lrose_pkg}/opensuse:leap
 #docker image rm -f build.${lrose_pkg}/opensuse:latest
-docker image rm -f build.${lrose_pkg}/opensuse:15.6
+#docker image rm -f build.${lrose_pkg}/opensuse:15.6
 

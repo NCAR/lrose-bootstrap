@@ -64,15 +64,13 @@ done
 ./redhat/install_pkg_and_test.redhat -t fedora -v 44 -p ${lrose_pkg}
 ./redhat/install_pkg_and_test.redhat -t fedora -v 43 -p ${lrose_pkg}
 
-./debian/install_pkg_and_test.debian -t debian -v latest -p ${lrose_pkg}
-./debian/install_pkg_and_test.debian -t debian -v 12     -p ${lrose_pkg}
-#./debian/install_pkg_and_test.debian -t debian -v 11     -p ${lrose_pkg}
+./debian/install_pkg_and_test.debian -t debian -v 13 -p ${lrose_pkg}
+./debian/install_pkg_and_test.debian -t debian -v 12 -p ${lrose_pkg}
 
 ./debian/install_pkg_and_test.debian -t ubuntu -v 26.04  -p ${lrose_pkg}
 ./debian/install_pkg_and_test.debian -t ubuntu -v 24.04  -p ${lrose_pkg}
-./debian/install_pkg_and_test.debian -t ubuntu -v 22.04  -p ${lrose_pkg}
 
-./suse/install_pkg_and_test.suse -t opensuse -v 15.6      -p ${lrose_pkg}
+#./suse/install_pkg_and_test.suse -t opensuse -v 15.6      -p ${lrose_pkg}
 #./suse/install_pkg_and_test.suse -t opensuse -v latest   -p ${lrose_pkg}
 #./suse/install_pkg_and_test.suse -t opensuse -v leap     -p ${lrose_pkg}
 
