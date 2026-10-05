@@ -133,10 +133,10 @@ def main():
                       dest='use_cmake3', default=False,
                       action="store_true",
                       help='Use cmake3 instead of cmake')
-    parser.add_option('--noRpath',
-                      dest='noRpath', default=False,
-                      action="store_true",
-                      help='Do not set a run path at link time - use this for building rpm packages.')
+    # parser.add_option('--noRpath',
+    #                   dest='noRpath', default=False,
+    #                   action="store_true",
+    #                   help='Do not set a run path at link time - use this for building rpm packages.')
     parser.add_option('--withJasper',
                       dest='withJasper', default=False,
                       action="store_true",
@@ -657,12 +657,12 @@ def buildPackage():
             ":$$ORIGIN/../lib" + \
             ":" + prefixLibDir + \
             ":" + prefixLibDir + "'"
-    else:
-        if (not options.noRpath):
-            os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
-                "-Wl,--enable-new-dtags," + \
-                "-rpath," + \
-                "'" + prefixLibDir + "'"
+    #else:
+    #    if (not options.noRpath):
+    #        os.environ["LDFLAGS"] = "-L" + prefixLibDir + " " + \
+    #            "-Wl,--enable-new-dtags," + \
+    #            "-rpath," + \
+    #            "'" + prefixLibDir + "'"
 
     if (sys.platform == "darwin"):
         os.environ["PKG_CONFIG_PATH"] = "/usr/local/opt/qt/lib/pkgconfig"
