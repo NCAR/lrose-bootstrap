@@ -93,7 +93,12 @@ cd ${scriptsDir}
 
 # set the container image to run
 
-image=docker.io/${os_type}:${os_version}
+if [ "$os_type" = "rockylinux" ]
+then
+  image=docker.io/rockylinux/${os_type}:${os_version}
+else
+  image=docker.io/${os_type}:${os_version}
+fi
 
 # install the container and test an app from it
 
