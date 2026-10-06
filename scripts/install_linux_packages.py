@@ -130,7 +130,7 @@ def main():
         if (int(osVersion) == 8):
             installPackagesOracle8()
         elif (int(osVersion) == 9):
-            installPackagesRh9()
+            installPackagesOracle9()
         else:
             installPackagesOracle10()
     else:
@@ -544,6 +544,48 @@ def installPackagesOracle8():
     # create link for qtmake
 
     shellCmd("cd /usr/bin; ln -f -s qmake-qt5 qmake")
+    
+########################################################################
+# install packages for ORACLE 9
+
+def installPackagesOracle9():
+
+    print("====>> running installPackagesOracle9()", file=sys.stderr)
+
+    # install epel
+
+    shellCmd("dnf install -y epel-release python")
+    shellCmd("dnf install -y 'dnf-command(config-manager)'")
+
+    # install main packages
+    # break this up into pieces so it does not crash inside docker
+
+    shellCmd("dnf install -y " +
+             "tcsh wget git " +
+             "emacs rsync perl python mlocate " +
+             "python-devel platform-python-devel " +
+             "m4 make cmake libtool autoconf automake " +
+             "gcc gcc-c++ gcc-gfortran glibc-devel")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "libX11-devel libXext-devel libcurl-devel " +
+             "libpng-devel libtiff-devel zlib-devel libzip " +
+             "expat-devel libcurl-devel openmpi-devel " +
+             "flex fftw3-devel ")
+
+    shellCmd("dnf install -y --allowerasing " +
+             "bzip2-devel qt6-qtbase-devel qt6-qtdeclarative-devel " +
+             "hdf5-devel netcdf-devel " +
+             "xorg-x11-xauth " +
+             "rpm-build redhat-rpm-config " +
+             "rpm-devel rpmdevtools")
+
+    # create link for qtmake
+
+    if (os.path.exists("/usr/bin/qmake-qt6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake-qt6 qmake")
+    elif (os.path.exists("/usr/bin/qmake6")):
+        shellCmd("cd /usr/bin; /bin/rm -f qmake; ln -f -s qmake6 qmake")
     
 ########################################################################
 # install packages for Oracle 10

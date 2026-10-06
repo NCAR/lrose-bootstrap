@@ -81,9 +81,18 @@ fi
 
 # for centos, install epel release
 
+echo "==>> dnf -y update --nogpgcheck"
 dnf -y update --nogpgcheck
-echo "==>> install epel-release for rh9<<=="
-dnf install -y epel-release
+
+if [ "$os_version" = 9 ] ; then
+  echo "==>> dnf install -y oracle-epel-release-el9"
+  dnf install -y oracle-epel-release-el9
+elif [ "$os_version" = 10 ] ; then
+  echo "==>> dnf install -y oracle-epel-release-el10"
+  dnf install -y oracle-epel-release-el10
+fi
+
+echo "==>> dnf install -y python"
 dnf install -y python
 
 # get the rpm
@@ -95,6 +104,7 @@ echo "  ==>>> logPath: $logPath"
 
 # install the rpm
 
+echo "==>> dnf install --nogpgcheck -y ${rpmPath}"
 dnf install --nogpgcheck -y ${rpmPath}
 
 # check that RadxPrint runs

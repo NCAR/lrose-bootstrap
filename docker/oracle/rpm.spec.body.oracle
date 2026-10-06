@@ -31,7 +31,6 @@ Requires: netcdf-devel
 Requires: openmpi-devel 
 Requires: qt6-qtbase-devel
 Requires: qt6-qtdeclarative-devel 
-Requires: xorg-x11-utils
 Requires: xorg-x11-xauth
 Requires: rpm-devel
 Requires: zlib-devel
