@@ -25,24 +25,6 @@ Run:
 
 for the usage.
 
-## Checkout and build lrose-core using automake
-
-Run:
-
-```
-  checkout_and_build_auto.py
-```
-
-to clone lrose core from github, build it using ```configure``` in a temporary location, and install it.
-
-Run:
-
-```
-  checkout_and_build_auto.py --help
-```
-
-for the usage.
-
 ## Create packages using Docker
 
 See: [Creating packages](./docker/README.md)
